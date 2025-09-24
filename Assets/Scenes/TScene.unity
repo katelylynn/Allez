@@ -661,6 +661,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7233651965204486769, guid: 0c3152a0cb0236b48994eda9c3b94ffd, type: 3}
+      propertyPath: m_TagString
+      value: P1
+      objectReference: {fileID: 0}
     - target: {fileID: 7377826671152986782, guid: 0c3152a0cb0236b48994eda9c3b94ffd, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
       value: 0.5
@@ -725,6 +729,10 @@ PrefabInstance:
     - target: {fileID: 7233651965204486769, guid: 0c3152a0cb0236b48994eda9c3b94ffd, type: 3}
       propertyPath: m_Name
       value: Player 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233651965204486769, guid: 0c3152a0cb0236b48994eda9c3b94ffd, type: 3}
+      propertyPath: m_TagString
+      value: P2
       objectReference: {fileID: 0}
     - target: {fileID: 7377826671152986782, guid: 0c3152a0cb0236b48994eda9c3b94ffd, type: 3}
       propertyPath: m_NormalizedViewPortRect.x

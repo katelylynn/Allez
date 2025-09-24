@@ -5,6 +5,7 @@
 
 # Added by Kate
 .vscode/
+.vsconfig
 
 #
 .utmp/

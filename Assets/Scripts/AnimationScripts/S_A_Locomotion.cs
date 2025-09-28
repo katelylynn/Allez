@@ -40,12 +40,9 @@ public class S_A_Locomotion : MonoBehaviour
 
         // Keep existing vertical velocity (gravity)
         Vector3 velocity = rb.linearVelocity;
-
-        if (velocity != Vector3.zero) Debug.Log( "linear velocity: " + rb.linearVelocity );
         velocity.x = move.x;
         velocity.z = move.z;
 
         rb.linearVelocity = velocity;
-        if (velocity != Vector3.zero) Debug.Log( "new linear velocity: " + rb.linearVelocity );
     }
 }

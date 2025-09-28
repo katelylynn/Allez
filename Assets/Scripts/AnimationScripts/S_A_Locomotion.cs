@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class S_A_Locomotion : MonoBehaviour
 {
-    public float speed = 10.0f;
+    public float walkSpeed = 3.0f;
+    public float runSpeed = 7.0f;
 
     private Animator animator;
     private Rigidbody rb;
@@ -25,14 +26,17 @@ public class S_A_Locomotion : MonoBehaviour
 
         animator.SetFloat( "InputY", direction.y );
         animator.SetFloat( "InputX", direction.x );
+
+        isSprinting = Input.GetKey( KeyCode.LeftShift );
+        animator.SetBool( "IsSprinting", isSprinting );
     }
 
     void FixedUpdate()
     {
         // --- Movement ---
-        //float targetSpeed = isSprinting ? runSpeed : walkSpeed;
+        float targetSpeed = isSprinting ? runSpeed : walkSpeed;
 
-        Vector3 move = new Vector3( direction.x, 0, direction.y ) * speed;
+        Vector3 move = new Vector3( direction.x, 0, direction.y ) * targetSpeed;
 
         // Keep existing vertical velocity (gravity)
         Vector3 velocity = rb.linearVelocity;

@@ -41,37 +41,21 @@ public class PlayerController : MonoBehaviour
     }
     private void Attack(InputAction.CallbackContext obj)
     {
-        //Transform sword = transform.Find("Sword");
-        //sword.position += sword.forward * 5f;
         StartCoroutine(actualAttack());
-
-        //yield return new WaitForSeconds(2f);
-        //sword.position -= sword.forward * 5f;
-        //Debug.Log(sword.gameObject.name);
-    }
-
-    private IEnumerator wait(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
     }
 
     private IEnumerator actualAttack()
     {
         Transform sword = transform.Find("Sword");
-        //sword.Translate(Vector3.forward * 5f);
         sword.position += sword.forward * 2f;
-
-        //wait(2f);
         yield return new WaitForSeconds(0.5f);
-        //sword.Translate(Vector3.back * 5f);
         sword.position -= sword.forward * 2f;
         Debug.Log(sword.gameObject.name);
-        //yield return new WaitForSeconds(seconds);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name != "Plane")
-            Debug.Log(collision.gameObject.name);
+        //if (gameObject.name == "Player 2" && collision.gameObject.name == "Sword")
+            Debug.Log(gameObject.name + " COLLIDED WITH: " + collision.gameObject.name);
     }
 }

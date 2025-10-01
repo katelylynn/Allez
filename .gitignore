@@ -105,4 +105,4 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
 #. For Mac users
-DS_Store
+.DS_Store

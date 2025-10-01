@@ -132,13 +132,29 @@ PrefabInstance:
       value: SceneInitializer
       objectReference: {fileID: 0}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: fencerPrefab
+      value: 
+      objectReference: {fileID: 7233651965204486769, guid: 84d13fad58ad4df48bf5a453af8cd8f2, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: gameManagerPrefab
+      value: 
+      objectReference: {fileID: 8283718953539340735, guid: 06dcee9b4c91724438891ac1424bad46, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: prefabsToSpawn.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: 'prefabsToSpawn.Array.data[0]'
       value: 
       objectReference: {fileID: 8283718953539340735, guid: 06dcee9b4c91724438891ac1424bad46, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: 'prefabsToSpawn.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7233651965204486769, guid: 84d13fad58ad4df48bf5a453af8cd8f2, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: 'prefabsToSpawn.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7233651965204486769, guid: 84d13fad58ad4df48bf5a453af8cd8f2, type: 3}
     - target: {fileID: 8222016207939438957, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

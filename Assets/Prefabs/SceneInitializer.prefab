@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc048cdc497aa0043808a2a7ca22e809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManagerPrefab: {fileID: 8283718953539340735, guid: 06dcee9b4c91724438891ac1424bad46, type: 3}
+  fencerPrefab: {fileID: 7233651965204486769, guid: 84d13fad58ad4df48bf5a453af8cd8f2, type: 3}
+  environmentPrefab: {fileID: 8036032541255698468, guid: 81572bb39754e924a83d2a766c67558e, type: 3}

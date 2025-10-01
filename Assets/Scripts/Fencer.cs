@@ -1,16 +1,24 @@
 using UnityEngine;
 
+public enum FencerType
+{
+    Player,
+    AI
+}
+
 public class Fencer : MonoBehaviour
 {
-    // static fields
+    // static variables
     private const int F0 = 0;
     private const int F1 = 1;
 
-    // instance fields
+    // instance variables
     private int fencerId;
-    private Camera cam;
+    private FencerType fencerType;
+    public bool fighting;
 
-    // starting position
+    // positioning variables
+    private Camera cam;
     private Vector3[] startingPos = {
         new Vector3(0, 0, -5),
         new Vector3(0, 0, 5)
@@ -20,11 +28,16 @@ public class Fencer : MonoBehaviour
         Quaternion.Euler(0f, 180f, 0f)
     };
 
-    // called by scene initializer
-    public void Initialize(int fn)
+    public void Start()
     {
-        // set id
+        fighting = false;
+    }
+
+    public void Initialize(int fn, FencerType ft)
+    {
+        // set instance variables
         fencerId = fn;
+        fencerType = ft;
 
         // set camera position
         cam = GetComponentInChildren<Camera>(); 
@@ -37,5 +50,26 @@ public class Fencer : MonoBehaviour
         gameObject.transform.position = startingPos[fencerId];
         gameObject.transform.rotation = startingRot[fencerId];
         gameObject.SetActive(true);
+    }
+
+    public void Update()
+    {
+        if (fighting && fencerType == FencerType.Player)
+            ReceiveInput();
+
+        else if (fighting && fencerType == FencerType.AI)
+            CalculateNextMove();
+    }
+
+    // Keyboard or controller input
+    private void ReceiveInput()
+    {
+        Debug.Log("player input");
+    }
+
+    // AI decision making
+    private void CalculateNextMove()
+    {
+        Debug.Log("calculating next move");
     }
 }

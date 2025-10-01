@@ -14,11 +14,11 @@ public class SceneInitializer : MonoBehaviour
 
         GameObject f0 = Instantiate(fencerPrefab);
         f0.name = "Fencer0";
-        f0.GetComponent<Fencer>().Initialize(0);
+        f0.GetComponent<Fencer>().Initialize(0, FencerType.Player);
 
         GameObject f1 = Instantiate(fencerPrefab);
         f1.name = "Fencer1";
-        f1.GetComponent<Fencer>().Initialize(1);
+        f1.GetComponent<Fencer>().Initialize(1, FencerType.AI);
 
         GameObject env = Instantiate(environmentPrefab);
         env.name = "Environment";

@@ -7,7 +7,7 @@
             "id": "ebc13ce4-ad05-4c62-b34a-4126eb019826",
             "actions": [
                 {
-                    "name": "P1Movement",
+                    "name": "P0Movement",
                     "type": "Value",
                     "id": "9d7f4504-b825-40c9-95a9-2db8c5ed32a5",
                     "expectedControlType": "",
@@ -16,7 +16,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "P2Movement",
+                    "name": "P1Movement",
                     "type": "Value",
                     "id": "611f0596-1230-4020-9a94-6645284454b4",
                     "expectedControlType": "",
@@ -33,7 +33,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P1Movement",
+                    "action": "P0Movement",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -44,7 +44,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P1Movement",
+                    "action": "P0Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -55,7 +55,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P1Movement",
+                    "action": "P0Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -66,7 +66,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P1Movement",
+                    "action": "P0Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -77,7 +77,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P1Movement",
+                    "action": "P0Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -88,7 +88,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P2Movement",
+                    "action": "P1Movement",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -99,7 +99,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P2Movement",
+                    "action": "P1Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -110,7 +110,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P2Movement",
+                    "action": "P1Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -121,7 +121,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P2Movement",
+                    "action": "P1Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -132,7 +132,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P2Movement",
+                    "action": "P1Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -143,7 +143,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "P2Movement",
+                    "action": "P1Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

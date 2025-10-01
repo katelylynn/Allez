@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum FencerType
 {
@@ -17,7 +18,13 @@ public class Fencer : MonoBehaviour
     private FencerType fencerType;
     public bool fighting;
 
-    // positioning variables
+    // player only variables
+    private InputActions inputActions;
+    private InputAction movement;
+    private Vector2 input;
+
+    // scene variables
+    private Rigidbody rb;
     private Camera cam;
     private Vector3[] startingPos = {
         new Vector3(0, 0, -5),
@@ -30,6 +37,7 @@ public class Fencer : MonoBehaviour
 
     public void Start()
     {
+        rb = GetComponent<Rigidbody>();
         fighting = false;
     }
 
@@ -38,6 +46,13 @@ public class Fencer : MonoBehaviour
         // set instance variables
         fencerId = fn;
         fencerType = ft;
+
+        if (fencerType == FencerType.Player)
+        {
+            inputActions = new InputActions();
+            movement = fencerId == F0 ? inputActions.Player.P0Movement : inputActions.Player.P1Movement;
+            movement.Enable();
+        }
 
         // set camera position
         cam = GetComponentInChildren<Camera>(); 
@@ -64,12 +79,17 @@ public class Fencer : MonoBehaviour
     // Keyboard or controller input
     private void ReceiveInput()
     {
-        Debug.Log("player input");
+        Move(movement.ReadValue<Vector2>().y);
     }
 
     // AI decision making
     private void CalculateNextMove()
     {
         Debug.Log("calculating next move");
+    }
+
+    private void Move(float amount)
+    {
+        rb.AddForce(new Vector3(0f, 0f, amount), ForceMode.VelocityChange);
     }
 }

@@ -13,11 +13,11 @@ public class PlayerController : MonoBehaviour
         inputActions = new InputActions();
         if(gameObject.tag == "P1")
         {
-            movement = inputActions.Player.P1Movement;
+            movement = inputActions.Player.P0Movement;
         }
         if(gameObject.tag == "P2")
         {
-            movement = inputActions.Player.P2Movement;
+            movement = inputActions.Player.P1Movement;
         }
     }
 

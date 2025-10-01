@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SceneInitializer
       objectReference: {fileID: 0}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: fencer1Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8222016207939438957, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -7,6 +7,9 @@ public class SceneInitializer : MonoBehaviour
     public GameObject fencerPrefab;
     public GameObject environmentPrefab;
 
+    public FencerType fencer0Type;
+    public FencerType fencer1Type;
+
     void Awake()
     {
         GameObject g = Instantiate(gameManagerPrefab);
@@ -14,11 +17,11 @@ public class SceneInitializer : MonoBehaviour
 
         GameObject f0 = Instantiate(fencerPrefab);
         f0.name = "Fencer0";
-        f0.GetComponent<Fencer>().Initialize(0, FencerType.Player);
+        f0.GetComponent<Fencer>().Initialize(0, fencer0Type);
 
         GameObject f1 = Instantiate(fencerPrefab);
         f1.name = "Fencer1";
-        f1.GetComponent<Fencer>().Initialize(1, FencerType.AI);
+        f1.GetComponent<Fencer>().Initialize(1, fencer1Type);
 
         GameObject env = Instantiate(environmentPrefab);
         env.name = "Environment";

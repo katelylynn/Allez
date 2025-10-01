@@ -1,4 +1,3 @@
-
 //Old code using original inputactions script and assinging controls based on tags of play objects. Leaving it just incase we need to switch back for some reason
 
 //using System.Collections;
@@ -180,11 +179,15 @@
 // A = tilt left
 // D = tilt right
 
+//=======
+//using System.Collections;
+//>>>>>>> development
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+//<<<<<<< taylor_movement
     private Rigidbody rb;
     private PlayerInput playerInput;
     private InputAction moveAction;
@@ -208,6 +211,12 @@ public class PlayerController : MonoBehaviour
     private Quaternion baseRotation;
     private float moveInput;
     private float tiltInput;
+// =======
+//     private InputActions inputActions;
+//     private InputAction movement;
+//     private InputAction attack = null;
+//     Rigidbody rb;
+// >>>>>>> development
 
     private void Awake()
     {
@@ -255,7 +264,13 @@ public class PlayerController : MonoBehaviour
         float f = ctx.ReadValue<float>();
         if (Mathf.Abs(f) < tiltDeadzone)
         {
+//<<<<<<< taylor_movement
             tiltInput = 0f;
+// =======
+//             movement = inputActions.Player.P1Movement;
+//             attack = inputActions.Player.P1Attack;
+//             attack.performed += Attack;
+// >>>>>>> development
         }
         else
         {
@@ -271,6 +286,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+//<<<<<<< taylor_movement
         movePlayer();
         tiltModel();
     }
@@ -289,6 +305,11 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(-rb.linearVelocity * deceleration, ForceMode.Acceleration);
         }
+// =======
+//         movement.Enable();
+//         if (attack != null)
+//             attack.Enable();
+// >>>>>>> development
     }
 
     private void tiltModel()
@@ -310,5 +331,27 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(direction.normalized * -backstepStrength, ForceMode.VelocityChange);
     }
+//<<<<<<< taylor_movement
 
+// =======
+//     private void Attack(InputAction.CallbackContext obj)
+//     {
+//         StartCoroutine(actualAttack());
+//     }
+
+//     private IEnumerator actualAttack()
+//     {
+//         Transform sword = transform.Find("Sword");
+//         sword.position += sword.forward * 2f;
+//         yield return new WaitForSeconds(0.5f);
+//         sword.position -= sword.forward * 2f;
+//         Debug.Log(sword.gameObject.name);
+//     }
+
+//     private void OnCollisionEnter(Collision collision)
+//     {
+//         //if (gameObject.name == "Player 2" && collision.gameObject.name == "Sword")
+//             Debug.Log(gameObject.name + " COLLIDED WITH: " + collision.gameObject.name);
+//     }
+// >>>>>>> development
 }

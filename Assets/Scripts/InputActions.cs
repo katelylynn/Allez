@@ -112,36 +112,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""P1Lunge"",
+                    ""name"": ""P1Attack"",
                     ""type"": ""Button"",
-                    ""id"": ""a56a15c3-b479-4124-92ae-a2bb971b7bfd"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""P2Lunge"",
-                    ""type"": ""Button"",
-                    ""id"": ""32b0fd13-f683-4b05-8208-5629eb7e7ef8"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""P1Tilt"",
-                    ""type"": ""Button"",
-                    ""id"": ""f0f245c4-ac55-4349-968e-eede58eaa682"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""P2Tilt"",
-                    ""type"": ""Button"",
-                    ""id"": ""09c51a88-844f-499d-ae34-ec7f21ec0082"",
+                    ""id"": ""cfe83970-a0b9-4daa-9258-bb5b18f34b0e"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -389,7 +362,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""groups"": """",
                     ""action"": ""P2Tilt"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f1937d5-3cb9-43ce-95b3-a426cc3ec055"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""P1Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -568,10 +552,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_P1Movement = m_Player.FindAction("P1Movement", throwIfNotFound: true);
         m_Player_P2Movement = m_Player.FindAction("P2Movement", throwIfNotFound: true);
-        m_Player_P1Lunge = m_Player.FindAction("P1Lunge", throwIfNotFound: true);
-        m_Player_P2Lunge = m_Player.FindAction("P2Lunge", throwIfNotFound: true);
-        m_Player_P1Tilt = m_Player.FindAction("P1Tilt", throwIfNotFound: true);
-        m_Player_P2Tilt = m_Player.FindAction("P2Tilt", throwIfNotFound: true);
+        m_Player_P1Attack = m_Player.FindAction("P1Attack", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
@@ -665,10 +646,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_P1Movement;
     private readonly InputAction m_Player_P2Movement;
-    private readonly InputAction m_Player_P1Lunge;
-    private readonly InputAction m_Player_P2Lunge;
-    private readonly InputAction m_Player_P1Tilt;
-    private readonly InputAction m_Player_P2Tilt;
+    private readonly InputAction m_Player_P1Attack;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -689,21 +667,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @P2Movement => m_Wrapper.m_Player_P2Movement;
         /// <summary>
-        /// Provides access to the underlying input action "Player/P1Lunge".
+        /// Provides access to the underlying input action "Player/P1Attack".
         /// </summary>
-        public InputAction @P1Lunge => m_Wrapper.m_Player_P1Lunge;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/P2Lunge".
-        /// </summary>
-        public InputAction @P2Lunge => m_Wrapper.m_Player_P2Lunge;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/P1Tilt".
-        /// </summary>
-        public InputAction @P1Tilt => m_Wrapper.m_Player_P1Tilt;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/P2Tilt".
-        /// </summary>
-        public InputAction @P2Tilt => m_Wrapper.m_Player_P2Tilt;
+        public InputAction @P1Attack => m_Wrapper.m_Player_P1Attack;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -736,18 +702,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @P2Movement.started += instance.OnP2Movement;
             @P2Movement.performed += instance.OnP2Movement;
             @P2Movement.canceled += instance.OnP2Movement;
-            @P1Lunge.started += instance.OnP1Lunge;
-            @P1Lunge.performed += instance.OnP1Lunge;
-            @P1Lunge.canceled += instance.OnP1Lunge;
-            @P2Lunge.started += instance.OnP2Lunge;
-            @P2Lunge.performed += instance.OnP2Lunge;
-            @P2Lunge.canceled += instance.OnP2Lunge;
-            @P1Tilt.started += instance.OnP1Tilt;
-            @P1Tilt.performed += instance.OnP1Tilt;
-            @P1Tilt.canceled += instance.OnP1Tilt;
-            @P2Tilt.started += instance.OnP2Tilt;
-            @P2Tilt.performed += instance.OnP2Tilt;
-            @P2Tilt.canceled += instance.OnP2Tilt;
+            @P1Attack.started += instance.OnP1Attack;
+            @P1Attack.performed += instance.OnP1Attack;
+            @P1Attack.canceled += instance.OnP1Attack;
         }
 
         /// <summary>
@@ -765,18 +722,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @P2Movement.started -= instance.OnP2Movement;
             @P2Movement.performed -= instance.OnP2Movement;
             @P2Movement.canceled -= instance.OnP2Movement;
-            @P1Lunge.started -= instance.OnP1Lunge;
-            @P1Lunge.performed -= instance.OnP1Lunge;
-            @P1Lunge.canceled -= instance.OnP1Lunge;
-            @P2Lunge.started -= instance.OnP2Lunge;
-            @P2Lunge.performed -= instance.OnP2Lunge;
-            @P2Lunge.canceled -= instance.OnP2Lunge;
-            @P1Tilt.started -= instance.OnP1Tilt;
-            @P1Tilt.performed -= instance.OnP1Tilt;
-            @P1Tilt.canceled -= instance.OnP1Tilt;
-            @P2Tilt.started -= instance.OnP2Tilt;
-            @P2Tilt.performed -= instance.OnP2Tilt;
-            @P2Tilt.canceled -= instance.OnP2Tilt;
+            @P1Attack.started -= instance.OnP1Attack;
+            @P1Attack.performed -= instance.OnP1Attack;
+            @P1Attack.canceled -= instance.OnP1Attack;
         }
 
         /// <summary>
@@ -1005,33 +953,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnP2Movement(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "P1Lunge" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "P1Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnP1Lunge(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "P2Lunge" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnP2Lunge(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "P1Tilt" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnP1Tilt(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "P2Tilt" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnP2Tilt(InputAction.CallbackContext context);
+        void OnP1Attack(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

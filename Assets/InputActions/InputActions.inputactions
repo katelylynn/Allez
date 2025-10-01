@@ -25,36 +25,10 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "P1Lunge",
+
+                    "name": "P1Attack",
                     "type": "Button",
-                    "id": "a56a15c3-b479-4124-92ae-a2bb971b7bfd",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "P2Lunge",
-                    "type": "Button",
-                    "id": "32b0fd13-f683-4b05-8208-5629eb7e7ef8",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "P1Tilt",
-                    "type": "Button",
-                    "id": "f0f245c4-ac55-4349-968e-eede58eaa682",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "P2Tilt",
-                    "type": "Button",
-                    "id": "09c51a88-844f-499d-ae34-ec7f21ec0082",
+                    "id": "cfe83970-a0b9-4daa-9258-bb5b18f34b0e",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -302,7 +276,18 @@
                     "groups": "",
                     "action": "P2Tilt",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0f1937d5-3cb9-43ce-95b3-a426cc3ec055",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P1Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

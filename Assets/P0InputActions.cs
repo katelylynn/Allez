@@ -111,7 +111,7 @@ public partial class @P0InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Backstep"",
+                    ""name"": ""Backdash"",
                     ""type"": ""Button"",
                     ""id"": ""240c00b4-de1b-4920-8a15-0d244cae6349"",
                     ""expectedControlType"": """",
@@ -187,7 +187,7 @@ public partial class @P0InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""1D Axis"",
                     ""id"": ""d9935a45-1fae-4698-ac8b-7d860ceb8b4b"",
                     ""path"": ""1DAxis"",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Tilt"",
@@ -223,7 +223,7 @@ public partial class @P0InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": ""MultiTap"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Backstep"",
+                    ""action"": ""Backdash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -415,7 +415,7 @@ public partial class @P0InputActions: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Lunge = m_Player.FindAction("Lunge", throwIfNotFound: true);
-        m_Player_Backstep = m_Player.FindAction("Backstep", throwIfNotFound: true);
+        m_Player_Backdash = m_Player.FindAction("Backdash", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Tilt = m_Player.FindAction("Tilt", throwIfNotFound: true);
         // UI
@@ -511,7 +511,7 @@ public partial class @P0InputActions: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Lunge;
-    private readonly InputAction m_Player_Backstep;
+    private readonly InputAction m_Player_Backdash;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Tilt;
     /// <summary>
@@ -534,9 +534,9 @@ public partial class @P0InputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Lunge => m_Wrapper.m_Player_Lunge;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Backstep".
+        /// Provides access to the underlying input action "Player/Backdash".
         /// </summary>
-        public InputAction @Backstep => m_Wrapper.m_Player_Backstep;
+        public InputAction @Backdash => m_Wrapper.m_Player_Backdash;
         /// <summary>
         /// Provides access to the underlying input action "Player/Attack".
         /// </summary>
@@ -577,9 +577,9 @@ public partial class @P0InputActions: IInputActionCollection2, IDisposable
             @Lunge.started += instance.OnLunge;
             @Lunge.performed += instance.OnLunge;
             @Lunge.canceled += instance.OnLunge;
-            @Backstep.started += instance.OnBackstep;
-            @Backstep.performed += instance.OnBackstep;
-            @Backstep.canceled += instance.OnBackstep;
+            @Backdash.started += instance.OnBackdash;
+            @Backdash.performed += instance.OnBackdash;
+            @Backdash.canceled += instance.OnBackdash;
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
@@ -603,9 +603,9 @@ public partial class @P0InputActions: IInputActionCollection2, IDisposable
             @Lunge.started -= instance.OnLunge;
             @Lunge.performed -= instance.OnLunge;
             @Lunge.canceled -= instance.OnLunge;
-            @Backstep.started -= instance.OnBackstep;
-            @Backstep.performed -= instance.OnBackstep;
-            @Backstep.canceled -= instance.OnBackstep;
+            @Backdash.started -= instance.OnBackdash;
+            @Backdash.performed -= instance.OnBackdash;
+            @Backdash.canceled -= instance.OnBackdash;
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
@@ -840,12 +840,12 @@ public partial class @P0InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLunge(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Backstep" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Backdash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnBackstep(InputAction.CallbackContext context);
+        void OnBackdash(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

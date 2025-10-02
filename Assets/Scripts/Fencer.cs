@@ -22,7 +22,10 @@ public class Fencer : MonoBehaviour
     private P0InputActions p0InputActions;
     private P1InputActions p1InputActions;
     private InputAction movementInput;
+    private InputAction lungeInput;
+    private InputAction backdashInput;
     private InputAction attackInput;
+    private InputAction tiltInput;
 
     // scene variables
     private Rigidbody rb;
@@ -73,16 +76,25 @@ public class Fencer : MonoBehaviour
         {
             p0InputActions = new P0InputActions();
             movementInput = p0InputActions.Player.Movement;
+            lungeInput = p0InputActions.Player.Lunge;
+            backdashInput = p0InputActions.Player.Backdash;
+            tiltInput = p0InputActions.Player.Tilt;
             attackInput = p0InputActions.Player.Attack;
         }
         else if (fencerId == F1)
         {
             p1InputActions = new P1InputActions();
             movementInput = p1InputActions.Player.Movement;
+            lungeInput = p1InputActions.Player.Lunge;
+            backdashInput = p1InputActions.Player.Backdash;
+            tiltInput = p1InputActions.Player.Tilt;
             attackInput = p1InputActions.Player.Attack;
         }
 
         movementInput.Enable();
+        lungeInput.Enable();
+        backdashInput.Enable();
+        tiltInput.Enable();
         attackInput.Enable();
     }
 
@@ -123,8 +135,16 @@ public class Fencer : MonoBehaviour
     {
         Move(movementInput.ReadValue<float>());
 
-        if (attackInput.WasPerformedThisFrame())
+        if (lungeInput.WasPerformedThisFrame())
+            Lunge();
+        
+        if (backdashInput.WasPerformedThisFrame())
+            Backdash();
+
+        if (attackInput.WasPressedThisFrame())
             Attack();
+
+        Tilt(tiltInput.ReadValue<float>());
     }
 
     // AI decision making
@@ -136,6 +156,24 @@ public class Fencer : MonoBehaviour
     private void Move(float amount)
     {
         rb.AddForce(new Vector3(0f, 0f, amount), ForceMode.VelocityChange);
+    }
+
+    private void Lunge()
+    {
+        Debug.Log("Lunge");
+    }
+
+    private void Backdash()
+    {
+        Debug.Log("Backdash");
+
+    }
+
+    private void Tilt(float direction)
+    {
+        if (direction == -1) Debug.Log("tilting left");
+        if (direction == 0) Debug.Log("neutral");
+        if (direction == 1) Debug.Log("tilting right");
     }
 
     private void Attack()

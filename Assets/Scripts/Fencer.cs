@@ -18,11 +18,11 @@ public class Fencer : MonoBehaviour
     private FencerType fencerType;
     public bool fighting;
 
-    // player only variables
+    // input variables
     private P0InputActions p0InputActions;
     private P1InputActions p1InputActions;
-    private InputAction movement;
-    private Vector2 input;
+    private InputAction movementInput;
+    private InputAction attackInput;
 
     // scene variables
     private Rigidbody rb;
@@ -48,20 +48,7 @@ public class Fencer : MonoBehaviour
         fencerType = ft;
 
         if (fencerType == FencerType.Player)
-        {
-            if (fencerId == F0)
-            {
-                p0InputActions = new P0InputActions();
-                movement = p0InputActions.Player.Movement;
-            }
-            else if (fencerId == F1)
-            {
-                p1InputActions = new P1InputActions();
-                movement = p1InputActions.Player.Movement;
-            }
-
-            movement.Enable();
-        }
+            SetupInputActions();
 
         // set camera position
         cam = GetComponentInChildren<Camera>(); 
@@ -82,6 +69,25 @@ public class Fencer : MonoBehaviour
         };
     }
 
+    private void SetupInputActions()
+    {
+        if (fencerId == F0)
+        {
+            p0InputActions = new P0InputActions();
+            movementInput = p0InputActions.Player.Movement;
+            attackInput = p0InputActions.Player.Attack;
+        }
+        else if (fencerId == F1)
+        {
+            p1InputActions = new P1InputActions();
+            movementInput = p1InputActions.Player.Movement;
+            attackInput = p1InputActions.Player.Attack;
+        }
+
+        movementInput.Enable();
+        attackInput.Enable();
+    }
+
     public void Update()
     {
         if (fighting && fencerType == FencerType.Player)
@@ -94,7 +100,10 @@ public class Fencer : MonoBehaviour
     // Keyboard or controller input
     private void ReceiveInput()
     {
-        Move(movement.ReadValue<Vector2>().y);
+        Move(movementInput.ReadValue<Vector2>().y);
+
+        if (attackInput.WasPerformedThisFrame())
+            Attack();
     }
 
     // AI decision making
@@ -108,6 +117,12 @@ public class Fencer : MonoBehaviour
         rb.AddForce(new Vector3(0f, 0f, amount), ForceMode.VelocityChange);
     }
 
+    private void Attack()
+    {
+        Debug.Log("fencer" + fencerId + " attacking!");
+    }
+
+    // cleanup
     private void OnDestroy()
     {
         p0InputActions?.Dispose();

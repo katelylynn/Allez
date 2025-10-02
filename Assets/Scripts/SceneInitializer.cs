@@ -12,6 +12,8 @@ public class SceneInitializer : MonoBehaviour
 
     void Awake()
     {
+        // Instantiate GameObjects
+
         GameObject g = Instantiate(gameManagerPrefab);
         g.name = "GameManager";
 
@@ -25,5 +27,9 @@ public class SceneInitializer : MonoBehaviour
 
         GameObject env = Instantiate(environmentPrefab);
         env.name = "Environment";
+
+        // Start the fight
+
+        g.GetComponent<GameManager>().StartDuel();
     }
 }

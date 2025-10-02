@@ -38,7 +38,6 @@ public class Fencer : MonoBehaviour
     public void Start()
     {
         rb = GetComponent<Rigidbody>();
-        fighting = false;
     }
 
     public void Initialize(int fn, FencerType ft)
@@ -65,6 +64,12 @@ public class Fencer : MonoBehaviour
         gameObject.transform.position = startingPos[fencerId];
         gameObject.transform.rotation = startingRot[fencerId];
         gameObject.SetActive(true);
+
+        // set event callbacks
+        fighting = false;
+        EventManager.RoundStart += () => {
+            fighting = true; 
+        };
     }
 
     public void Update()

@@ -118,6 +118,33 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""P2Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""c96fe874-18a5-4440-b73f-e7a6727f6628"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""P1ParryLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""2a76b6b4-be93-46a2-bcfd-b0988357cf3a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""P1ParryRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e106451-3404-42fe-9eca-9f27feb36c5b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -373,6 +400,39 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""P1Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c775a81-0719-4eef-97d0-3701c7bd0179"",
+                    ""path"": ""<Keyboard>/rightShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""P2Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa126e7f-9b81-4624-a6ad-f6b42bc1fccf"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""P1ParryLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b224921d-eaf3-47dc-9802-ae35914004d2"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""P1ParryRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -552,6 +612,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_P1Movement = m_Player.FindAction("P1Movement", throwIfNotFound: true);
         m_Player_P2Movement = m_Player.FindAction("P2Movement", throwIfNotFound: true);
         m_Player_P1Attack = m_Player.FindAction("P1Attack", throwIfNotFound: true);
+        m_Player_P2Attack = m_Player.FindAction("P2Attack", throwIfNotFound: true);
+        m_Player_P1ParryLeft = m_Player.FindAction("P1ParryLeft", throwIfNotFound: true);
+        m_Player_P1ParryRight = m_Player.FindAction("P1ParryRight", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
@@ -646,6 +709,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_P1Movement;
     private readonly InputAction m_Player_P2Movement;
     private readonly InputAction m_Player_P1Attack;
+    private readonly InputAction m_Player_P2Attack;
+    private readonly InputAction m_Player_P1ParryLeft;
+    private readonly InputAction m_Player_P1ParryRight;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -669,6 +735,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/P1Attack".
         /// </summary>
         public InputAction @P1Attack => m_Wrapper.m_Player_P1Attack;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/P2Attack".
+        /// </summary>
+        public InputAction @P2Attack => m_Wrapper.m_Player_P2Attack;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/P1ParryLeft".
+        /// </summary>
+        public InputAction @P1ParryLeft => m_Wrapper.m_Player_P1ParryLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/P1ParryRight".
+        /// </summary>
+        public InputAction @P1ParryRight => m_Wrapper.m_Player_P1ParryRight;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -704,6 +782,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @P1Attack.started += instance.OnP1Attack;
             @P1Attack.performed += instance.OnP1Attack;
             @P1Attack.canceled += instance.OnP1Attack;
+            @P2Attack.started += instance.OnP2Attack;
+            @P2Attack.performed += instance.OnP2Attack;
+            @P2Attack.canceled += instance.OnP2Attack;
+            @P1ParryLeft.started += instance.OnP1ParryLeft;
+            @P1ParryLeft.performed += instance.OnP1ParryLeft;
+            @P1ParryLeft.canceled += instance.OnP1ParryLeft;
+            @P1ParryRight.started += instance.OnP1ParryRight;
+            @P1ParryRight.performed += instance.OnP1ParryRight;
+            @P1ParryRight.canceled += instance.OnP1ParryRight;
         }
 
         /// <summary>
@@ -724,6 +811,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @P1Attack.started -= instance.OnP1Attack;
             @P1Attack.performed -= instance.OnP1Attack;
             @P1Attack.canceled -= instance.OnP1Attack;
+            @P2Attack.started -= instance.OnP2Attack;
+            @P2Attack.performed -= instance.OnP2Attack;
+            @P2Attack.canceled -= instance.OnP2Attack;
+            @P1ParryLeft.started -= instance.OnP1ParryLeft;
+            @P1ParryLeft.performed -= instance.OnP1ParryLeft;
+            @P1ParryLeft.canceled -= instance.OnP1ParryLeft;
+            @P1ParryRight.started -= instance.OnP1ParryRight;
+            @P1ParryRight.performed -= instance.OnP1ParryRight;
+            @P1ParryRight.canceled -= instance.OnP1ParryRight;
         }
 
         /// <summary>
@@ -958,6 +1054,27 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnP1Attack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "P2Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnP2Attack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "P1ParryLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnP1ParryLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "P1ParryRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnP1ParryRight(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

@@ -121,7 +121,7 @@ public class Fencer : MonoBehaviour
     // Keyboard or controller input
     private void ReceiveInput()
     {
-        Move(movementInput.ReadValue<Vector2>().y);
+        Move(movementInput.ReadValue<float>());
 
         if (attackInput.WasPerformedThisFrame())
             Attack();

@@ -25,10 +25,36 @@
                     "initialStateCheck": true
                 },
                 {
-
                     "name": "P1Attack",
                     "type": "Button",
                     "id": "cfe83970-a0b9-4daa-9258-bb5b18f34b0e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "P2Attack",
+                    "type": "Button",
+                    "id": "c96fe874-18a5-4440-b73f-e7a6727f6628",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "P1ParryLeft",
+                    "type": "Button",
+                    "id": "2a76b6b4-be93-46a2-bcfd-b0988357cf3a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "P1ParryRight",
+                    "type": "Button",
+                    "id": "6e106451-3404-42fe-9eca-9f27feb36c5b",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -286,6 +312,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "P1Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1c775a81-0719-4eef-97d0-3701c7bd0179",
+                    "path": "<Keyboard>/rightShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P2Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aa126e7f-9b81-4624-a6ad-f6b42bc1fccf",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P1ParryLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b224921d-eaf3-47dc-9802-ae35914004d2",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P1ParryRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

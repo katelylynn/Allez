@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 public class Fighter : MonoBehaviour
 {
     [Header("Attack Settings")]
-    private Transform sword;
+    private Transform foil;
     private bool goingForward;
     private bool goingBackward;
-    private Vector3 newSwordPosition;
-    private Vector3 oldSwordPosition;
+    private Vector3 newFoilPosition;
+    private Vector3 oldFoilPosition;
     public float attackDistance = 2f;
     public float moveSpeed = 0.1f;
 
@@ -20,7 +20,7 @@ public class Fighter : MonoBehaviour
 
     public void Start()
     {
-        sword = transform.Find("Sword");
+        foil = transform.Find("Foil");
         baseRotation = transform.rotation;
     }
 
@@ -32,8 +32,8 @@ public class Fighter : MonoBehaviour
 
     public void OnAttack(InputValue value)
     {
-        oldSwordPosition = sword.position;
-        newSwordPosition = sword.position + sword.forward * attackDistance;
+        oldFoilPosition = foil.position;
+        newFoilPosition = foil.position + foil.forward * attackDistance;
         goingForward = true;
     }
 
@@ -41,9 +41,9 @@ public class Fighter : MonoBehaviour
     {
         if (goingForward)
         {
-            sword.position = sword.position + sword.forward * moveSpeed;
+            foil.position = foil.position + foil.forward * moveSpeed;
 
-            if (Vector3.Dot(sword.position - oldSwordPosition, sword.forward) >= attackDistance)
+            if (Vector3.Dot(foil.position - oldFoilPosition, foil.forward) >= attackDistance)
             {
                 goingForward = false;
                 goingBackward = true;
@@ -51,9 +51,9 @@ public class Fighter : MonoBehaviour
         }
         else if (goingBackward)
         {
-            sword.position = sword.position - sword.forward * moveSpeed;
+            foil.position = foil.position - foil.forward * moveSpeed;
 
-            if (Vector3.Dot(sword.position - oldSwordPosition, sword.forward) <= 0f)
+            if (Vector3.Dot(foil.position - oldFoilPosition, foil.forward) <= 0f)
             {
                 goingBackward = false;
             }
@@ -70,14 +70,14 @@ public class Fighter : MonoBehaviour
         float targetX;
 
         if (Mathf.Abs(tiltDirection) > 0.01f)
-            targetX = sword.localPosition.x + tiltDirection * tiltSpeed * Time.fixedDeltaTime;
+            targetX = foil.localPosition.x + tiltDirection * tiltSpeed * Time.fixedDeltaTime;
         else
             targetX = 0f;
 
-        float newX = Mathf.MoveTowards(sword.localPosition.x, targetX, tiltSpeed * Time.fixedDeltaTime);
+        float newX = Mathf.MoveTowards(foil.localPosition.x, targetX, tiltSpeed * Time.fixedDeltaTime);
 
         newX = Mathf.Clamp(newX, -maxTilt, maxTilt);
 
-        sword.localPosition = new Vector3(newX, sword.localPosition.y, sword.localPosition.z);
+        foil.localPosition = new Vector3(newX, foil.localPosition.y, foil.localPosition.z);
     }
 }

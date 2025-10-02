@@ -19,16 +19,11 @@ public class Fencer : MonoBehaviour
     public bool fighting;
 
     // input variables
-    private P0InputActions p0InputActions;
-    private P1InputActions p1InputActions;
-    private InputAction movementInput;
-    private InputAction lungeInput;
-    private InputAction backdashInput;
-    private InputAction attackInput;
-    private InputAction tiltInput;
+    private PlayerInput playerInput;
+    public InputActionAsset p0ActionAsset;
+    public InputActionAsset p1ActionAsset;
 
     // scene variables
-    private Rigidbody rb;
     private Camera cam;
     private Vector3[] startingPos = {
         new Vector3(0, 0, -5),
@@ -39,19 +34,14 @@ public class Fencer : MonoBehaviour
         Quaternion.Euler(0f, 180f, 0f)
     };
 
-    public void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
-
     public void Initialize(int fn, FencerType ft)
     {
         // set instance variables
         fencerId = fn;
         fencerType = ft;
 
-        if (fencerType == FencerType.Player)
-            SetupInputActions();
+        // setup player input
+        SetupPlayerInput();
 
         // set camera position
         cam = GetComponentInChildren<Camera>(); 
@@ -70,32 +60,23 @@ public class Fencer : MonoBehaviour
         EventManager.RoundEnd += OnRoundEnd;
     }
 
-    private void SetupInputActions()
+    private void SetupPlayerInput()
     {
-        if (fencerId == F0)
-        {
-            p0InputActions = new P0InputActions();
-            movementInput = p0InputActions.Player.Movement;
-            lungeInput = p0InputActions.Player.Lunge;
-            backdashInput = p0InputActions.Player.Backdash;
-            tiltInput = p0InputActions.Player.Tilt;
-            attackInput = p0InputActions.Player.Attack;
-        }
-        else if (fencerId == F1)
-        {
-            p1InputActions = new P1InputActions();
-            movementInput = p1InputActions.Player.Movement;
-            lungeInput = p1InputActions.Player.Lunge;
-            backdashInput = p1InputActions.Player.Backdash;
-            tiltInput = p1InputActions.Player.Tilt;
-            attackInput = p1InputActions.Player.Attack;
-        }
+        playerInput = GetComponent<PlayerInput>();
 
-        movementInput.Enable();
-        lungeInput.Enable();
-        backdashInput.Enable();
-        tiltInput.Enable();
-        attackInput.Enable();
+        if (fencerType == FencerType.Player)
+        {
+            if (fencerId == 0)
+                playerInput.actions = p0ActionAsset;
+            else if (fencerId == 1)
+                playerInput.actions = p1ActionAsset;
+
+            playerInput.defaultActionMap = "Player";
+        }
+        else if (fencerType == FencerType.AI)
+        {
+            playerInput.enabled = false;
+        }
     }
 
     private void ResetPosition()
@@ -123,71 +104,12 @@ public class Fencer : MonoBehaviour
 
     public void Update()
     {
-        if (fighting && fencerType == FencerType.Player)
-            ReceiveInput();
-
-        else if (fighting && fencerType == FencerType.AI)
+        if (fighting && fencerType == FencerType.AI)
             CalculateNextMove();
     }
 
-    // Keyboard or controller input
-    private void ReceiveInput()
-    {
-        Move(movementInput.ReadValue<float>());
-
-        if (lungeInput.WasPerformedThisFrame())
-            Lunge();
-        
-        if (backdashInput.WasPerformedThisFrame())
-            Backdash();
-
-        if (attackInput.WasPressedThisFrame())
-            Attack();
-
-        Tilt(tiltInput.ReadValue<float>());
-    }
-
-    // AI decision making
     private void CalculateNextMove()
     {
         Debug.Log("calculating next move");
-    }
-
-    private void Move(float amount)
-    {
-        rb.AddForce(new Vector3(0f, 0f, amount), ForceMode.VelocityChange);
-    }
-
-    private void Lunge()
-    {
-        Debug.Log("Lunge");
-    }
-
-    private void Backdash()
-    {
-        Debug.Log("Backdash");
-
-    }
-
-    private void Tilt(float direction)
-    {
-        if (direction == -1) Debug.Log("tilting left");
-        if (direction == 0) Debug.Log("neutral");
-        if (direction == 1) Debug.Log("tilting right");
-    }
-
-    private void Attack()
-    {
-        Debug.Log("fencer" + fencerId + " attacking!");
-
-        // TEMP while collision enter not implemented
-        EventManager.TriggerRoundEnd(fencerId);
-    }
-
-    // cleanup
-    private void OnDestroy()
-    {
-        p0InputActions?.Dispose();
-        p1InputActions?.Dispose();
     }
 }

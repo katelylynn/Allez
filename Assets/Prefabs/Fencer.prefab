@@ -251,7 +251,10 @@ GameObject:
   - component: {fileID: 4904159256273859472}
   - component: {fileID: 5615675485686058711}
   - component: {fileID: 7900095226387260931}
+  - component: {fileID: 3859705223201017626}
   - component: {fileID: 7505905633920306174}
+  - component: {fileID: 4802154492296468911}
+  - component: {fileID: 6751549742204489630}
   - component: {fileID: 8354635557347870727}
   m_Layer: 0
   m_Name: Fencer
@@ -380,6 +383,36 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 118
   m_CollisionDetection: 2
+--- !u!114 &3859705223201017626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7233651965204486769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: 0}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!114 &7505905633920306174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +426,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fighting: 0
+  p0ActionAsset: {fileID: -944628639613478452, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
+  p1ActionAsset: {fileID: -944628639613478452, guid: bf3ec6e9a459c2b40899b3ab2855f472, type: 3}
+--- !u!114 &4802154492296468911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7233651965204486769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a97769544d24584788683a33703d249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6751549742204489630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7233651965204486769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d068b70bfbc89746af15693a6efa88d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &8354635557347870727
 Animator:
   serializedVersion: 7

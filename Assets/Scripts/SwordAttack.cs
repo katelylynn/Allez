@@ -57,30 +57,57 @@ public class SwordAttack : MonoBehaviour
 
     private IEnumerator actualAttack()
     {
+        float attackDistance = 2f;
+        float moveSpeed = 0.1f;
+
         attack.Disable();
         parryLeft.Disable();
         parryRight.Disable();
         Transform sword = transform.Find("Sword");
-        sword.position += sword.forward * 2f;
-        yield return new WaitForSeconds(0.5f);
-        sword.position -= sword.forward * 2f;
-        Debug.Log(sword.gameObject.name);
+        
+        float newSwordPosition = sword.position.z + attackDistance;
+        float oldSwordPosition = sword.position.z;
+
+        while (sword.position.z < newSwordPosition)
+        {
+            sword.position = new Vector3(sword.position.x, sword.position.y, sword.position.z + moveSpeed);
+            yield return new WaitForSeconds(0.006f);
+        }
+        while (sword.position.z > oldSwordPosition)
+        {
+            sword.position = new Vector3(sword.position.x, sword.position.y, sword.position.z - moveSpeed);
+            yield return new WaitForSeconds(0.006f);
+        }
         attack.Enable();
         parryLeft.Enable();
         parryRight.Enable();
     }
 
+    /*
+     * -1 is left parry
+     * 1 is right parry
+     */
     private IEnumerator actualParry(bool isLeftParry)
     {
         float parryDistance = 1f;
+        float moveSpeed = 0.05f;
         if (isLeftParry)
         {
             parryLeft.Disable();
             parryRight.Disable();
             Transform sword = transform.Find("Sword");
-            sword.position = new Vector3(sword.position.x - parryDistance, sword.position.y, sword.position.z);
-            yield return new WaitForSeconds(0.3f);
-            sword.position = new Vector3(sword.position.x + parryDistance, sword.position.y, sword.position.z);
+            float newSwordDistance = sword.position.x - parryDistance;
+            float oldSwordDistance = sword.position.x;
+            while (sword.position.x > newSwordDistance)
+            {
+                sword.position = new Vector3(sword.position.x - moveSpeed, sword.position.y, sword.position.z);
+                yield return new WaitForSeconds(0.001f);
+            }
+            while (sword.position.x < oldSwordDistance)
+            {
+                sword.position = new Vector3(sword.position.x + moveSpeed, sword.position.y, sword.position.z);
+                yield return new WaitForSeconds(0.001f);
+            }
             parryLeft.Enable();
             parryRight.Enable();
         }
@@ -89,11 +116,21 @@ public class SwordAttack : MonoBehaviour
             parryRight.Disable();
             parryLeft.Disable();
             Transform sword = transform.Find("Sword");
-            sword.position = new Vector3(sword.position.x + parryDistance, sword.position.y, sword.position.z);
-            yield return new WaitForSeconds(0.3f);
-            sword.position = new Vector3(sword.position.x - parryDistance, sword.position.y, sword.position.z);
+            float newSwordDistance = sword.position.x + parryDistance;
+            float oldSwordDistance = sword.position.x;
+            while (sword.position.x < newSwordDistance)
+            {
+                sword.position = new Vector3(sword.position.x + moveSpeed, sword.position.y, sword.position.z);
+                yield return new WaitForSeconds(0.001f);
+            }
+            while (sword.position.x > oldSwordDistance)
+            {
+                sword.position = new Vector3(sword.position.x - moveSpeed, sword.position.y, sword.position.z);
+                yield return new WaitForSeconds(0.001f);
+            }
             parryRight.Enable();
             parryLeft.Enable();
         }
     }
+
 }

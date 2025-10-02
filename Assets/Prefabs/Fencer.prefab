@@ -569,8 +569,7 @@ MonoBehaviour:
   attackDistance: 2
   moveSpeed: 0.1
   tiltSpeed: 360
-  maxTiltAngle: 30
-  tiltDeadzone: 0.2
+  maxTilt: 1
 --- !u!95 &8354635557347870727
 Animator:
   serializedVersion: 7

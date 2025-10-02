@@ -92,10 +92,10 @@ public class Fencer : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Fencer"))
         {
-            // NOT IMPLEMENTED
-            // On sword collision w torso, trigger round end
+            EventManager.TriggerRoundEnd(fencerId);
         }
     }
 

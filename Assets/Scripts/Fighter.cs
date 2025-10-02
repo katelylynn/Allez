@@ -15,7 +15,7 @@ public class Fighter : MonoBehaviour
     [Header("Tilt Settings")]
     private float tiltDirection;
     public float tiltSpeed = 360f;
-    public float maxTiltAngle = 30f;
+    public float maxTilt = 1f;
     private Quaternion baseRotation;
 
     public void Start()
@@ -67,9 +67,17 @@ public class Fighter : MonoBehaviour
 
     private void Tilt()
     {
-        float targetAngle = tiltDirection * maxTiltAngle;
-        Quaternion targetRotation = baseRotation * Quaternion.Euler(0f, 0f, -targetAngle);
-        float t = tiltSpeed * Time.fixedDeltaTime;
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, t);
+        float targetX;
+
+        if (Mathf.Abs(tiltDirection) > 0.01f)
+            targetX = sword.localPosition.x + tiltDirection * tiltSpeed * Time.fixedDeltaTime;
+        else
+            targetX = 0f;
+
+        float newX = Mathf.MoveTowards(sword.localPosition.x, targetX, tiltSpeed * Time.fixedDeltaTime);
+
+        newX = Mathf.Clamp(newX, -maxTilt, maxTilt);
+
+        sword.localPosition = new Vector3(newX, sword.localPosition.y, sword.localPosition.z);
     }
 }

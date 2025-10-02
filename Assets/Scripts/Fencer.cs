@@ -57,10 +57,7 @@ public class Fencer : MonoBehaviour
         cam.rect = r;
 
         // set fencer position, deactivating to overcome rigidbody
-        gameObject.SetActive(false);
-        gameObject.transform.position = startingPos[fencerId];
-        gameObject.transform.rotation = startingRot[fencerId];
-        gameObject.SetActive(true);
+        ResetPosition();
 
         // set event callbacks
         fighting = false;
@@ -86,6 +83,23 @@ public class Fencer : MonoBehaviour
 
         movementInput.Enable();
         attackInput.Enable();
+    }
+
+    private void ResetPosition()
+    {
+        gameObject.SetActive(false);
+        gameObject.transform.position = startingPos[fencerId];
+        gameObject.transform.rotation = startingRot[fencerId];
+        gameObject.SetActive(true);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Fencer"))
+        {
+            fighting = false;
+            ResetPosition();
+        }
     }
 
     public void Update()
@@ -120,6 +134,9 @@ public class Fencer : MonoBehaviour
     private void Attack()
     {
         Debug.Log("fencer" + fencerId + " attacking!");
+
+        // TEMP IMPLEMENTATION
+        EventManager.TriggerRoundEnd(fencerId);
     }
 
     // cleanup

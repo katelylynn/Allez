@@ -4,15 +4,15 @@ using UnityEngine;
 public static class EventManager
 {
     public static event Action RoundStart;
-    public static event Action RoundEnd;
+    public static event Action<int> RoundEnd;
 
     public static void TriggerRoundStart() 
     {
         RoundStart?.Invoke();
     }
 
-    public static void TriggerRoundEnd() 
+    public static void TriggerRoundEnd(int winner) 
     {
-        RoundEnd?.Invoke();
+        RoundEnd?.Invoke(winner);
     }
 }

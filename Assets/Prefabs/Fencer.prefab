@@ -534,7 +534,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f20aa6b7ed0387645b459f1e9f299b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fighting: 0
   p0ActionAsset: {fileID: -944628639613478452, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
   p1ActionAsset: {fileID: -944628639613478452, guid: bf3ec6e9a459c2b40899b3ab2855f472, type: 3}
 --- !u!114 &4802154492296468911

@@ -19,7 +19,8 @@ public class Fencer : MonoBehaviour
     public bool fighting;
 
     // player only variables
-    private InputActions inputActions;
+    private P0InputActions p0InputActions;
+    private P1InputActions p1InputActions;
     private InputAction movement;
     private Vector2 input;
 
@@ -48,8 +49,17 @@ public class Fencer : MonoBehaviour
 
         if (fencerType == FencerType.Player)
         {
-            inputActions = new InputActions();
-            movement = fencerId == F0 ? inputActions.Player.P0Movement : inputActions.Player.P1Movement;
+            if (fencerId == F0)
+            {
+                p0InputActions = new P0InputActions();
+                movement = p0InputActions.Player.Movement;
+            }
+            else if (fencerId == F1)
+            {
+                p1InputActions = new P1InputActions();
+                movement = p1InputActions.Player.Movement;
+            }
+
             movement.Enable();
         }
 
@@ -96,5 +106,11 @@ public class Fencer : MonoBehaviour
     private void Move(float amount)
     {
         rb.AddForce(new Vector3(0f, 0f, amount), ForceMode.VelocityChange);
+    }
+
+    private void OnDestroy()
+    {
+        p0InputActions?.Dispose();
+        p1InputActions?.Dispose();
     }
 }

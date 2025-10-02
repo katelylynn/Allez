@@ -5,11 +5,6 @@ public class Fighter : MonoBehaviour
 {
     public void OnAttack(InputValue value)
     {
-        if (value.isPressed)
-            Debug.Log("Attack pressed");
-        else
-            Debug.Log("Attack released");
-
         EventManager.TriggerRoundEnd(0); // TEMP
     }
 

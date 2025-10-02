@@ -50,14 +50,14 @@ public class Fencer : MonoBehaviour
         cam.rect = r;
 
         // set fencer position, deactivating to overcome rigidbody
-        ResetPosition();
+        ResetFencer();
 
         // set event callbacks
-        fighting = false;
         EventManager.RoundStart += () => {
             fighting = true; 
+            playerInput.enabled = true;
         };
-        EventManager.RoundEnd += OnRoundEnd;
+        EventManager.RoundEnd += ResetFencer;
     }
 
     private void SetupPlayerInput()
@@ -79,8 +79,11 @@ public class Fencer : MonoBehaviour
         }
     }
 
-    private void ResetPosition()
+    private void ResetFencer(int winner = -1)
     {
+        fighting = false;
+        playerInput.enabled = false;
+
         gameObject.SetActive(false);
         gameObject.transform.position = startingPos[fencerId];
         gameObject.transform.rotation = startingRot[fencerId];
@@ -94,12 +97,6 @@ public class Fencer : MonoBehaviour
             // NOT IMPLEMENTED
             // On sword collision w torso, trigger round end
         }
-    }
-
-    public void OnRoundEnd(int winner)
-    {
-        fighting = false;
-        ResetPosition();
     }
 
     public void Update()

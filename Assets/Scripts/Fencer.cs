@@ -64,6 +64,7 @@ public class Fencer : MonoBehaviour
         EventManager.RoundStart += () => {
             fighting = true; 
         };
+        EventManager.RoundEnd += OnRoundEnd;
     }
 
     private void SetupInputActions()
@@ -93,13 +94,19 @@ public class Fencer : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Fencer"))
         {
-            fighting = false;
-            ResetPosition();
+            // NOT IMPLEMENTED
+            // On sword collision w torso, trigger round end
         }
+    }
+
+    public void OnRoundEnd(int winner)
+    {
+        fighting = false;
+        ResetPosition();
     }
 
     public void Update()
@@ -135,7 +142,7 @@ public class Fencer : MonoBehaviour
     {
         Debug.Log("fencer" + fencerId + " attacking!");
 
-        // TEMP IMPLEMENTATION
+        // TEMP while collision enter not implemented
         EventManager.TriggerRoundEnd(fencerId);
     }
 

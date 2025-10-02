@@ -130,7 +130,7 @@ public partial class @P0InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Tilt"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""1045fb0a-6dd8-4556-a211-9d842216e543"",
                     ""expectedControlType"": """",
                     ""processors"": """",

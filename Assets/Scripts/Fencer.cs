@@ -16,7 +16,6 @@ public class Fencer : MonoBehaviour
     // instance variables
     private int fencerId;
     private FencerType fencerType;
-    public bool fighting;
 
     // input variables
     private PlayerInput playerInput;
@@ -54,7 +53,6 @@ public class Fencer : MonoBehaviour
 
         // set event callbacks
         EventManager.RoundStart += () => {
-            fighting = true; 
             playerInput.enabled = true;
         };
         EventManager.RoundEnd += ResetFencer;
@@ -81,7 +79,6 @@ public class Fencer : MonoBehaviour
 
     private void ResetFencer(int winner = -1)
     {
-        fighting = false;
         playerInput.enabled = false;
 
         gameObject.SetActive(false);
@@ -101,7 +98,7 @@ public class Fencer : MonoBehaviour
 
     public void Update()
     {
-        if (fighting && fencerType == FencerType.AI)
+        if (fencerType == FencerType.AI)
             CalculateNextMove();
     }
 

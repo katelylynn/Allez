@@ -5,7 +5,7 @@ public class Mover : MonoBehaviour
 {
     private Rigidbody rb;
 
-    [Header("Player Movement Settings")]
+    [Header("Movement Settings")]
     private float moveAmount;
     public float acceleration = 2f;
     public float deceleration = 10f;

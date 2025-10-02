@@ -9,16 +9,43 @@
                 {
                     "name": "Movement",
                     "type": "Value",
-                    "id": "9d7f4504-b825-40c9-95a9-2db8c5ed32a5",
+                    "id": "611f0596-1230-4020-9a94-6645284454b4",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Lunge",
+                    "type": "Button",
+                    "id": "833fa574-337a-4290-9106-459a85e3823c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Backstep",
+                    "type": "Button",
+                    "id": "240c00b4-de1b-4920-8a15-0d244cae6349",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Attack",
-                    "type": "Value",
-                    "id": "adb2b1e7-af54-4bea-b13b-7db2a08e29fe",
+                    "type": "Button",
+                    "id": "b8e33fd5-2357-4ab2-a9be-4fee764312f8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Tilt",
+                    "type": "Button",
+                    "id": "1045fb0a-6dd8-4556-a211-9d842216e543",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -27,9 +54,9 @@
             ],
             "bindings": [
                 {
-                    "name": "2D Vector",
-                    "id": "16fca4f9-c41b-485e-8552-75a2814017df",
-                    "path": "2DVector",
+                    "name": "1D Axis",
+                    "id": "87809474-925d-49ce-be28-4a69cd25cf53",
+                    "path": "1DAxis",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -38,19 +65,8 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Up",
-                    "id": "0825df78-5d22-4f7d-8525-17076c3cb97a",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Down",
-                    "id": "4a99880c-b81d-44a3-9294-8565f9ba2fd3",
+                    "name": "negative",
+                    "id": "11f31432-3edd-4f1e-a771-741fc169972a",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -60,20 +76,9 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Left",
-                    "id": "ed1de3aa-f5b9-4600-9953-1be7490cf4c8",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Right",
-                    "id": "a0c3a3b7-20a1-42e8-8628-ed0f610636b2",
-                    "path": "",
+                    "name": "positive",
+                    "id": "a2d3421e-2263-4db3-a5f6-1a8e22374bb7",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -83,12 +88,67 @@
                 },
                 {
                     "name": "",
-                    "id": "290e3b5a-9df7-4a81-a91c-178b88b90b00",
-                    "path": "<Keyboard>/leftShift",
+                    "id": "2492c2f7-2e2e-4cf7-82ef-4d1c3ff680f1",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "d9935a45-1fae-4698-ac8b-7d860ceb8b4b",
+                    "path": "1DAxis",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tilt",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "69396555-1d3d-40eb-88cd-a133f7ebac8c",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tilt",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "81c7301c-68e8-4543-9bd6-73e292749632",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tilt",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "2098b73b-aa28-4d6c-ab8c-96661f1c7730",
+                    "path": "<Keyboard>/s",
+                    "interactions": "MultiTap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Backstep",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ba6955e-3f71-4cad-9390-04592873e4c8",
+                    "path": "<Keyboard>/w",
+                    "interactions": "MultiTap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lunge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

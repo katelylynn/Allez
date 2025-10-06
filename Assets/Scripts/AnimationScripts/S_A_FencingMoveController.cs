@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class S_A_FencingMoveController : MonoBehaviour
 {
+    public KeyCode lungeKey = KeyCode.LeftShift;
+    public KeyCode parryKey = KeyCode.LeftControl;
+
     private Animator animator;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,9 +19,9 @@ public class S_A_FencingMoveController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift)) {
+        if (Input.GetKeyDown(lungeKey)) {
             animator.SetTrigger("LungeCenter");
-        } else if (Input.GetKeyDown(KeyCode.LeftControl)) {
+        } else if (Input.GetKeyDown(parryKey)) {
             animator.SetTrigger("ParryLeft");
         }
     }

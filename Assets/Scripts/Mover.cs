@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class Mover : MonoBehaviour
 {
     private Rigidbody rb;
+    private Animator anim;
 
     [Header("Movement Settings")]
     private float moveAmount;
@@ -18,6 +19,7 @@ public class Mover : MonoBehaviour
     public void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
 
     public void FixedUpdate()
@@ -28,6 +30,11 @@ public class Mover : MonoBehaviour
     public void OnMovement(InputValue value)
     {
         moveAmount = value.Get<float>();
+
+        if (moveAmount == 1)
+            anim.SetTrigger("StepForward");
+        else if (moveAmount == -1)
+            anim.SetTrigger("StepBackward");
     }
 
     private void Move()
@@ -35,21 +42,17 @@ public class Mover : MonoBehaviour
         Vector3 localZ = new Vector3(0f, 0f, moveAmount);
         rb.AddRelativeForce(localZ * acceleration, ForceMode.VelocityChange);
 
-        if (Mathf.Abs(moveAmount) > 0f)
-        {
-            if (rb.linearVelocity.magnitude > maxSpeed)
-                rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
-        }
+        if (Mathf.Abs(moveAmount) > 0f && rb.linearVelocity.magnitude > maxSpeed)
+            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         else
-        {
             rb.AddForce(-rb.linearVelocity * deceleration, ForceMode.Acceleration);
-        }
     }
 
     public void OnLunge(InputValue value)
     {
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(transform.forward * lungeStrength, ForceMode.VelocityChange);
+        anim.SetTrigger("Lunge");
     }
 
     public void OnBackdash(InputValue value)

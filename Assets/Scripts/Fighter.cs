@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class Fighter : MonoBehaviour
 {
+    private Animator anim;
+
     [Header("Attack Settings")]
     public Transform foil;
     private bool goingForward;
@@ -22,6 +24,7 @@ public class Fighter : MonoBehaviour
     {
         foil = transform.Find("Foil");
         baseRotation = transform.rotation;
+        anim = GetComponent<Animator>();
     }
 
     public void FixedUpdate()
@@ -66,6 +69,9 @@ public class Fighter : MonoBehaviour
     public void OnTilt(InputValue value)
     {
         tiltDirection = value.Get<float>();
+
+        if (tiltDirection == -1)
+            anim.SetTrigger("ParryLeft"); // temp
     }
 
     private void Tilt()

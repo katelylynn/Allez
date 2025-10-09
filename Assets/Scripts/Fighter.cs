@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class Fighter : MonoBehaviour
 {
     [Header("Attack Settings")]
-    private Transform foil;
+    public Transform foil;
     private bool goingForward;
     private bool goingBackward;
     private Vector3 newFoilPosition;
@@ -26,14 +26,17 @@ public class Fighter : MonoBehaviour
 
     public void FixedUpdate()
     {
-        Attack();
-        Tilt();
+        // TODO
+        // Attack();
+
+        // TODO
+        // Tilt();
     }
 
     public void OnAttack(InputValue value)
     {
-        oldFoilPosition = foil.position;
-        newFoilPosition = foil.position + foil.forward * attackDistance;
+        // oldFoilPosition = foil.position;
+        // newFoilPosition = foil.position + foil.forward * attackDistance;
         goingForward = true;
     }
 

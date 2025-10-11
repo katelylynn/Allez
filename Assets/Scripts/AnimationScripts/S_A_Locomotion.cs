@@ -49,18 +49,18 @@ public class S_A_Locomotion : MonoBehaviour
         //animator.SetBool( "IsSprinting", isSprinting );
     }
 
-    void FixedUpdate()
-    {
-        // --- Movement ---
-        float targetSpeed = isSprinting ? runSpeed : walkSpeed;
+    // void FixedUpdate()
+    // {
+    //     // --- Movement ---
+    //     float targetSpeed = isSprinting ? runSpeed : walkSpeed;
 
-        Vector3 move = new Vector3(direction.x, 0, direction.y) * targetSpeed;
+    //     Vector3 move = new Vector3(direction.x, 0, direction.y) * targetSpeed;
 
-        // Keep existing vertical velocity (gravity)
-        Vector3 velocity = rb.linearVelocity;
-        velocity.x = move.x;
-        velocity.z = move.z;
+    //     // Keep existing vertical velocity (gravity)
+    //     Vector3 velocity = rb.linearVelocity;
+    //     velocity.x = move.x;
+    //     velocity.z = move.z;
 
-        rb.linearVelocity = velocity;
-    }
+    //     rb.linearVelocity = velocity;
+    // }
 }

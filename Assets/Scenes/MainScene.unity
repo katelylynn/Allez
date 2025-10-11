@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: fencer1Type
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: fencerPrefab
+      value: 
+      objectReference: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
     - target: {fileID: 8222016207939438957, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -22,7 +22,7 @@ public class Fighter : MonoBehaviour
 
     public void Start()
     {
-        foil = transform.Find("Foil");
+        // foil = transform.Find("Foil");
         baseRotation = transform.rotation;
         anim = GetComponent<Animator>();
     }

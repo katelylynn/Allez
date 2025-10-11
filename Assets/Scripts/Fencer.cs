@@ -19,7 +19,7 @@ public class Fencer : MonoBehaviour
     // instance variables
     public FencerId fencerId;
     private FencerType fencerType;
-    public Animator animator;
+    public Animator anim;
 
     // input variables
     private PlayerInput playerInput;
@@ -39,7 +39,7 @@ public class Fencer : MonoBehaviour
 
     public void Start()
     {
-        animator = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
     }
 
     public void Initialize(FencerId fn, FencerType ft)
@@ -88,7 +88,7 @@ public class Fencer : MonoBehaviour
 
     public AnimatorStateInfo GetStateSnapshot(int layer)
     {
-        return animator.GetCurrentAnimatorStateInfo(layer);
+        return anim.GetCurrentAnimatorStateInfo(layer);
     }
 
     private void ResetFencer(FencerId winner = FencerId.None)

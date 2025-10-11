@@ -50,6 +50,7 @@ public class Mover : MonoBehaviour
 
     public void OnLunge(InputValue value)
     {
+        Debug.Log("Lunging");
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(transform.forward * lungeStrength, ForceMode.VelocityChange);
         anim.SetTrigger("Lunge");
@@ -57,6 +58,7 @@ public class Mover : MonoBehaviour
 
     public void OnBackdash(InputValue value)
     {
+        Debug.Log("Backdashing");
         rb.linearVelocity = Vector3.zero;    
         rb.AddForce(-transform.forward * backdashStrength, ForceMode.VelocityChange);
     }

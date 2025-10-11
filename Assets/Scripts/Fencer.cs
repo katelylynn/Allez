@@ -7,15 +7,19 @@ public enum FencerType
     AI
 }
 
+public enum FencerId : int
+{
+    None,
+    Fencer0 = 0,
+    Fencer1 = 1,
+}
+
 public class Fencer : MonoBehaviour
 {
-    // static variables
-    private const int F0 = 0;
-    private const int F1 = 1;
-
     // instance variables
-    private int fencerId;
+    public FencerId fencerId;
     private FencerType fencerType;
+    public Animator animator;
 
     // input variables
     private PlayerInput playerInput;
@@ -33,7 +37,12 @@ public class Fencer : MonoBehaviour
         Quaternion.Euler(0f, 180f, 0f)
     };
 
-    public void Initialize(int fn, FencerType ft)
+    public void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    public void Initialize(FencerId fn, FencerType ft)
     {
         // set instance variables
         fencerId = fn;
@@ -45,7 +54,7 @@ public class Fencer : MonoBehaviour
         // set camera position
         cam = GetComponentInChildren<Camera>(); 
         Rect r = cam.rect;
-        r.x = (fencerId == F0 ? 0f : 0.5f);
+        r.x = (fencerId == FencerId.Fencer0 ? 0f : 0.5f);
         cam.rect = r;
 
         // set fencer position, deactivating to overcome rigidbody
@@ -64,9 +73,9 @@ public class Fencer : MonoBehaviour
 
         if (fencerType == FencerType.Player)
         {
-            if (fencerId == 0)
+            if (fencerId == FencerId.Fencer0)
                 playerInput.actions = p0ActionAsset;
-            else if (fencerId == 1)
+            else if (fencerId == FencerId.Fencer1)
                 playerInput.actions = p1ActionAsset;
 
             playerInput.defaultActionMap = "Player";
@@ -77,22 +86,19 @@ public class Fencer : MonoBehaviour
         }
     }
 
-    private void ResetFencer(int winner = -1)
+    public AnimatorStateInfo GetStateSnapshot(int layer)
+    {
+        return animator.GetCurrentAnimatorStateInfo(layer);
+    }
+
+    private void ResetFencer(FencerId winner = FencerId.None)
     {
         playerInput.enabled = false;
 
         gameObject.SetActive(false);
-        gameObject.transform.position = startingPos[fencerId];
-        gameObject.transform.rotation = startingRot[fencerId];
+        gameObject.transform.position = startingPos[(int)fencerId];
+        gameObject.transform.rotation = startingRot[(int)fencerId];
         gameObject.SetActive(true);
-    }
-
-    public void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Fencer"))
-        {
-            EventManager.TriggerRoundEnd(fencerId);
-        }
     }
 
     public void Update()

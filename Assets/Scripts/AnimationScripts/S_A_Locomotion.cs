@@ -12,7 +12,7 @@ public class S_A_Locomotion : MonoBehaviour
     private Animator animator;
     private Rigidbody rb;
 
-    private bool isSprinting = false;
+    // private bool isSprinting = false;
 
     private Vector2 direction = Vector2.zero;
 

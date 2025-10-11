@@ -22,9 +22,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("En garde, pret, allez!");
     }
 
-    private void EndRound(int winner)
+    private void EndRound(FencerId winner)
     {
-        score[winner]++;
+        score[(int)winner]++;
         Debug.Log("hit scored! winner: fencer " + winner);
         Debug.Log("round: " + currRound + ", score: " + score[0] + ", " + score[1]);
 

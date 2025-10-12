@@ -89,7 +89,7 @@
                 {
                     "name": "",
                     "id": "2492c2f7-2e2e-4cf7-82ef-4d1c3ff680f1",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -131,26 +131,136 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "2098b73b-aa28-4d6c-ab8c-96661f1c7730",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "MultiTap",
+                    "name": "One Modifier",
+                    "id": "ea055352-a628-4198-9586-6e9cf1794e5b",
+                    "path": "OneModifier",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Backdash",
-                    "isComposite": false,
+                    "action": "Lunge",
+                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "8ba6955e-3f71-4cad-9390-04592873e4c8",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "MultiTap",
+                    "name": "modifier",
+                    "id": "0a3e1485-2a80-4298-b1b6-88b1e282c69b",
+                    "path": "<Keyboard>/rightCtrl",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Lunge",
                     "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "9000d8ab-23ed-41d2-80be-905526749017",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lunge",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "f68cb5a5-e103-44cf-9f6c-92308093117e",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lunge",
+                    "isComposite": true,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "cd606aec-50a8-45f3-9dab-891aace42ea0",
+                    "path": "<Keyboard>/rightAlt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lunge",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "0054c965-77a6-479b-9bc6-d3d5d1bf1424",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lunge",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "c8fff0f2-79f6-4bc8-a389-dbaff3e0ae91",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Backdash",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "5bbb3040-96cf-49e7-8d7d-befc89640980",
+                    "path": "<Keyboard>/rightCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Backdash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "b30766b1-2c21-44f2-8b23-8601f6900582",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Backdash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "ba58d071-8ee0-481c-8a49-e9c5c1b390c5",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Backdash",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "441d8010-e363-4f6c-8b2a-3ad651d59d29",
+                    "path": "<Keyboard>/rightAlt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Backdash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "01dbdd6c-119e-4356-a91f-480c9fb001f8",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Backdash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

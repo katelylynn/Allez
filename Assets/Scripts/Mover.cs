@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,8 @@ public class Mover : MonoBehaviour
 {
     private Rigidbody rb;
     private Animator anim;
+
+    private string walkAnimationParam = "InputY";
 
     [Header("Movement Settings")]
     private float moveAmount;
@@ -31,10 +34,10 @@ public class Mover : MonoBehaviour
     {
         moveAmount = value.Get<float>();
 
-        if (moveAmount == 1)
-            anim.SetTrigger("StepForward");
-        else if (moveAmount == -1)
-            anim.SetTrigger("StepBackward");
+        if (moveAmount == -1)
+            anim.SetFloat(walkAnimationParam, 0.5f);
+        else
+            anim.SetFloat(walkAnimationParam, moveAmount);
     }
 
     private void Move()
@@ -62,7 +65,7 @@ public class Mover : MonoBehaviour
         Debug.Log("Backdashing");
         anim.SetTrigger("Backdash");
 
-        rb.linearVelocity = Vector3.zero;    
+        rb.linearVelocity = Vector3.zero;
         rb.AddForce(-transform.forward * backdashStrength, ForceMode.VelocityChange);
     }
 }

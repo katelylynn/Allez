@@ -13,18 +13,20 @@ public class Fighter : MonoBehaviour
     public void OnAttack(InputValue value)
     {
         Debug.Log("Attacking");
+        anim.SetTrigger("Attack");
     }
 
     public void OnTilt(InputValue tiltDirection)
     {
         if (tiltDirection.Get<float>() == -1)
         {
+            Debug.Log("ParryLeft");
             anim.SetTrigger("ParryLeft");
         }
         else if (tiltDirection.Get<float>() == 1)
         {
             Debug.Log("Parry Right");
-            // anim.SetTrigger("ParryRight");
+            anim.SetTrigger("ParryRight");
         }
     }
 }

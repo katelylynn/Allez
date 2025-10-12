@@ -6,6 +6,7 @@
 # Added by Kate
 .vscode/
 .vsconfig
+.DS_Store
 
 #
 .utmp/

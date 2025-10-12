@@ -20,7 +20,7 @@ public class CombatManager : MonoBehaviour
     {
         if (fencer0.GetStateSnapshot(1).IsName("ParryLeft"))
             Debug.Log("Fencer 0 parries Fencer 1!");
-        else
+        else if (fencer1.GetStateSnapshot(1).IsName("ParryLeft"))
             Debug.Log("Fencer 1 parries Fencer 0!");
     }
 }

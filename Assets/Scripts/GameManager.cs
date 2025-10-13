@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public int currRound = 1;
-    public int[] score = {0, 0};
     public int pointsToWin = 3;
-
+    public Canvas uiScore; //leave this unassigned in the editor
+    private void Awake()
+    {
+        ResetGameState();
+    }
     private void Start()
     {
         EventManager.RoundEnd += EndRound;
     }
-
+    private void OnDestroy()
+    {
+        EventManager.RoundEnd -= EndRound;
+    }
     public void StartDuel()
     {
         Countdown();
@@ -24,24 +29,66 @@ public class GameManager : MonoBehaviour
 
     private void EndRound(FencerId winner)
     {
-        score[(int)winner]++;
-        Debug.Log("hit scored! winner: fencer " + winner);
-        Debug.Log("round: " + currRound + ", score: " + score[0] + ", " + score[1]);
+        int[] s = LoadScore();
+        int currRound = PlayerPrefs.GetInt("CurrentRound");
+        s[(int)winner]++;
+        SetCurrentScore((int)winner, s[(int)winner]);
 
-        if (score[0] == pointsToWin || score[1] == pointsToWin)
+        Debug.Log("hit scored! winner: fencer " + winner);
+        Debug.Log("round: " + currRound + ", score: " + s[0] + ", " + s[1]);
+
+        //refresh both player UIs
+        foreach (var ui in uiScore.GetComponentsInChildren<UIScoreManager>(true))
         {
-            EndFight();
+            ui.Initialize(gameObject);
+            ui.UpdateUI();              
+        }
+
+        if (s[0] == pointsToWin || (s[1] == pointsToWin))
+        {
+            EndFight(winner);
         }
         else
         {
-            currRound++;
+            IncrementCurrentRound();
             EventManager.TriggerRoundStart();
         }
     }
 
-    private void EndFight()
+    private void EndFight(FencerId winner)
     {
         Debug.Log("GAME OVER!");
-        Debug.Log("winner: fencer " + ((score[0] == pointsToWin) ? "0" : "1"));
+        Debug.Log("winner: fencer " + (int)winner);
+        PlayerPrefs.SetString("RoundWinner", (int)winner == 0 ? "Player One": "Player Two");
+        SceneSwapper.ChangeScene("ResultsScene");
+    }
+
+    public static int[] LoadScore()
+    {
+        return new int[2] { PlayerPrefs.GetInt("P1Score"), PlayerPrefs.GetInt("P2Score") };
+    }
+
+    private void SetCurrentScore(int playerID, int num)
+    {
+        if (playerID == 0)
+        {
+            PlayerPrefs.SetInt("P1Score", num);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("P2Score", num);
+        }
+    }
+
+    private void IncrementCurrentRound()
+    {
+        PlayerPrefs.SetInt("CurrentRound", (PlayerPrefs.GetInt("CurrentRound") + 1));
+    }
+
+    private void ResetGameState()
+    {
+        PlayerPrefs.SetInt("P1Score", 0);
+        PlayerPrefs.SetInt("P2Score", 0);
+        PlayerPrefs.SetInt("CurrentRound", 1);
     }
 }

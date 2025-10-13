@@ -1,20 +1,45 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class UIScoreManager : MonoBehaviour
 {
     public GameObject winPip;
     public GameObject pip;
     public GameManager gm;
-    public Transform scoreUI;
+    private Transform scoreUI;
     public bool isP1 = true;
-    
-    void OnEnable()
+
+    public void Initialize(GameObject gameManager)
     {
-        for(int i = 0; i < gm.pointsToWin; i++)
+        gm = gameManager.GetComponent<GameManager>();
+        scoreUI = transform.Find("PipContainer");
+    }
+
+    public void UpdateUI()
+    {
+        if (scoreUI == null)        
+            return;
+        
+
+        RemoveAllChildrenUI();
+
+        int playerScore = isP1 ? PlayerPrefs.GetInt("P1Score") : PlayerPrefs.GetInt("P2Score");
+        for (int i = 0; i < gm.pointsToWin; i++)
         {
-            //GameObject newPip = Instantiate((gm.score[0] > i ? winPip : pip), scoreUI);
-            GameObject newPip = Instantiate((gm.score[System.Convert.ToInt32(isP1)] > i ? winPip : pip), scoreUI);
+            //have to do this because you cant use prefabs directly as child objects
+            GameObject prefab = (playerScore > i) ? winPip : pip;
+            GameObject newPip = Instantiate(prefab);
+            newPip.transform.SetParent(scoreUI, false);
+        }
+    }
+
+    private void RemoveAllChildrenUI()
+    {
+        if (scoreUI == null)
+            return;
+
+        for (int i = scoreUI.childCount - 1; i >= 0; i--)
+        {
+            Destroy(scoreUI.GetChild(i).gameObject);
         }
     }
 }

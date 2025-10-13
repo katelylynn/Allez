@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Animations.Rigging;
+using UnityEngine.Rendering.Universal;
 
 public enum FencerType
 {
@@ -36,6 +38,12 @@ public class Fencer : MonoBehaviour
         Quaternion.Euler(0f, 0f, 0f),
         Quaternion.Euler(0f, 180f, 0f)
     };
+    public Transform torso;
+
+    void Awake()
+    {
+        torso = transform.Find("AimTarget");
+    }
 
     public void Start()
     {
@@ -65,6 +73,37 @@ public class Fencer : MonoBehaviour
             playerInput.enabled = true;
         };
         EventManager.RoundEnd += ResetFencer;
+    }
+
+    public void SetAimTarget(Transform target) {
+        var headAim = transform.Find("Rig 1/HeadAimRig");
+        var foilAim = transform.Find("Rig 1/FoilAimRig");
+
+        MultiAimConstraint headAimConstraint = headAim.GetComponent<MultiAimConstraint>();
+        MultiAimConstraint foilAimConstraint = foilAim.GetComponent<MultiAimConstraint>();
+
+        // Head
+        var headData = headAimConstraint.data;
+        var headSources = headData.sourceObjects;
+        headSources.SetTransform(0, target);
+        headData.sourceObjects = headSources;
+        headAimConstraint.data = headData; // reassign to apply
+
+        // Foil
+        var foilData = foilAimConstraint.data;
+        var foilSources = foilData.sourceObjects;
+        foilSources.SetTransform(0, target);
+        foilData.sourceObjects = foilSources;
+        foilAimConstraint.data = foilData;
+
+        // Rebuild RigBuilder
+        RigBuilder rigBuilder = headAimConstraint.GetComponentInParent<RigBuilder>();
+        if (rigBuilder != null)
+        {
+            rigBuilder.Build();
+        } else {
+            Debug.Log("Rigbuilder is null!");
+        }
     }
 
     private void SetupPlayerInput()

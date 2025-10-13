@@ -33,6 +33,10 @@ public class SceneInitializer : MonoBehaviour
         GameObject env = Instantiate(environmentPrefab);
         env.name = "Environment";
 
+        // Set opponent's torso as the aim target for both players
+        f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().torso);
+        f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().torso);
+
         // Start the fight
 
         g.GetComponent<GameManager>().StartDuel();

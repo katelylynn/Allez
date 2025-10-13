@@ -4,6 +4,7 @@ public class S_A_FencingMoveController : MonoBehaviour
 {
     public KeyCode lungeKey = KeyCode.LeftShift;
     public KeyCode parryKey = KeyCode.LeftControl;
+    public KeyCode getParriedKey = KeyCode.A;
 
     private Animator animator;
 
@@ -20,9 +21,11 @@ public class S_A_FencingMoveController : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(lungeKey)) {
-            animator.SetTrigger("LungeCenter");
+            animator.SetTrigger("Lunge");
         } else if (Input.GetKeyDown(parryKey)) {
             animator.SetTrigger("ParryLeft");
+        } else if (Input.GetKeyDown(getParriedKey)) {
+            animator.SetTrigger("Parried");
         }
     }
 }

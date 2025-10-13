@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winPip: {fileID: 6297815071986217637, guid: a342d060eeddd6c419390bc161f4766e, type: 3}
   pip: {fileID: 4508181201345540051, guid: b45c380c12a4c9f4eae2d2c792beaa14, type: 3}
-  gm: {fileID: 0}
+  gm: {fileID: 7296043609486496743, guid: 06dcee9b4c91724438891ac1424bad46, type: 3}
   scoreUI: {fileID: 9120450058066684768}
   isP1: 0
 --- !u!1 &5627808464818992353
@@ -300,6 +300,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winPip: {fileID: 6297815071986217637, guid: a342d060eeddd6c419390bc161f4766e, type: 3}
   pip: {fileID: 4508181201345540051, guid: b45c380c12a4c9f4eae2d2c792beaa14, type: 3}
-  gm: {fileID: 0}
+  gm: {fileID: 7296043609486496743, guid: 06dcee9b4c91724438891ac1424bad46, type: 3}
   scoreUI: {fileID: 5846000932109506649}
   isP1: 1

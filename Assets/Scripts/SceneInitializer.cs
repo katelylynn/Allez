@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class SceneInitializer : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class SceneInitializer : MonoBehaviour
     public GameObject fencerPrefab;
     public GameObject combatManagerPrefab;
     public GameObject environmentPrefab;
+    public GameObject scoreUIPrefab;
 
     public FencerType fencer0Type;
     public FencerType fencer1Type;
@@ -14,7 +16,6 @@ public class SceneInitializer : MonoBehaviour
     void Awake()
     {
         // Instantiate GameObjects
-
         GameObject g = Instantiate(gameManagerPrefab);
         g.name = "GameManager";
 
@@ -25,6 +26,7 @@ public class SceneInitializer : MonoBehaviour
         GameObject f1 = Instantiate(fencerPrefab);
         f1.name = "Fencer1";
         f1.GetComponent<Fencer>().Initialize(FencerId.Fencer1, fencer1Type);
+
 
         GameObject cm = Instantiate(combatManagerPrefab);
         cm.name = "CombatManager";
@@ -37,8 +39,20 @@ public class SceneInitializer : MonoBehaviour
         f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().torso);
         f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().torso);
 
-        // Start the fight
 
+        GameObject scoreUI = Instantiate(scoreUIPrefab);
+        scoreUI.name = "ScoreUI";
+        g.GetComponent<GameManager>().uiScore = scoreUI.GetComponent<Canvas>();
+
+        // Setup both players UI managers
+        UIScoreManager[] uiManagers = scoreUI.GetComponentsInChildren<UIScoreManager>(true);
+        foreach (var ui in uiManagers)
+        {
+            ui.Initialize(g);
+            ui.UpdateUI();
+        }
+
+        // Start the fight
         g.GetComponent<GameManager>().StartDuel();
     }
 }

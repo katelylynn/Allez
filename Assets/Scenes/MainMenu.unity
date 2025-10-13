@@ -267,7 +267,6 @@ GameObject:
   - component: {fileID: 805623407}
   - component: {fileID: 805623406}
   - component: {fileID: 805623405}
-  - component: {fileID: 805623404}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -275,18 +274,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &805623404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 805623403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3855da1f197b61409ca3b5e0adea928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &805623405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1261,8 +1248,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 805623404}
-        m_TargetAssemblyTypeName: SceneTransition, Assembly-CSharp
+      - m_Target: {fileID: 3929831785902297349, guid: a73c2ba532d4aab45be14b6791409bb1, type: 3}
+        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
         m_MethodName: ChangeScene
         m_Mode: 5
         m_Arguments:

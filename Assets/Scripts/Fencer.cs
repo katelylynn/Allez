@@ -69,10 +69,17 @@ public class Fencer : MonoBehaviour
         ResetFencer();
 
         // set event callbacks
-        EventManager.RoundStart += () => {
-            playerInput.enabled = true;
-        };
+        EventManager.RoundStart += OnRoundStart;
         EventManager.RoundEnd += ResetFencer;
+    }
+    private void OnRoundStart()
+    {
+        if (playerInput != null)
+            playerInput.enabled = true;
+    }
+    private void OnDestroy()
+    {
+        EventManager.RoundEnd -= ResetFencer;
     }
 
     public void SetAimTarget(Transform target) {

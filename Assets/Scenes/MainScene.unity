@@ -132,6 +132,10 @@ PrefabInstance:
       value: SceneInitializer
       objectReference: {fileID: 0}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: scoreUI
+      value: 
+      objectReference: {fileID: 413784316865445471, guid: 6c8ee44a7674f1242bce6c406cea2f71, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: fencer1Type
       value: 0
       objectReference: {fileID: 0}
@@ -139,6 +143,14 @@ PrefabInstance:
       propertyPath: fencerPrefab
       value: 
       objectReference: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: scoreUIPrefab
+      value: 
+      objectReference: {fileID: 289933549122863738, guid: 6e3ac025d6f5dc4479f84d637a5992e4, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: sceneManagerPrefab
+      value: 
+      objectReference: {fileID: 6676977488760417818, guid: a73c2ba532d4aab45be14b6791409bb1, type: 3}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: combatManagerPrefab
       value: 

@@ -200,7 +200,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       value: 0.644
+=======
+      value: -1.55
+>>>>>>> Stashed changes
 =======
       value: -1.55
 >>>>>>> Stashed changes
@@ -516,7 +520,11 @@ Transform:
   m_LocalRotation: {x: 0.000000037252903, y: 0.7071067, z: -0.000000007450581, w: 0.70710695}
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   m_LocalPosition: {x: -10.260269, y: 3.078535, z: -0.0938387}
+=======
+  m_LocalPosition: {x: -4.8156304, y: 1.7267013, z: 0.19274604}
+>>>>>>> Stashed changes
 =======
   m_LocalPosition: {x: -4.8156304, y: 1.7267013, z: 0.19274604}
 >>>>>>> Stashed changes

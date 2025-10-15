@@ -148,6 +148,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 289933549122863738, guid: 6e3ac025d6f5dc4479f84d637a5992e4, type: 3}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: environmentPrefab
+      value: 
+      objectReference: {fileID: 5414000456082864953, guid: 4e0b9baa344cccb4b89fd0e2406de7fb, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: sceneManagerPrefab
       value: 
       objectReference: {fileID: 6676977488760417818, guid: a73c2ba532d4aab45be14b6791409bb1, type: 3}

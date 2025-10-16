@@ -9,6 +9,7 @@ public class SceneInitializer : MonoBehaviour
     public GameObject combatManagerPrefab;
     public GameObject environmentPrefab;
     public GameObject scoreUIPrefab;
+    public GameObject countdownUIPrefab;
 
     public FencerType fencer0Type;
     public FencerType fencer1Type;
@@ -35,14 +36,19 @@ public class SceneInitializer : MonoBehaviour
         GameObject env = Instantiate(environmentPrefab);
         env.name = "Environment";
 
+        // UI objects, should have this done in a single UI manager once I know what I am doing...
+        GameObject scoreUI = Instantiate(scoreUIPrefab);
+        scoreUI.name = "ScoreUI";
+
+        GameObject countdownUI = Instantiate(countdownUIPrefab);
+        countdownUI.name = "CountDownUI";
+
         // Set opponent's torso as the aim target for both players
         f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().torso);
         f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().torso);
 
-
-        GameObject scoreUI = Instantiate(scoreUIPrefab);
-        scoreUI.name = "ScoreUI";
         g.GetComponent<GameManager>().uiScore = scoreUI.GetComponent<Canvas>();
+        g.GetComponent<GameManager>().countdownTimer = countdownUI.GetComponentInChildren<RoundStartCountDown>();
 
         // Setup both players UI managers
         UIScoreManager[] uiManagers = scoreUI.GetComponentsInChildren<UIScoreManager>(true);

@@ -79,5 +79,7 @@ public class Mover : MonoBehaviour
     public void SetForwardMovement(bool pass)
     {
         allowForwardMovement = pass;
+        
+
     }
 }

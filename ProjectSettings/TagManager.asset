@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Foil
   - Torso
+  - FencerCollider
   layers:
   - Default
   - TransparentFX

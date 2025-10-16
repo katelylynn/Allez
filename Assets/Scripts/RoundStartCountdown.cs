@@ -15,17 +15,17 @@ public class RoundStartCountDown : MonoBehaviour
         
     }
 
-    public void Run()
+    public IEnumerator Run()
     {
-        if (textParent == null)
-        {
-            Debug.LogError("Text parent not assigned!");
-            return;
-        }
+        //if (textParent == null)
+        //{
+        //    Debug.LogError("Text parent not assigned!");
+        //    yield return;
+        //}
         countdownTexts = textParent.GetComponentsInChildren<TMP_Text>(true);
         //Debug.Log("Arr length: " + countdownTexts.Length);
 
-        StartCoroutine(Countdown());
+        yield return StartCoroutine(Countdown());
     }
 
     public IEnumerator Countdown()

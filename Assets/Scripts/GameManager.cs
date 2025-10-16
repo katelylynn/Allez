@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -19,8 +20,9 @@ public class GameManager : MonoBehaviour
     }
     public void StartDuel()
     {
-        Countdown();
-        EventManager.TriggerRoundStart();
+        //Countdown();
+        //EventManager.TriggerRoundStart();
+        StartCoroutine(StartDuelRoutine());
     }
 
     private void Countdown()
@@ -92,5 +94,12 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("P1Score", 0);
         PlayerPrefs.SetInt("P2Score", 0);
         PlayerPrefs.SetInt("CurrentRound", 1);
+    }
+
+    private IEnumerator StartDuelRoutine()
+    {
+        yield return StartCoroutine(countdownTimer.Run());
+        Debug.Log("Cd finished");
+        EventManager.TriggerRoundStart();
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public static class EventManager
 {
@@ -11,10 +12,10 @@ public static class EventManager
     public static event Action ParrySuccess;
 
     // TRIGGERS
-
     public static void TriggerRoundStart() 
     {
         RoundStart?.Invoke();
+        
     }
 
     public static void TriggerRoundEnd(FencerId winner) 

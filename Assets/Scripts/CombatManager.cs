@@ -12,7 +12,10 @@ public class CombatManager : MonoBehaviour
     {
         EventManager.ParrySuccess += HandleParrySuccess;
     }
-
+    public void OnDestroy()
+    {
+        EventManager.ParrySuccess -= HandleParrySuccess;
+    }
     public void Initialize( Fencer f0, Fencer f1 )
     {
         fencer0 = f0;

@@ -25,13 +25,15 @@ public class CombatManager : MonoBehaviour
         {
             Debug.Log( "fencer 0 parries Fencer 1!" );
             Animator f1Animator = fencer1.GetComponent<Animator>();
-            f1Animator.Play( "Parried", foilLayerIndex, 0f );
+            if (!f1Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
+                f1Animator.Play( "Parried", foilLayerIndex, 0f );
         }
         else if ( fencer1.GetStateSnapshot( 1 ).IsName( "ParryLeft" ) )
         {
             Debug.Log( "Fencer 1 parries Fencer 0!" );
             Animator f0Animator = fencer0.GetComponent<Animator>();
-            f0Animator.Play( "Parried", foilLayerIndex, 0f );
+            if (!f0Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
+                f0Animator.Play( "Parried", foilLayerIndex, 0f );
         }
     }
 }

@@ -148,6 +148,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 289933549122863738, guid: 6e3ac025d6f5dc4479f84d637a5992e4, type: 3}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: countdownUIPrefab
+      value: 
+      objectReference: {fileID: 2754852423633848789, guid: adf849c7660ce7c4b9e21b2436694516, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: environmentPrefab
       value: 
       objectReference: {fileID: 5414000456082864953, guid: 4e0b9baa344cccb4b89fd0e2406de7fb, type: 3}

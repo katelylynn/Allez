@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public int pointsToWin = 3;
     public Canvas uiScore; //leave this unassigned in the editor
+    public RoundStartCountDown countdownTimer;
     private void Awake()
     {
         ResetGameState();
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     private void Countdown()
     {
+        countdownTimer.Run();
         Debug.Log("En garde, pret, allez!");
     }
 
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviour
         else
         {
             IncrementCurrentRound();
-            EventManager.TriggerRoundStart();
+            StartDuel();
         }
     }
 

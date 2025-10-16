@@ -14,6 +14,7 @@ public class Mover : MonoBehaviour
     public float acceleration = 2f;
     public float deceleration = 10f;
     public float maxSpeed = 10f;
+    public bool allowForwardMovement = true;
 
     [Header("Dash Settings")]
     public float lungeStrength = 50f;
@@ -27,7 +28,13 @@ public class Mover : MonoBehaviour
 
     public void FixedUpdate()
     {
-        Move();
+        if (allowForwardMovement)
+        {
+            Move();
+        }else if(moveAmount < 0)
+        {
+            Move();
+        }
     }
 
     public void OnMovement(InputValue value)
@@ -67,5 +74,10 @@ public class Mover : MonoBehaviour
 
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(-transform.forward * backdashStrength, ForceMode.VelocityChange);
+    }
+
+    public void SetForwardMovement(bool pass)
+    {
+        allowForwardMovement = pass;
     }
 }

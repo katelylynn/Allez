@@ -140,7 +140,7 @@ public class Fencer : MonoBehaviour
     private void ResetFencer(FencerId winner = FencerId.None)
     {
         playerInput.enabled = false;
-
+        gameObject.GetComponent<Mover>().SetForwardMovement(true);
         gameObject.SetActive(false);
         gameObject.transform.position = startingPos[(int)fencerId];
         gameObject.transform.rotation = startingRot[(int)fencerId];

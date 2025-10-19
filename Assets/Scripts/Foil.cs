@@ -11,10 +11,5 @@ public class Foil : MonoBehaviour
         {
             EventManager.TriggerParrySuccess();
         }
-        else if (other.CompareTag("Torso"))
-        {
-            // successfully hitting your opponent's torso ends the round
-            EventManager.TriggerRoundEnd(fencer.fencerId);
-        }
     }
 }

@@ -149,7 +149,8 @@ Transform:
   m_LocalPosition: {x: 0.009420192, y: -0.007423867, z: -0.005246074}
   m_LocalScale: {x: 0.009999995, y: 0.009999993, z: 0.010000002}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 590505967987864538}
   m_Father: {fileID: 5767764954070276032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3242036038517123052
@@ -502,6 +503,73 @@ MonoBehaviour:
       x: 1
       y: 1
       z: 1
+--- !u!1 &7585652432276685990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 590505967987864538}
+  - component: {fileID: 1840078533993526276}
+  - component: {fileID: 5947265361247921350}
+  m_Layer: 0
+  m_Name: Foil_Attack_Box
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &590505967987864538
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7585652432276685990}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3211, y: 1.4846, z: 1.7051}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4145396384276011379}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1840078533993526276
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7585652432276685990}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5947265361247921350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7585652432276685990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762f80f3b1c162d4f8efd62ac4e35b64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fencer: {fileID: 3973072601683587707}
 --- !u!1 &8815230606899579167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,6 +1283,7 @@ MonoBehaviour:
   acceleration: 2
   deceleration: 10
   maxSpeed: 10
+  allowForwardMovement: 1
   lungeStrength: 50
   backdashStrength: 20
 --- !u!114 &2385721647267272142

@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4842fdcb92fd3584992c85905117ee50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsToWin: 15
+  pointsToWin: 3
   uiScore: {fileID: 0}
   countdownTimer: {fileID: 0}

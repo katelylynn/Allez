@@ -9,6 +9,7 @@ public class RoundStartCountDown : MonoBehaviour
     public Transform textParent;
     private TMP_Text[] countdownTexts;
     private float countdownTime = 3f;
+    public TMP_Text roundWinner;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -43,7 +44,7 @@ public class RoundStartCountDown : MonoBehaviour
 
             if (i >= 0 && i < countdownTexts.Length)
             {
-                Debug.Log("Found text " + countdownTexts[i].text);
+                //Debug.Log("Found text " + countdownTexts[i].text);
                 countdownTexts[i].gameObject.SetActive(true);
             }
 
@@ -53,6 +54,30 @@ public class RoundStartCountDown : MonoBehaviour
         foreach (var t in countdownTexts)
             t.gameObject.SetActive(false);
 
+    }
+
+    public void DisplayWinner(int winner)
+    {
+        string winnerText;
+        if (winner == 0)
+        {
+            winnerText = "Player one";
+            roundWinner.color = Color.blue;
+        }
+        else
+        {
+            winnerText = "Player two";
+            roundWinner.color = Color.red;
+        }
+        winnerText += " scores a touch!";
+
+        roundWinner.text = winnerText;  
+        roundWinner.gameObject.SetActive(true);
+    }
+
+    public void HideWinner()
+    {
+        roundWinner.gameObject.SetActive(false);
     }
   
 }

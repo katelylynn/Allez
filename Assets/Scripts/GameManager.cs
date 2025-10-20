@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
 
     private void EndRound(FencerId winner)
     {
+        
         int[] s = LoadScore();
         int currRound = PlayerPrefs.GetInt("CurrentRound");
         s[(int)winner]++;
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("hit scored! winner: fencer " + winner);
         Debug.Log("round: " + currRound + ", score: " + s[0] + ", " + s[1]);
-
+        StartCoroutine(DisplayRoundWinner(winner));
         //refresh both player UIs
         foreach (var ui in uiScore.GetComponentsInChildren<UIScoreManager>(true))
         {
@@ -101,5 +102,20 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(countdownTimer.Run());
         Debug.Log("Cd finished");
         EventManager.TriggerRoundStart();
+    }
+
+    IEnumerator DisplayRoundWinner(FencerId winner)
+    {
+        //Time.timeScale = 0;
+        Debug.Log("Starting delay...");
+        countdownTimer.DisplayWinner((int)winner);
+
+        // Wait for 3 seconds
+        yield return new WaitForSeconds(3.0f);
+
+        // This code will execute after the 3-second delay
+        Debug.Log("3 seconds have passed! Executing delayed action.");
+        countdownTimer.HideWinner();
+        //Time.timeScale = 1;
     }
 }

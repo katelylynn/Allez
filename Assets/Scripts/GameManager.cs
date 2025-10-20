@@ -107,14 +107,10 @@ public class GameManager : MonoBehaviour
     IEnumerator DisplayRoundWinner(FencerId winner)
     {
         //Time.timeScale = 0;
-        Debug.Log("Starting delay...");
         countdownTimer.DisplayWinner((int)winner);
 
-        // Wait for 3 seconds
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSecondsRealtime(2.0f);
 
-        // This code will execute after the 3-second delay
-        Debug.Log("3 seconds have passed! Executing delayed action.");
         countdownTimer.HideWinner();
         //Time.timeScale = 1;
     }

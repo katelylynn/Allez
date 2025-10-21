@@ -10,21 +10,10 @@ public class RoundStartCountDown : MonoBehaviour
     private TMP_Text[] countdownTexts;
     private float countdownTime = 3f;
     public TMP_Text roundWinner;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
     public IEnumerator Run()
     {
-        //if (textParent == null)
-        //{
-        //    Debug.LogError("Text parent not assigned!");
-        //    yield return;
-        //}
         countdownTexts = textParent.GetComponentsInChildren<TMP_Text>(true);
-        //Debug.Log("Arr length: " + countdownTexts.Length);
 
         yield return StartCoroutine(Countdown());
     }
@@ -35,7 +24,6 @@ public class RoundStartCountDown : MonoBehaviour
         
         while (count > 0)
         {
-            //Debug.Log("looping# " + count);
             int i = Mathf.RoundToInt(countdownTime - count);
 
             foreach (var t in countdownTexts)
@@ -44,7 +32,6 @@ public class RoundStartCountDown : MonoBehaviour
 
             if (i >= 0 && i < countdownTexts.Length)
             {
-                //Debug.Log("Found text " + countdownTexts[i].text);
                 countdownTexts[i].gameObject.SetActive(true);
             }
 

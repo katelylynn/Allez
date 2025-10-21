@@ -170,7 +170,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.5007153
+        functionName: PlayLunge
+        data: 
+        objectReferenceParameter: {fileID: 8300000, guid: 693d1cffb03284d2d9470e6b3f948719, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -257,7 +264,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.7502324
+        functionName: PlayStep
+        data: 
+        objectReferenceParameter: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

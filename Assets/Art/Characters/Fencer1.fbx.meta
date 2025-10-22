@@ -207,7 +207,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.32906276
+      - time: 0.19839609
         functionName: PlaySwing
         data: 
         objectReferenceParameter: {fileID: 8300000, guid: a5d5aab2e0b86465bad3af41237be1ea, type: 3}

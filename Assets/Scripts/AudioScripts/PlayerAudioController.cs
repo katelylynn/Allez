@@ -9,6 +9,7 @@ public class PlayerAudioController : MonoBehaviour
     public AudioClip Step;
     public AudioClip Lunge;
     public AudioClip Parry;
+    public AudioClip Swing;
 
     private AudioSource source;
 
@@ -27,6 +28,7 @@ public class PlayerAudioController : MonoBehaviour
     public void PlayStep() => Play(Step);
     public void PlayLunge() => Play(Lunge);
     public void PlayParry() => Play(Parry);
+    public void PlaySwing() => Play(Swing);
 
     private void Play(AudioClip clip, float volume = 1f)
     {

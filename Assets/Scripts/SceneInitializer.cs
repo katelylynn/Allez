@@ -1,11 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class SceneInitializer : MonoBehaviour
 {
     public GameObject gameManagerPrefab;
     public GameObject fencerPrefab;
+    public GameObject combatManagerPrefab;
     public GameObject environmentPrefab;
+    public GameObject scoreUIPrefab;
+    public GameObject countdownUIPrefab;
 
     public FencerType fencer0Type;
     public FencerType fencer1Type;
@@ -13,23 +17,48 @@ public class SceneInitializer : MonoBehaviour
     void Awake()
     {
         // Instantiate GameObjects
-
         GameObject g = Instantiate(gameManagerPrefab);
         g.name = "GameManager";
 
         GameObject f0 = Instantiate(fencerPrefab);
         f0.name = "Fencer0";
-        f0.GetComponent<Fencer>().Initialize(0, fencer0Type);
+        f0.GetComponent<Fencer>().Initialize(FencerId.Fencer0, fencer0Type);
 
         GameObject f1 = Instantiate(fencerPrefab);
         f1.name = "Fencer1";
-        f1.GetComponent<Fencer>().Initialize(1, fencer1Type);
+        f1.GetComponent<Fencer>().Initialize(FencerId.Fencer1, fencer1Type);
+
+
+        GameObject cm = Instantiate(combatManagerPrefab);
+        cm.name = "CombatManager";
+        cm.GetComponent<CombatManager>().Initialize(f0.GetComponent<Fencer>(), f1.GetComponent<Fencer>());
 
         GameObject env = Instantiate(environmentPrefab);
         env.name = "Environment";
 
-        // Start the fight
+        // UI objects, should have this done in a single UI manager once I know what I am doing...
+        GameObject scoreUI = Instantiate(scoreUIPrefab);
+        scoreUI.name = "ScoreUI";
 
+        GameObject countdownUI = Instantiate(countdownUIPrefab);
+        countdownUI.name = "CountDownUI";
+
+        // Set opponent's torso as the aim target for both players
+        f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().torso);
+        f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().torso);
+
+        g.GetComponent<GameManager>().uiScore = scoreUI.GetComponent<Canvas>();
+        g.GetComponent<GameManager>().countdownTimer = countdownUI.GetComponentInChildren<RoundStartCountDown>();
+
+        // Setup both players UI managers
+        UIScoreManager[] uiManagers = scoreUI.GetComponentsInChildren<UIScoreManager>(true);
+        foreach (var ui in uiManagers)
+        {
+            ui.Initialize(g);
+            ui.UpdateUI();
+        }
+
+        // Start the fight
         g.GetComponent<GameManager>().StartDuel();
     }
 }

@@ -4,7 +4,9 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Fencer
+  - Foil
+  - Torso
+  - FencerCollider
   layers:
   - Default
   - TransparentFX

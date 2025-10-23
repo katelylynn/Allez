@@ -89,7 +89,7 @@
                 {
                     "name": "",
                     "id": "2492c2f7-2e2e-4cf7-82ef-4d1c3ff680f1",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -131,26 +131,70 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "2098b73b-aa28-4d6c-ab8c-96661f1c7730",
-                    "path": "<Keyboard>/s",
-                    "interactions": "MultiTap",
+                    "name": "One Modifier",
+                    "id": "d23f978d-e6ed-4621-a1e0-c308a1f33981",
+                    "path": "OneModifier",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Backdash",
-                    "isComposite": false,
+                    "action": "Lunge",
+                    "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "8ba6955e-3f71-4cad-9390-04592873e4c8",
-                    "path": "<Keyboard>/w",
-                    "interactions": "MultiTap",
+                    "name": "modifier",
+                    "id": "4bd2100c-9ec9-411d-b3f9-2d927827a5d9",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Lunge",
                     "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "5f1e4642-9120-453d-a63f-b1cd3c5dee91",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lunge",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "One Modifier",
+                    "id": "9c3fc504-fd9e-4a9c-83cd-9c31466b65d2",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Backdash",
+                    "isComposite": true,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "1df95eb5-393d-4812-9f1a-1382ef145d86",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Backdash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "ad567b61-fc53-4e93-a82e-2a5d761bc235",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Backdash",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

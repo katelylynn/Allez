@@ -4,8 +4,20 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int pointsToWin = 3;
-    public Canvas uiScore; //leave this unassigned in the editor
-    public RoundStartCountDown countdownTimer;
+
+    private Canvas uiScore;
+    private RoundStartCountDown countdownTimer;
+
+    public void SetUIScore(Canvas ui)
+    {
+        uiScore = ui;
+    }
+
+    public void SetCountdownTimer(RoundStartCountDown timer)
+    {
+        countdownTimer = timer;
+    }
+
     private void Awake()
     {
         ResetGameState();

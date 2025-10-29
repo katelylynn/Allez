@@ -11,44 +11,42 @@ public class SceneInitializer : MonoBehaviour
     public GameObject scoreUIPrefab;
     public GameObject countdownUIPrefab;
 
+    public GameObject g;
+
     public FencerType fencer0Type;
     public FencerType fencer1Type;
 
     void Awake()
     {
-        // Instantiate GameObjects
-        GameObject g = Instantiate(gameManagerPrefab);
-        g.name = "GameManager";
+        SpawnPrefabs();
+        g.GetComponent<GameManager>().StartDuel();
+    }
 
-        GameObject f0 = Instantiate(fencerPrefab);
-        f0.name = "Fencer0";
+    private void SpawnPrefabs()
+    {
+        /* FENCERS */
+        GameObject f0 = Spawn(fencerPrefab);
         f0.GetComponent<Fencer>().Initialize(FencerId.Fencer0, fencer0Type);
 
-        GameObject f1 = Instantiate(fencerPrefab);
-        f1.name = "Fencer1";
+        GameObject f1 = Spawn(fencerPrefab);
         f1.GetComponent<Fencer>().Initialize(FencerId.Fencer1, fencer1Type);
-
-
-        GameObject cm = Instantiate(combatManagerPrefab);
-        cm.name = "CombatManager";
-        cm.GetComponent<CombatManager>().Initialize(f0.GetComponent<Fencer>(), f1.GetComponent<Fencer>());
-
-        GameObject env = Instantiate(environmentPrefab);
-        env.name = "Environment";
-
-        // UI objects, should have this done in a single UI manager once I know what I am doing...
-        GameObject scoreUI = Instantiate(scoreUIPrefab);
-        scoreUI.name = "ScoreUI";
-
-        GameObject countdownUI = Instantiate(countdownUIPrefab);
-        countdownUI.name = "CountDownUI";
 
         // Set opponent's torso as the aim target for both players
         f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().torso);
         f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().torso);
 
-        g.GetComponent<GameManager>().uiScore = scoreUI.GetComponent<Canvas>();
-        g.GetComponent<GameManager>().countdownTimer = countdownUI.GetComponentInChildren<RoundStartCountDown>();
+        /* MANAGERS */
+        g = Spawn(gameManagerPrefab);
+
+        GameObject cm = Spawn(combatManagerPrefab);
+        cm.GetComponent<CombatManager>().Initialize(f0.GetComponent<Fencer>(), f1.GetComponent<Fencer>());
+
+        /* UI */
+        GameObject scoreUI = Spawn(scoreUIPrefab);
+        g.GetComponent<GameManager>().SetUIScore(scoreUI.GetComponent<Canvas>());
+
+        GameObject countdownUI = Spawn(countdownUIPrefab);
+        g.GetComponent<GameManager>().SetCountdownTimer(countdownUI.GetComponentInChildren<RoundStartCountDown>());
 
         // Setup both players UI managers
         UIScoreManager[] uiManagers = scoreUI.GetComponentsInChildren<UIScoreManager>(true);
@@ -58,7 +56,14 @@ public class SceneInitializer : MonoBehaviour
             ui.UpdateUI();
         }
 
-        // Start the fight
-        g.GetComponent<GameManager>().StartDuel();
+        /* ENVIRONMENT */
+        Spawn(environmentPrefab);
+    }
+
+    private GameObject Spawn(GameObject prefab)
+    {
+        GameObject go = Instantiate(prefab);
+        go.name = prefab.name;
+        return go;
     }
 }

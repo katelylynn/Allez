@@ -17,7 +17,7 @@ public class PlayerAudioController : MonoBehaviour
     {
         source = GetComponent<AudioSource>();
         source.playOnAwake = false;
-        // For 3D sounds, spatialBlen = 1f and delete dopperLevel
+        // For 3D sounds, spatialBlend = 1f and delete dopplerLevel
         source.spatialBlend = 0f; // 2d sound
         source.dopplerLevel = 0f;
 

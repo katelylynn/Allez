@@ -8,7 +8,6 @@ public class FoilAttack : MonoBehaviour
     {
         if (other.CompareTag("Torso"))
         {
-            // successfully hitting your opponent's torso ends the round
             EventManager.TriggerRoundEnd(fencer.fencerId);
         }
     }

@@ -11,7 +11,7 @@ public class SceneInitializer : MonoBehaviour
     public GameObject scoreUIPrefab;
     public GameObject countdownUIPrefab;
 
-    public GameObject g;
+    private GameObject g;
 
     public FencerType fencer0Type;
     public FencerType fencer1Type;
@@ -19,7 +19,7 @@ public class SceneInitializer : MonoBehaviour
     void Awake()
     {
         SpawnPrefabs();
-        g.GetComponent<GameManager>().StartDuel();
+        g.GetComponent<GameManager>().StartRound();
     }
 
     private void SpawnPrefabs()
@@ -32,8 +32,8 @@ public class SceneInitializer : MonoBehaviour
         f1.GetComponent<Fencer>().Initialize(FencerId.Fencer1, fencer1Type);
 
         // Set opponent's torso as the aim target for both players
-        f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().torso);
-        f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().torso);
+        f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().aimTarget);
+        f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().aimTarget);
 
         /* MANAGERS */
         g = Spawn(gameManagerPrefab);

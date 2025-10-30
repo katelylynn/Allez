@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     private Canvas uiScore;
     private RoundStartCountDown countdownTimer;
 
+    public string resultsScene = "resultsScene";
+
     public void SetUIScore(Canvas ui)
     {
         uiScore = ui;
@@ -22,53 +24,57 @@ public class GameManager : MonoBehaviour
     {
         ResetGameState();
     }
+
     private void Start()
     {
         EventManager.RoundEnd += EndRound;
     }
+
     private void OnDestroy()
     {
         EventManager.RoundEnd -= EndRound;
     }
-    public void StartDuel()
+
+    public void StartRound()
     {
-        //Countdown();
-        //EventManager.TriggerRoundStart();
-        StartCoroutine(StartDuelRoutine());
+        StartCoroutine(Countdown());
     }
 
-    private void Countdown()
+    private IEnumerator Countdown()
     {
-        countdownTimer.Run();
-        Debug.Log("En garde, pret, allez!");
+        yield return StartCoroutine(countdownTimer.Run());
+        Debug.Log("Countdown finished");
+        EventManager.TriggerRoundStart();
     }
 
     private void EndRound(FencerId winner)
     {
-        
+        /* Update score */
         int[] s = LoadScore();
-        int currRound = PlayerPrefs.GetInt("CurrentRound");
         s[(int)winner]++;
-        SetCurrentScore((int)winner, s[(int)winner]);
+        SetCurrentScore(winner, s[(int)winner]);
 
         Debug.Log("hit scored! winner: fencer " + winner);
-        Debug.Log("round: " + currRound + ", score: " + s[0] + ", " + s[1]);
+        Debug.Log("round: " + PlayerPrefs.GetInt("CurrentRound") + ", score: " + s[0] + ", " + s[1]);
+
+        /* Update UI */
         StartCoroutine(DisplayRoundWinner(winner));
-        //refresh both player UIs
+
         foreach (var ui in uiScore.GetComponentsInChildren<UIScoreManager>(true))
         {
             ui.Initialize(gameObject);
             ui.UpdateUI();              
         }
 
-        if (s[0] == pointsToWin || (s[1] == pointsToWin))
+        /* Check for game over */
+        if (s[0] == pointsToWin || s[1] == pointsToWin)
         {
             EndFight(winner);
         }
         else
         {
             IncrementCurrentRound();
-            StartDuel();
+            StartRound();
         }
     }
 
@@ -76,8 +82,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GAME OVER!");
         Debug.Log("winner: fencer " + (int)winner);
+
+        /* Change to results scene */
         PlayerPrefs.SetString("RoundWinner", (int)winner == 0 ? "Player One": "Player Two");
-        SceneSwapper.ChangeScene("ResultsScene");
+        SceneSwapper.ChangeScene(resultsScene);
     }
 
     public static int[] LoadScore()
@@ -85,16 +93,23 @@ public class GameManager : MonoBehaviour
         return new int[2] { PlayerPrefs.GetInt("P1Score"), PlayerPrefs.GetInt("P2Score") };
     }
 
-    private void SetCurrentScore(int playerID, int num)
+    private void SetCurrentScore(FencerId fencerId, int num)
     {
-        if (playerID == 0)
-        {
+        if (fencerId == FencerId.Fencer0)
             PlayerPrefs.SetInt("P1Score", num);
-        }
         else
-        {
             PlayerPrefs.SetInt("P2Score", num);
-        }
+    }
+
+    IEnumerator DisplayRoundWinner(FencerId winner)
+    {
+        //Time.timeScale = 0;
+        countdownTimer.DisplayWinner((int)winner);
+
+        yield return new WaitForSecondsRealtime(2.0f);
+
+        countdownTimer.HideWinner();
+        //Time.timeScale = 1;
     }
 
     private void IncrementCurrentRound()
@@ -108,22 +123,5 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("P2Score", 0);
         PlayerPrefs.SetInt("CurrentRound", 1);
     }
-
-    private IEnumerator StartDuelRoutine()
-    {
-        yield return StartCoroutine(countdownTimer.Run());
-        Debug.Log("Cd finished");
-        EventManager.TriggerRoundStart();
-    }
-
-    IEnumerator DisplayRoundWinner(FencerId winner)
-    {
-        //Time.timeScale = 0;
-        countdownTimer.DisplayWinner((int)winner);
-
-        yield return new WaitForSecondsRealtime(2.0f);
-
-        countdownTimer.HideWinner();
-        //Time.timeScale = 1;
-    }
+    
 }

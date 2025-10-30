@@ -18,7 +18,6 @@ public class UIScoreManager : MonoBehaviour
     {
         if (scoreUI == null)        
             return;
-        
 
         RemoveAllChildrenUI();
 

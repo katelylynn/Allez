@@ -2,11 +2,6 @@
 using UnityEngine.SceneManagement;
 public class SceneSwapper : MonoBehaviour
 {
-
-    private void Awake()
-    {
-    }
-
     public static void ChangeScene(string sceneName)
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
@@ -16,5 +11,4 @@ public class SceneSwapper : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
     }
-
 }

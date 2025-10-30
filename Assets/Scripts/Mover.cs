@@ -7,14 +7,13 @@ public class Mover : MonoBehaviour
     private Rigidbody rb;
     private Animator anim;
 
-    private string walkAnimationParam = "InputY";
-
     [Header("Movement Settings")]
-    private float moveAmount;
+    private float moveAmount = 0f;
     public float acceleration = 2f;
     public float deceleration = 10f;
     public float maxSpeed = 10f;
     public bool allowForwardMovement = true;
+    private string walkAnimationParam = "InputY";
 
     [Header("Dash Settings")]
     public float lungeStrength = 50f;
@@ -28,13 +27,8 @@ public class Mover : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (allowForwardMovement)
-        {
+        if (allowForwardMovement || moveAmount == -1)
             Move();
-        }else if(moveAmount < 0)
-        {
-            Move();
-        }
     }
 
     public void OnMovement(InputValue value)
@@ -60,26 +54,20 @@ public class Mover : MonoBehaviour
 
     public void OnLunge(InputValue value)
     {
-        Debug.Log("Lunging");
         anim.SetTrigger("Lunge");
-
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(transform.forward * lungeStrength, ForceMode.Acceleration);
     }
 
     public void OnBackdash(InputValue value)
     {
-        Debug.Log("Backdashing");
         anim.SetTrigger("Backdash");
-
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(-transform.forward * backdashStrength, ForceMode.VelocityChange);
     }
 
-    public void SetForwardMovement(bool pass)
+    public void SetForwardMovement(bool b)
     {
-        allowForwardMovement = pass;
-        
-
+        allowForwardMovement = b;
     }
 }

@@ -515,7 +515,7 @@ GameObject:
   - component: {fileID: 1840078533993526276}
   - component: {fileID: 5947265361247921350}
   m_Layer: 0
-  m_Name: Foil_Attack_Box
+  m_Name: FoilAttackBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -584,7 +584,7 @@ GameObject:
   - component: {fileID: 2513584534638697956}
   - component: {fileID: 427072209514434593}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: DistanceCollider
   m_TagString: FencerCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1271,9 +1271,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fencerId: 0
   anim: {fileID: 0}
+  aimTarget: {fileID: 7303818687392440706}
   p0ActionAsset: {fileID: -944628639613478452, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
   p1ActionAsset: {fileID: -944628639613478452, guid: bf3ec6e9a459c2b40899b3ab2855f472, type: 3}
-  torso: {fileID: 0}
+  mover: {fileID: -7059090869714041470}
+  fighter: {fileID: 2385721647267272142}
 --- !u!114 &-7059090869714041470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1576,6 +1578,7 @@ MonoBehaviour:
   Step: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
   Lunge: {fileID: 8300000, guid: 693d1cffb03284d2d9470e6b3f948719, type: 3}
   Parry: {fileID: 8300000, guid: 930abbcfdc7714ee3a40f3e72f173c51, type: 3}
+  Swing: {fileID: 0}
 --- !u!4 &9074882071229469699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 982746526044316282, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}

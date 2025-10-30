@@ -22,6 +22,7 @@ public class Fencer : MonoBehaviour
     public FencerId fencerId;
     private FencerType fencerType;
     public Animator anim;
+    public Transform aimTarget;
 
     // input variables
     private PlayerInput playerInput;
@@ -38,16 +39,26 @@ public class Fencer : MonoBehaviour
         Quaternion.Euler(0f, 0f, 0f),
         Quaternion.Euler(0f, 180f, 0f)
     };
-    public Transform torso;
 
-    void Awake()
+    // scripts
+    public Mover mover;
+    public Fighter fighter;
+
+    public void Update()
     {
-        torso = transform.Find("AimTarget");
+        if (fencerType == FencerType.AI)
+            CalculateNextMove();
     }
 
-    public void Start()
+    private void OnRoundStart()
     {
-        anim = GetComponent<Animator>();
+        if (playerInput != null)
+            playerInput.enabled = true;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.RoundEnd -= ResetFencer;
     }
 
     public void Initialize(FencerId fn, FencerType ft)
@@ -55,6 +66,7 @@ public class Fencer : MonoBehaviour
         // set instance variables
         fencerId = fn;
         fencerType = ft;
+        anim = GetComponent<Animator>();
 
         // setup player input
         SetupPlayerInput();
@@ -72,14 +84,20 @@ public class Fencer : MonoBehaviour
         EventManager.RoundStart += OnRoundStart;
         EventManager.RoundEnd += ResetFencer;
     }
-    private void OnRoundStart()
+    
+    private void SetupPlayerInput()
     {
-        if (playerInput != null)
-            playerInput.enabled = true;
-    }
-    private void OnDestroy()
-    {
-        EventManager.RoundEnd -= ResetFencer;
+        playerInput = GetComponent<PlayerInput>();
+
+        if (fencerType == FencerType.Player)
+        {
+            playerInput.actions = fencerId == FencerId.Fencer0 ? p0ActionAsset : p1ActionAsset;
+            playerInput.defaultActionMap = "Player";
+        }
+        else if (fencerType == FencerType.AI)
+        {
+            playerInput.enabled = false;
+        }
     }
 
     public void SetAimTarget(Transform target) {
@@ -113,30 +131,6 @@ public class Fencer : MonoBehaviour
         }
     }
 
-    private void SetupPlayerInput()
-    {
-        playerInput = GetComponent<PlayerInput>();
-
-        if (fencerType == FencerType.Player)
-        {
-            if (fencerId == FencerId.Fencer0)
-                playerInput.actions = p0ActionAsset;
-            else if (fencerId == FencerId.Fencer1)
-                playerInput.actions = p1ActionAsset;
-
-            playerInput.defaultActionMap = "Player";
-        }
-        else if (fencerType == FencerType.AI)
-        {
-            playerInput.enabled = false;
-        }
-    }
-
-    public AnimatorStateInfo GetStateSnapshot(int layer)
-    {
-        return anim.GetCurrentAnimatorStateInfo(layer);
-    }
-
     private void ResetFencer(FencerId winner = FencerId.None)
     {
         playerInput.enabled = false;
@@ -147,10 +141,9 @@ public class Fencer : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void Update()
+    public AnimatorStateInfo GetStateSnapshot(int layer)
     {
-        if (fencerType == FencerType.AI)
-            CalculateNextMove();
+        return anim.GetCurrentAnimatorStateInfo(layer);
     }
 
     private void CalculateNextMove()

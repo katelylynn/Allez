@@ -15,7 +15,6 @@ public static class EventManager
     public static void TriggerRoundStart() 
     {
         RoundStart?.Invoke();
-        
     }
 
     public static void TriggerRoundEnd(FencerId winner) 

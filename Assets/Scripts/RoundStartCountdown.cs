@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RoundStartCountDown : MonoBehaviour
 {
-
     public float countdownTickDuration = 1.5f;
     public Transform textParent;
     private TMP_Text[] countdownTexts;
@@ -29,23 +28,21 @@ public class RoundStartCountDown : MonoBehaviour
             foreach (var t in countdownTexts)
                 t.gameObject.SetActive(false);
 
-
             if (i >= 0 && i < countdownTexts.Length)
-            {
                 countdownTexts[i].gameObject.SetActive(true);
-            }
 
             yield return new WaitForSeconds(countdownTickDuration);
             count--;
         }
+
         foreach (var t in countdownTexts)
             t.gameObject.SetActive(false);
-
     }
 
     public void DisplayWinner(int winner)
     {
         string winnerText;
+
         if (winner == 0)
         {
             winnerText = "Player one";
@@ -66,5 +63,4 @@ public class RoundStartCountDown : MonoBehaviour
     {
         roundWinner.gameObject.SetActive(false);
     }
-  
 }

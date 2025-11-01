@@ -27,10 +27,10 @@ public class SceneInitializer : MonoBehaviour
         /* FENCERS */
         GameObject f0 = Spawn(fencerPrefab);
         f0.GetComponent<Fencer>().Initialize(FencerId.Fencer0, fencer0Type);
-
+        f0.GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_Color", Color.blue);
         GameObject f1 = Spawn(fencerPrefab);
         f1.GetComponent<Fencer>().Initialize(FencerId.Fencer1, fencer1Type);
-
+        f1.GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_Color", Color.red);
         // Set opponent's torso as the aim target for both players
         f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().aimTarget);
         f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().aimTarget);

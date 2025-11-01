@@ -8,6 +8,9 @@ public class UIScoreManager : MonoBehaviour
     public GameManager gm;
     private Transform scoreUI;
     public bool isP1 = true;
+    private bool p1Scored;
+    private bool p2Scored;
+    private int[] oldScore = {0,0};
 
     public void Initialize(GameObject gameManager)
     {
@@ -22,6 +25,11 @@ public class UIScoreManager : MonoBehaviour
 
         RemoveAllChildrenUI();
 
+        p1Scored = oldScore[0] != PlayerPrefs.GetInt("P1Score");
+        p2Scored = oldScore[1] != PlayerPrefs.GetInt("P2Score");
+        oldScore[0] = PlayerPrefs.GetInt("P1Score");
+        oldScore[1] = PlayerPrefs.GetInt("P2Score");
+
         int playerScore = isP1 ? PlayerPrefs.GetInt("P1Score") : PlayerPrefs.GetInt("P2Score");
         for (int i = 0; i < gm.pointsToWin; i++)
         {
@@ -32,7 +40,7 @@ public class UIScoreManager : MonoBehaviour
             if (playerScore > i){
                 prefab = winPip;
                 newPip = Instantiate(prefab);
-                if (i == playerScore-1) newPip.GetComponent<Image>().color = Color.green;
+                if (i == playerScore-1 && ((isP1 && p1Scored) || (!isP1 && p2Scored))) newPip.GetComponent<Image>().color = Color.green;
             }
             else
             {

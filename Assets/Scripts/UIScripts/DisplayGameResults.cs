@@ -13,6 +13,13 @@ public class DisplayGameResults : MonoBehaviour
             if (text.name == "WinText")
             {
                 text.text = PlayerPrefs.GetString("RoundWinner") +" wins in " + PlayerPrefs.GetInt("CurrentRound") + " rounds!";
+                if(PlayerPrefs.GetString("RoundWinner").Equals("Player One"))
+                {
+                    text.color = Color.red;
+                }else
+                {
+                    text.color = Color.blue;
+                }
             }
             else if (text.name == "ScoreLine")
             {
@@ -22,7 +29,7 @@ public class DisplayGameResults : MonoBehaviour
                 {
                     if (text2.name == "P1Score")
                     {
-                        text2.text = GameManager.LoadScore()[0].ToString();
+                        text2.text = GameManager.LoadScore()[0].ToString();                       
                     }
                     else if(text2.name == "P2Score")
                     {
@@ -30,6 +37,7 @@ public class DisplayGameResults : MonoBehaviour
                     }
                 }
             }
+            
         }       
     }
 }

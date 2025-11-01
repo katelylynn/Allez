@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIScoreManager : MonoBehaviour
 {
@@ -25,8 +26,19 @@ public class UIScoreManager : MonoBehaviour
         for (int i = 0; i < gm.pointsToWin; i++)
         {
             //have to do this because you cant use prefabs directly as child objects
-            GameObject prefab = (playerScore > i) ? winPip : pip;
-            GameObject newPip = Instantiate(prefab);
+            GameObject prefab;
+            GameObject newPip;
+            //when a player scores, the most recent point will be highlighted in green, while previous points will be yellow
+            if (playerScore > i){
+                prefab = winPip;
+                newPip = Instantiate(prefab);
+                if (i == playerScore-1) newPip.GetComponent<Image>().color = Color.green;
+            }
+            else
+            {
+                prefab = pip;
+                newPip = Instantiate(prefab);
+            }                           
             newPip.transform.SetParent(scoreUI, false);
         }
     }

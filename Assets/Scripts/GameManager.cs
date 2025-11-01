@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,9 +8,10 @@ public class GameManager : MonoBehaviour
 
     private Canvas uiScore;
     private RoundStartCountDown countdownTimer;
-
     public string resultsScene = "resultsScene";
+    public float hitTimeScale = 0.01f;
 
+    private bool roundSequenceRunning;
     public void SetUIScore(Canvas ui)
     {
         uiScore = ui;
@@ -42,13 +44,26 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Countdown()
     {
+        EventManager.TriggerInputEnable(false);
         yield return StartCoroutine(countdownTimer.Run());
-        Debug.Log("Countdown finished");
+        //Debug.Log("Countdown finished");
+        EventManager.TriggerInputEnable(true);
         EventManager.TriggerRoundStart();
     }
-
     private void EndRound(FencerId winner)
     {
+        if (!roundSequenceRunning)
+        {
+            StartCoroutine(EndRoundSequence(winner));
+        }
+    }
+
+    private IEnumerator EndRoundSequence(FencerId winner)
+    {
+        roundSequenceRunning = true;
+        Time.timeScale = hitTimeScale;
+        EventManager.TriggerInputEnable(false);
+
         /* Update score */
         int[] s = LoadScore();
         s[(int)winner]++;
@@ -58,23 +73,34 @@ public class GameManager : MonoBehaviour
         Debug.Log("round: " + PlayerPrefs.GetInt("CurrentRound") + ", score: " + s[0] + ", " + s[1]);
 
         /* Update UI */
-        StartCoroutine(DisplayRoundWinner(winner));
-
+        countdownTimer.DisplayWinner((int)winner);
         foreach (var ui in uiScore.GetComponentsInChildren<UIScoreManager>(true))
         {
             ui.Initialize(gameObject);
             ui.UpdateUI();              
         }
+        yield return new WaitForSecondsRealtime(2.5f);
+        countdownTimer.HideWinner();
+
+        EventManager.TriggerRoundReset();
+        yield return new WaitForEndOfFrame();
 
         /* Check for game over */
         if (s[0] == pointsToWin || s[1] == pointsToWin)
         {
+            Time.timeScale = 1f;
             EndFight(winner);
+            roundSequenceRunning = false;
+            yield break;
         }
         else
         {
             IncrementCurrentRound();
+            Time.timeScale = 1f;
             StartRound();
+            yield return new WaitForSecondsRealtime(0.5f);
+            yield return StartCoroutine(Countdown());
+            roundSequenceRunning = false;
         }
     }
 
@@ -101,17 +127,6 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("P2Score", num);
     }
 
-    IEnumerator DisplayRoundWinner(FencerId winner)
-    {
-        //Time.timeScale = 0;
-        countdownTimer.DisplayWinner((int)winner);
-
-        yield return new WaitForSecondsRealtime(2.0f);
-
-        countdownTimer.HideWinner();
-        //Time.timeScale = 1;
-    }
-
     private void IncrementCurrentRound()
     {
         PlayerPrefs.SetInt("CurrentRound", (PlayerPrefs.GetInt("CurrentRound") + 1));
@@ -123,5 +138,5 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("P2Score", 0);
         PlayerPrefs.SetInt("CurrentRound", 1);
     }
-    
+
 }

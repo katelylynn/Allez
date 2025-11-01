@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsToWin: 3
   resultsScene: resultsScene
+  hitTimeScale: 0.01

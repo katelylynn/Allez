@@ -9,6 +9,13 @@ public class FoilAttack : MonoBehaviour
         if (other.CompareTag("Torso"))
         {
             EventManager.TriggerRoundEnd(fencer.fencerId);
+            gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log("trigger exit");
+        gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 }

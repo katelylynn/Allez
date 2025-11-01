@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Rendering.Universal;
+using System.Collections;
 
 public enum FencerType
 {
@@ -23,7 +24,7 @@ public class Fencer : MonoBehaviour
     private FencerType fencerType;
     public Animator anim;
     public Transform aimTarget;
-
+    public GameObject foilHitbox;
     // input variables
     private PlayerInput playerInput;
     public InputActionAsset p0ActionAsset;
@@ -58,7 +59,9 @@ public class Fencer : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.RoundEnd -= ResetFencer;
+        EventManager.RoundStart -= OnRoundStart;
+        EventManager.RoundReset -= OnRoundReset;
+        EventManager.InputEnable -= OnInputEnable;
     }
 
     public void Initialize(FencerId fn, FencerType ft)
@@ -78,11 +81,13 @@ public class Fencer : MonoBehaviour
         cam.rect = r;
 
         // set fencer position, deactivating to overcome rigidbody
-        ResetFencer();
-
+        //ResetFencer();
+        OnRoundReset();
         // set event callbacks
         EventManager.RoundStart += OnRoundStart;
-        EventManager.RoundEnd += ResetFencer;
+        EventManager.RoundReset += OnRoundReset;
+        EventManager.InputEnable += OnInputEnable;
+
     }
     
     private void SetupPlayerInput()
@@ -141,6 +146,16 @@ public class Fencer : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    private void OnRoundReset()
+    {
+        gameObject.GetComponent<Mover>().SetForwardMovement(true);
+        gameObject.SetActive(false);
+        gameObject.transform.position = startingPos[(int)fencerId];
+        gameObject.transform.rotation = startingRot[(int)fencerId];
+        gameObject.SetActive(true);
+        foilHitbox.GetComponentInChildren<MeshRenderer>().enabled = false;
+    }
+
     public AnimatorStateInfo GetStateSnapshot(int layer)
     {
         return anim.GetCurrentAnimatorStateInfo(layer);
@@ -150,4 +165,12 @@ public class Fencer : MonoBehaviour
     {
         Debug.Log("calculating next move");
     }
+
+    private void OnInputEnable(bool enabled)
+    {
+        if (playerInput) playerInput.enabled = enabled && (fencerType == FencerType.Player);
+        if (mover) mover.enabled = enabled;
+        if (fighter) fighter.enabled = enabled;
+    }
+
 }

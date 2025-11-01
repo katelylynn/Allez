@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoundStartCountDown : MonoBehaviour
@@ -9,20 +10,25 @@ public class RoundStartCountDown : MonoBehaviour
     private TMP_Text[] countdownTexts;
     private float countdownTime = 3f;
     public TMP_Text roundWinner;
+    public AudioSource countdownAudio;
 
     public IEnumerator Run()
     {
         countdownTexts = textParent.GetComponentsInChildren<TMP_Text>(true);
 
+        //Wait a short time for loading to sync up audio
+        yield return null;
+        yield return new WaitForEndOfFrame();
         yield return StartCoroutine(Countdown());
     }
 
     public IEnumerator Countdown()
     {
-        float count = countdownTime;
         
+        float count = countdownTime;
         while (count > 0)
         {
+            
             int i = Mathf.RoundToInt(countdownTime - count);
 
             foreach (var t in countdownTexts)
@@ -30,7 +36,10 @@ public class RoundStartCountDown : MonoBehaviour
 
             if (i >= 0 && i < countdownTexts.Length)
                 countdownTexts[i].gameObject.SetActive(true);
-
+            if (!countdownAudio.isPlaying)
+            {
+                countdownAudio.Play();
+            }
             yield return new WaitForSeconds(countdownTickDuration);
             count--;
         }

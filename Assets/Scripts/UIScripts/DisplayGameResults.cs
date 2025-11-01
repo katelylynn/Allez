@@ -15,10 +15,10 @@ public class DisplayGameResults : MonoBehaviour
                 text.text = PlayerPrefs.GetString("RoundWinner") +" wins in " + PlayerPrefs.GetInt("CurrentRound") + " rounds!";
                 if(PlayerPrefs.GetString("RoundWinner").Equals("Player One"))
                 {
-                    text.color = Color.red;
+                    text.color = Color.blue;
                 }else
                 {
-                    text.color = Color.blue;
+                    text.color = Color.red;
                 }
             }
             else if (text.name == "ScoreLine")

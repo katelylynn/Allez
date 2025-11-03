@@ -62,6 +62,7 @@ public class Mover : MonoBehaviour
     public void OnBackdash(InputValue value)
     {
         anim.SetTrigger("Backdash");
+
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(-transform.forward * backdashStrength, ForceMode.VelocityChange);
     }

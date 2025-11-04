@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DisableOtherControls : StateMachineBehaviour
 {
@@ -9,11 +10,13 @@ public class DisableOtherControls : StateMachineBehaviour
     //}
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    check if gotten parried
-    //    if gotten parried, cancel all animations and trigger parry success
-    //}
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        // disable controls
+        //animator.GetComponent<Fencer>().DisableAttack();
+        animator.GetComponent<PlayerInput>().actions["Attack"].Disable();
+        animator.GetComponent<PlayerInput>().actions["Tilt"].Disable();
+    }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MoveToOGPosition : StateMachineBehaviour
 {
@@ -20,6 +21,8 @@ public class MoveToOGPosition : StateMachineBehaviour
         //re enable all controls here
 
         //animator.GetComponent<Mover>()
+        animator.GetComponent<PlayerInput>().actions["Attack"].Enable();
+        animator.GetComponent<PlayerInput>().actions["Tilt"].Enable();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

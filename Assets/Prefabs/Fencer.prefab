@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510ffab4b0b035f49a211753718623f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fencer: {fileID: 3973072601683587707}
+  clashEffect: {fileID: 7757327278118087472, guid: 842cb03b626bd724fa9aa83c77f9bed5, type: 3}
 --- !u!1 &2398154466018020527
 GameObject:
   m_ObjectHideFlags: 0

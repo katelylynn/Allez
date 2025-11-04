@@ -35,7 +35,7 @@ ModelImporter:
       takeName: Fencer|Armature.001|mixamo.com|Layer0
       internalID: -4554113750240763044
       firstFrame: 0
-      lastFrame: 1
+      lastFrame: 0.83
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -288,7 +288,7 @@ ModelImporter:
       takeName: Fencer|LungeCenter
       internalID: -7748705185187467162
       firstFrame: 0
-      lastFrame: 5
+      lastFrame: 6
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -301,9 +301,9 @@ ModelImporter:
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
-      keepOriginalPositionY: 0
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
-      heightFromFeet: 1
+      heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -316,8 +316,8 @@ ModelImporter:
       name: Fencer|LungeCenterActive
       takeName: Fencer|LungeCenter
       internalID: 8529644457443137846
-      firstFrame: 6
-      lastFrame: 8
+      firstFrame: 7
+      lastFrame: 9
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -345,8 +345,8 @@ ModelImporter:
       name: Fencer|LungeCenterRecovery
       takeName: Fencer|LungeCenter
       internalID: 2755374046659454771
-      firstFrame: 9
-      lastFrame: 15
+      firstFrame: 10
+      lastFrame: 14
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

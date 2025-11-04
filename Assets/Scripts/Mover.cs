@@ -55,6 +55,12 @@ public class Mover : MonoBehaviour
     public void OnLunge(InputValue value)
     {
         anim.SetTrigger("Lunge");
+        //rb.linearVelocity = Vector3.zero;
+        //rb.AddForce(transform.forward * lungeStrength, ForceMode.Acceleration);
+    }
+
+    public void AfterLungeMove()
+    {
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(transform.forward * lungeStrength, ForceMode.Acceleration);
     }

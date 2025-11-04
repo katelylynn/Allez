@@ -11,7 +11,7 @@ public class RoundStartCountDown : MonoBehaviour
     private float countdownTime = 3f;
     public TMP_Text roundWinner;
     
-    // Audio sources : audiosource? audio resources?
+    // Audio sources : don't need audio source with extra object with AudioClip : needs to be cleaend up later
     public AudioSource countdownAudio;
     public AudioClip ouch1Clip;
     public AudioClip ouch2Clip;

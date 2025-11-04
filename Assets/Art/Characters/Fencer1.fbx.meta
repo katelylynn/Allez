@@ -316,7 +316,7 @@ ModelImporter:
       name: Fencer|LungeCenterActive
       takeName: Fencer|LungeCenter
       internalID: 8529644457443137846
-      firstFrame: 7
+      firstFrame: 6
       lastFrame: 9
       wrapMode: 0
       orientationOffsetY: 0
@@ -345,8 +345,8 @@ ModelImporter:
       name: Fencer|LungeCenterRecovery
       takeName: Fencer|LungeCenter
       internalID: 2755374046659454771
-      firstFrame: 10
-      lastFrame: 14
+      firstFrame: 9
+      lastFrame: 12
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

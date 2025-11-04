@@ -172,9 +172,9 @@ ModelImporter:
       curves: []
       events:
       - time: 0.5007153
-        functionName: PlayLunge
+        functionName: PlayOuch
         data: 
-        objectReferenceParameter: {fileID: 8300000, guid: c1a3ed8f19f0a40d88b247bd4345f77f, type: 3}
+        objectReferenceParameter: {fileID: 8300000, guid: 13172afd287fc4c3bb3de1cdb5b7a3fe, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

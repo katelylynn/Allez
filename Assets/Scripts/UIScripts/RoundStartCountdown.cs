@@ -10,7 +10,16 @@ public class RoundStartCountDown : MonoBehaviour
     private TMP_Text[] countdownTexts;
     private float countdownTime = 3f;
     public TMP_Text roundWinner;
+    
+    // Audio sources : audiosource? audio resources?
     public AudioSource countdownAudio;
+    public AudioClip ouch1Clip;
+    public AudioClip ouch2Clip;
+    private AudioSource audioSource;
+
+    void Start() {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public IEnumerator Run()
     {
@@ -54,11 +63,13 @@ public class RoundStartCountDown : MonoBehaviour
 
         if (winner == 0)
         {
+            audioSource.PlayOneShot(ouch1Clip);
             winnerText = "Player one";
             roundWinner.color = Color.blue;
         }
         else
         {
+            audioSource.PlayOneShot(ouch2Clip);
             winnerText = "Player two";
             roundWinner.color = Color.red;
         }

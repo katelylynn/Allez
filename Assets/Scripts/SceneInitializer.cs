@@ -1,6 +1,7 @@
-using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SceneInitializer : MonoBehaviour
 {
@@ -55,7 +56,7 @@ public class SceneInitializer : MonoBehaviour
             ui.Initialize(g);
             ui.UpdateUI();
         }
-
+      
         /* ENVIRONMENT */
         Spawn(environmentPrefab);
     }

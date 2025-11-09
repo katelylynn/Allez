@@ -1693,6 +1693,8 @@ MonoBehaviour:
   Lunge: {fileID: 8300000, guid: 693d1cffb03284d2d9470e6b3f948719, type: 3}
   Parry: {fileID: 8300000, guid: 930abbcfdc7714ee3a40f3e72f173c51, type: 3}
   Swing: {fileID: 0}
+  Ouch1: {fileID: 0}
+  Ouch2: {fileID: 0}
 --- !u!4 &9074882071229469699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 982746526044316282, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}

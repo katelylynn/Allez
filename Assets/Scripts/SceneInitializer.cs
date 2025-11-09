@@ -31,6 +31,12 @@ public class SceneInitializer : MonoBehaviour
         GameObject f1 = Spawn(fencerPrefab);
         f1.GetComponent<Fencer>().Initialize(FencerId.Fencer1, fencer1Type);
 
+        // If the opponent is AI
+        if (fencer1Type == FencerType.AI) {
+            f1.GetComponent<AI>().enabled = true;
+            f1.GetComponent<AI>().Initialize(f0);
+        }
+
         // Set opponent's torso as the aim target for both players
         f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().aimTarget);
         f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().aimTarget);

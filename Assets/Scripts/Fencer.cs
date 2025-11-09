@@ -45,12 +45,6 @@ public class Fencer : MonoBehaviour
     public Mover mover;
     public Fighter fighter;
 
-    public void Update()
-    {
-        if (fencerType == FencerType.AI)
-            CalculateNextMove();
-    }
-
     private void OnRoundStart()
     {
         if (playerInput != null)
@@ -159,11 +153,6 @@ public class Fencer : MonoBehaviour
     public AnimatorStateInfo GetStateSnapshot(int layer)
     {
         return anim.GetCurrentAnimatorStateInfo(layer);
-    }
-
-    private void CalculateNextMove()
-    {
-        Debug.Log("calculating next move");
     }
 
     private void OnInputEnable(bool enabled)

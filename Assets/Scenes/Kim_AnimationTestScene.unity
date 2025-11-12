@@ -147,6 +147,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5993047135107429514, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: Lunge
+      value: 
+      objectReference: {fileID: 8300000, guid: 48c07ad26ecac4b0ebd37cd337e77e42, type: 3}
+    - target: {fileID: 5993047135107429514, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: Swing
+      value: 
+      objectReference: {fileID: 8300000, guid: a5d5aab2e0b86465bad3af41237be1ea, type: 3}
+    - target: {fileID: 5993047135107429514, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: BackDash
+      value: 
+      objectReference: {fileID: 8300000, guid: 88c877dd9825944fd8c9a59a864087b9, type: 3}
     - target: {fileID: 7020866841378948415, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
@@ -227,9 +239,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       insertIndex: -1
       addedObject: {fileID: 339573890}
-    - targetCorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 339573891}
     - targetCorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       insertIndex: -1
       addedObject: {fileID: 339573905}
@@ -379,24 +388,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &339573891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 339573877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1200fa143885147fb8491ca92fa179b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Jump: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
-  Hit: {fileID: 8300000, guid: f5c3c0f3687124e47b385cd77ae945fb, type: 3}
-  Step: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
-  Lunge: {fileID: 8300000, guid: 693d1cffb03284d2d9470e6b3f948719, type: 3}
-  Parry: {fileID: 8300000, guid: 930abbcfdc7714ee3a40f3e72f173c51, type: 3}
-  Swing: {fileID: 0}
 --- !u!114 &339573905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,6 +402,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementState: 0
   foilState: 0
+  Jump: {fileID: 0}
+  Hit: {fileID: 0}
+  Step: {fileID: 0}
+  Lunge: {fileID: 0}
+  Parry: {fileID: 0}
+  Swing: {fileID: 0}
 --- !u!1 &405702454
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,6 +801,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5993047135107429514, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: Lunge
+      value: 
+      objectReference: {fileID: 8300000, guid: d090c7bb0851b4c71bd17557b22a06cc, type: 3}
+    - target: {fileID: 5993047135107429514, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: Swing
+      value: 
+      objectReference: {fileID: 8300000, guid: a5d5aab2e0b86465bad3af41237be1ea, type: 3}
+    - target: {fileID: 5993047135107429514, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: BackDash
+      value: 
+      objectReference: {fileID: 8300000, guid: 52c32bb84910b4fb6a39aa9741ebb38b, type: 3}
     - target: {fileID: 7020866841378948415, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
@@ -884,9 +893,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       insertIndex: -1
       addedObject: {fileID: 777265407}
-    - targetCorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 777265408}
     - targetCorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       insertIndex: -1
       addedObject: {fileID: 777265413}
@@ -1036,24 +1042,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &777265408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777265394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1200fa143885147fb8491ca92fa179b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Jump: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
-  Hit: {fileID: 8300000, guid: f5c3c0f3687124e47b385cd77ae945fb, type: 3}
-  Step: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
-  Lunge: {fileID: 8300000, guid: 693d1cffb03284d2d9470e6b3f948719, type: 3}
-  Parry: {fileID: 8300000, guid: 930abbcfdc7714ee3a40f3e72f173c51, type: 3}
-  Swing: {fileID: 0}
 --- !u!114 &777265413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1068,6 +1056,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementState: 0
   foilState: 0
+  Jump: {fileID: 0}
+  Hit: {fileID: 0}
+  Step: {fileID: 0}
+  Lunge: {fileID: 0}
+  Parry: {fileID: 0}
+  Swing: {fileID: 0}
 --- !u!4 &1014462055 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7303818687392440706, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}

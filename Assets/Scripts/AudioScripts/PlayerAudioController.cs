@@ -10,6 +10,7 @@ public class PlayerAudioController : MonoBehaviour
     public AudioClip Lunge;
     public AudioClip Parry;
     public AudioClip Swing;
+    public AudioClip BackDash;
 
     private AudioSource source;
 
@@ -29,6 +30,7 @@ public class PlayerAudioController : MonoBehaviour
     public void PlayLunge() => Play(Lunge);
     public void PlayParry() => Play(Parry);
     public void PlaySwing() => Play(Swing);
+    public void PlayBackDash() => Play(BackDash);
 
     private void Play(AudioClip clip, float volume = 1f)
     {

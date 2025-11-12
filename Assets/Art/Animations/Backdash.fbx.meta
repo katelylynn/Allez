@@ -55,10 +55,10 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.9965317
-        functionName: Step
+      - time: 0.9274193
+        functionName: PlayBackDash
         data: 
-        objectReferenceParameter: {fileID: 8300000, guid: c1a3ed8f19f0a40d88b247bd4345f77f, type: 3}
+        objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

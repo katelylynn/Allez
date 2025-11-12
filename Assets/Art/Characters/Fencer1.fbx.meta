@@ -171,10 +171,10 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.5007153
-        functionName: PlayOuch
+      - time: 0.45739734
+        functionName: PlayLunge
         data: 
-        objectReferenceParameter: {fileID: 8300000, guid: 13172afd287fc4c3bb3de1cdb5b7a3fe, type: 3}
+        objectReferenceParameter: {fileID: 8300000, guid: d090c7bb0851b4c71bd17557b22a06cc, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
@@ -207,7 +207,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.19839609
+      - time: 0.51315933
         functionName: PlaySwing
         data: 
         objectReferenceParameter: {fileID: 8300000, guid: a5d5aab2e0b86465bad3af41237be1ea, type: 3}
@@ -272,7 +272,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.7502324
+      - time: 0.21045242
         functionName: PlayStep
         data: 
         objectReferenceParameter: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}

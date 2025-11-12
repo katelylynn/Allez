@@ -309,12 +309,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cancel: {fileID: 8300000, guid: 0b945dd3662224381998cc78e3f5ddd1, type: 3}
-  confirm: {fileID: 8300000, guid: 98505f0b6c8d04199b6262ae87237317, type: 3}
+  confirm: {fileID: 8300000, guid: 41d17419927e9479e9165494cd8fe8c3, type: 3}
   cursor: {fileID: 8300000, guid: 47d01fa18345c43a396cf270c917c412, type: 3}
   volume: 1
   hoverCooldown: 0.04
   clickCooldown: 0.04
-  submitCooldown: 0.04
+  submitCooldown: 0.14
 --- !u!82 &773931435
 AudioSource:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class SceneInitializer : MonoBehaviour
 {
     public GameObject gameManagerPrefab;
     public GameObject fencerPrefab;
+    public GameObject fencer2Prefab;
     public GameObject combatManagerPrefab;
     public GameObject environmentPrefab;
     public GameObject scoreUIPrefab;
@@ -25,10 +26,10 @@ public class SceneInitializer : MonoBehaviour
     private void SpawnPrefabs()
     {
         /* FENCERS */
-        GameObject f0 = Spawn(fencerPrefab);
+        GameObject f0 = Spawn(fencerPrefab); // FEMALE
         f0.GetComponent<Fencer>().Initialize(FencerId.Fencer0, fencer0Type);
 
-        GameObject f1 = Spawn(fencerPrefab);
+        GameObject f1 = Spawn(fencer2Prefab); // MALE
         f1.GetComponent<Fencer>().Initialize(FencerId.Fencer1, fencer1Type);
 
         // Set opponent's torso as the aim target for both players

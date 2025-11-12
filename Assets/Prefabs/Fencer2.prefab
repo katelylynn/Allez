@@ -938,7 +938,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
       propertyPath: m_Name
-      value: Fencer
+      value: Fencer2
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
       propertyPath: m_TagString
@@ -1690,10 +1690,10 @@ MonoBehaviour:
   Jump: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
   Hit: {fileID: 8300000, guid: f5c3c0f3687124e47b385cd77ae945fb, type: 3}
   Step: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
-  Lunge: {fileID: 8300000, guid: 48c07ad26ecac4b0ebd37cd337e77e42, type: 3}
+  Lunge: {fileID: 8300000, guid: d090c7bb0851b4c71bd17557b22a06cc, type: 3}
   Parry: {fileID: 8300000, guid: 930abbcfdc7714ee3a40f3e72f173c51, type: 3}
   Swing: {fileID: 8300000, guid: a5d5aab2e0b86465bad3af41237be1ea, type: 3}
-  BackDash: {fileID: 8300000, guid: 88c877dd9825944fd8c9a59a864087b9, type: 3}
+  BackDash: {fileID: 8300000, guid: 52c32bb84910b4fb6a39aa9741ebb38b, type: 3}
 --- !u!4 &9074882071229469699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 982746526044316282, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}

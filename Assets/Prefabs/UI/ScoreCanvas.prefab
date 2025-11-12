@@ -215,12 +215,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a330b6362404657ab8b0cc7ebef855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
-  pointsToWinFallback: 3
   p1PointSfx: {fileID: 8300000, guid: 3ef2280c8e97c48e99c638bbdb101499, type: 3}
   p2PointSfx: {fileID: 8300000, guid: d887227a898f64b4480ad3a81adc7077, type: 3}
-  p1WinSfx: {fileID: 0}
-  p2WinSfx: {fileID: 0}
+  p1Ouch: {fileID: 8300000, guid: 2a359eab347c648b6afb81de3a573671, type: 3}
+  p2Ouch: {fileID: 8300000, guid: 13172afd287fc4c3bb3de1cdb5b7a3fe, type: 3}
   sfxVolume: 1
 --- !u!1 &3136985199373817817
 GameObject:
@@ -386,12 +384,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a330b6362404657ab8b0cc7ebef855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
-  pointsToWinFallback: 3
   p1PointSfx: {fileID: 0}
   p2PointSfx: {fileID: 0}
-  p1WinSfx: {fileID: 0}
-  p2WinSfx: {fileID: 0}
+  p1Ouch: {fileID: 0}
+  p2Ouch: {fileID: 0}
   sfxVolume: 1
 --- !u!1 &4497800655963903813
 GameObject:

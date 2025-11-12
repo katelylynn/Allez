@@ -7,6 +7,8 @@ public class PlayerScore : MonoBehaviour
     [Header("SFX")]
     public AudioClip p1PointSfx;
     public AudioClip p2PointSfx;
+    public AudioClip p1Ouch;
+    public AudioClip p2Ouch;
 
     [Range(0f, 1f)] public float sfxVolume = 1f;
 
@@ -35,11 +37,17 @@ public class PlayerScore : MonoBehaviour
         int p2 = PlayerPrefs.GetInt("P2Score");
 
         // point SFX (only when score increases)
-        if (p1 > prevP1)
-            Play(p1PointSfx);
+        if (p1 > prevP1) {             
+            Play(p2Ouch);
+            Play(p1PointSfx); 
+        }
+
 
         if (p2 > prevP2)
+        {
+            Play(p1Ouch);
             Play(p2PointSfx);
+        }
 
         // update previous after checks
         prevP1 = p1;

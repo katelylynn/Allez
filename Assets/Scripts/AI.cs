@@ -25,16 +25,24 @@ public class AI : MonoBehaviour
 
     private void Update()
     {
-        CalculateNextMove();
+        // wait until mover is active
+        if (mover.enabled)
+            ControlDistance();
     }
 
-    private void CalculateNextMove()
+    private void ControlDistance()
     {
-        Debug.Log(CheckIfGoodDistance());
-    }
+        distance = transform.position.z - opponent.transform.position.z;
 
-    private bool CheckIfGoodDistance()
-    {
-        return (Mathf.Abs(transform.position.z - opponent.transform.position.z - targetDistance) < tolerance);
+        // if AI is not a good distance away from their opponent
+        if (Mathf.Abs(distance - targetDistance) > tolerance)
+        {
+            // get the AI to move in the direction of a good distance
+            mover.SetMoveAmount((distance - targetDistance > 0) ? 1.0f : -1.0f);
+        }
+        else
+        {
+            mover.SetMoveAmount(0.0f);
+        }
     }
 }

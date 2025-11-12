@@ -33,7 +33,15 @@ public class Mover : MonoBehaviour
 
     public void OnMovement(InputValue value)
     {
-        moveAmount = value.Get<float>();
+        SetMoveAmount(value.Get<float>());
+    }
+
+    public void SetMoveAmount(float ma)
+    {
+        if (ma != -1 && ma != 0 && ma != 1)
+            Debug.Log("Mover.cs SetMoveAmount: not a valid move amount!");
+
+        moveAmount = ma;
 
         if (moveAmount == -1)
             anim.SetFloat(walkAnimationParam, 0.5f);

@@ -15,7 +15,7 @@ public class FoilAttack : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("trigger exit");
+        //Debug.Log("trigger exit");
         gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 }

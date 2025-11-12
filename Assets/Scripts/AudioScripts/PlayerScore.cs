@@ -4,15 +4,9 @@ using UnityEngine;
 public class PlayerScore : MonoBehaviour
 {
 
-    public GameManager gm;
-    [Tooltip("Fallback points to win if GameManager is not assigned.")]
-    public int pointsToWinFallback = 3;
-
     [Header("SFX")]
     public AudioClip p1PointSfx;
     public AudioClip p2PointSfx;
-    public AudioClip p1WinSfx;
-    public AudioClip p2WinSfx;
 
     [Range(0f, 1f)] public float sfxVolume = 1f;
 
@@ -22,9 +16,6 @@ public class PlayerScore : MonoBehaviour
     private int prevP1;
     private int prevP2;
 
-    // prevent re-firing win SFX if already celebrated
-    private bool p1WinPlayed;
-    private bool p2WinPlayed;
 
     void Awake()
     {
@@ -53,31 +44,12 @@ public class PlayerScore : MonoBehaviour
         // update previous after checks
         prevP1 = p1;
         prevP2 = p2;
-
-        // optional: victory SFX when someone reaches pointsToWin
-        int pointsToWin = gm != null ? gm.pointsToWin : pointsToWinFallback;
-
-        if (!p1WinPlayed && p1 >= pointsToWin && p1 > p2)
-        {
-            Play(p1WinSfx);
-            p1WinPlayed = true;
-            p2WinPlayed = false; // reset other side just in case of new match
-        }
-
-        if (!p2WinPlayed && p2 >= pointsToWin && p2 > p1)
-        {
-            Play(p2WinSfx);
-            p2WinPlayed = true;
-            p1WinPlayed = false;
-        }
     }
 
     public void ResetMatchState()
     {
-        // Call this when starting a new match/round if you reset scores elsewhere
         prevP1 = PlayerPrefs.GetInt("P1Score");
         prevP2 = PlayerPrefs.GetInt("P2Score");
-        p1WinPlayed = p2WinPlayed = false;
     }
 
     private void Play(AudioClip clip)

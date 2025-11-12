@@ -11,6 +11,28 @@ public class PlayerAnimationController : MonoBehaviour
     private float gravity = -9.81f;
     private bool isFallen = false;
 
+    // For sounds
+    public enum MovementState
+    {
+        Idle,
+        Walk,
+        StepForward,
+        StepBackward,
+        Lunge,
+        LungeCenter,
+        Backdash
+    }
+
+    public enum FoilState
+    {
+        Idle,
+        Attack,
+        ParryLeft,
+        Parried
+    }
+
+
+
     void Start()
     {
         animator = GetComponent<Animator>();

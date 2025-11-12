@@ -230,6 +230,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       insertIndex: -1
       addedObject: {fileID: 339573891}
+    - targetCorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 339573905}
   m_SourcePrefab: {fileID: 100100000, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
 --- !u!1 &339573877 stripped
 GameObject:
@@ -393,6 +396,21 @@ MonoBehaviour:
   Step: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
   Lunge: {fileID: 8300000, guid: 693d1cffb03284d2d9470e6b3f948719, type: 3}
   Parry: {fileID: 8300000, guid: 930abbcfdc7714ee3a40f3e72f173c51, type: 3}
+  Swing: {fileID: 0}
+--- !u!114 &339573905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 339573877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87a8280730ab0466498152bbc9f84d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementState: 0
+  foilState: 0
 --- !u!1 &405702454
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,6 +887,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       insertIndex: -1
       addedObject: {fileID: 777265408}
+    - targetCorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 777265413}
   m_SourcePrefab: {fileID: 100100000, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
 --- !u!1 &777265394 stripped
 GameObject:
@@ -1032,6 +1053,21 @@ MonoBehaviour:
   Step: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
   Lunge: {fileID: 8300000, guid: 693d1cffb03284d2d9470e6b3f948719, type: 3}
   Parry: {fileID: 8300000, guid: 930abbcfdc7714ee3a40f3e72f173c51, type: 3}
+  Swing: {fileID: 0}
+--- !u!114 &777265413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777265394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87a8280730ab0466498152bbc9f84d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementState: 0
+  foilState: 0
 --- !u!4 &1014462055 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7303818687392440706, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}

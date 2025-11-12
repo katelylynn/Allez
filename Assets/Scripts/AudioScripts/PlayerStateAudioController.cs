@@ -2,42 +2,26 @@ using UnityEngine;
 
 public class PlayerStateAudioController : MonoBehaviour
 {
-    public enum MovementState
-    {
-        Idle,
-        Walk,
-        StepForward,
-        StepBackward,
-        Lunge,
-        LungeCenter,
-        Backdash
-    }
-    
-    public enum FoilState
-    {
-        Idle,
-        Attack,
-        ParryLeft,
-        Parried
-    }
+    public enum MovementState { Idle, Walk, StepForward, StepBackward, Lunge, LungeCenter, Backdash }
+    public enum FoilState     { Idle, Attack, ParryLeft, Parried }
 
     public MovementState movementState = MovementState.Idle;
     public FoilState foilState = FoilState.Idle;
 
-    private MovementState lastMovementState;
-    private FoilState lastFoilState;
-
-    
-    private Animator animator;
-    private AudioSource audioSource;
+    Animator animator;
+    int movementLayer;
+    int foilLayer;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
+        movementLayer = animator.GetLayerIndex("Movement Layer");
+        foilLayer     = animator.GetLayerIndex("Foil Layer");
+
+        if (movementLayer < 0) Debug.LogError("Animator layer not found: Movement Layer");
+        if (foilLayer < 0)     Debug.LogError("Animator layer not found: Foil Layer");
     }
 
-    // Update is called once per frame
     void Update()
     {
         UpdateMovementState();
@@ -46,42 +30,42 @@ public class PlayerStateAudioController : MonoBehaviour
 
     void UpdateMovementState()
     {
-        // Example check using Animator
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(animator.GetLayerIndex("Movement Layer"));
-        MovementState newState = movementState;
+        if (movementLayer < 0) return;
 
-        if (info.IsName("Idle")) movementState = MovementState.Idle;
-        else if (info.IsName("Walk")) movementState = MovementState.Walk;
-        else if (info.IsName("StepForward")) movementState = MovementState.StepForward;
-        else if (info.IsName("StepBackward")) movementState = MovementState.StepBackward;
-        else if (info.IsName("Lunge")) movementState = MovementState.Lunge;
-        else if (info.IsName("Lunge Center")) movementState = MovementState.LungeCenter;
-        else if (info.IsName("Backdash")) movementState = MovementState.Backdash;
-        
-        // Log when state changes
+        var info = animator.GetCurrentAnimatorStateInfo(movementLayer);
+        var newState = movementState; // start with current, then detect
+
+        if (info.IsName("Idle"))           newState = MovementState.Idle;
+        else if (info.IsName("Walk"))      newState = MovementState.Walk;
+        else if (info.IsName("StepForward"))  newState = MovementState.StepForward;
+        else if (info.IsName("StepBackward")) newState = MovementState.StepBackward;
+        else if (info.IsName("Lunge"))        newState = MovementState.Lunge;
+        else if (info.IsName("Lunge Center")) newState = MovementState.LungeCenter;
+        else if (info.IsName("Backdash"))     newState = MovementState.Backdash;
+
         if (newState != movementState)
         {
-            Debug.Log($"[Movement Layer] State changed: {movementState} ➜ {newState}");
+            Debug.Log($"[Movement Layer] {movementState} ➜ {newState}");
             movementState = newState;
         }
     }
-    
-        void UpdateFoilState()
+
+    void UpdateFoilState()
     {
-        // Second layer (combat/foil)
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(animator.GetLayerIndex("Foil Layer"));
-        MovementState newState = movementState;
+        if (foilLayer < 0) return;
 
-        if (info.IsName("Idle")) foilState = FoilState.Idle;
-        else if (info.IsName("Attack")) foilState = FoilState.Attack;
-        else if (info.IsName("ParryLeft")) foilState = FoilState.ParryLeft;
-        else if (info.IsName("Parried")) foilState = FoilState.Parried;
+        var info = animator.GetCurrentAnimatorStateInfo(foilLayer);
+        var newState = foilState;
 
-        // Log when state changes
-        if (newState != movementState)
+        if (info.IsName("Idle"))           newState = FoilState.Idle;
+        else if (info.IsName("Attack"))    newState = FoilState.Attack;
+        else if (info.IsName("ParryLeft")) newState = FoilState.ParryLeft;
+        else if (info.IsName("Parried"))   newState = FoilState.Parried;
+
+        if (newState != foilState)
         {
-            Debug.Log($"[Foil Layer] State changed: {movementState} ➜ {newState}");
-            movementState = newState;
+            Debug.Log($"[Foil Layer] {foilState} ➜ {newState}");
+            foilState = newState;
         }
     }
 }

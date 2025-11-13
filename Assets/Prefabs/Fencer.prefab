@@ -509,6 +509,7 @@ Transform:
   m_Children:
   - {fileID: 3189424611531804213}
   - {fileID: 7547273880831091536}
+  - {fileID: 7503634212462944958}
   m_Father: {fileID: 8636116927687823762}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4609477870308526097
@@ -679,6 +680,92 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fencer: {fileID: 3973072601683587707}
+--- !u!1 &8166801798762088326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7503634212462944958}
+  - component: {fileID: 3256305346086750754}
+  - component: {fileID: 6048574681064805874}
+  m_Layer: 0
+  m_Name: ParryTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7503634212462944958
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166801798762088326}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.33, z: 3.21}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8949883075228275416}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &3256305346086750754
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166801798762088326}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &6048574681064805874
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166801798762088326}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8815230606899579167
 GameObject:
   m_ObjectHideFlags: 0
@@ -1387,7 +1474,6 @@ MonoBehaviour:
   aimTarget: {fileID: 7303818687392440706}
   foilHitbox: {fileID: 7585652432276685990}
   p0ActionAsset: {fileID: -944628639613478452, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
-  p1ActionAsset: {fileID: -944628639613478452, guid: bf3ec6e9a459c2b40899b3ab2855f472, type: 3}
   mover: {fileID: -7059090869714041470}
   fighter: {fileID: 2385721647267272142}
 --- !u!114 &-7059090869714041470
@@ -1420,6 +1506,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d068b70bfbc89746af15693a6efa88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParryTracker: {fileID: 7503634212462944958}
+  parrySpeed: 5
 --- !u!114 &4924054493378190649
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class PlayerProfileSelector : MonoBehaviour
     public GameObject buttonPrefab;
     public GameObject startMatchButton;
     public List<GameObject> buttonList;
+    public List<GameObject> fencers;
     public void Awake()
     {
         dM = PlayerDataManager.GetInstance();
@@ -80,13 +81,17 @@ public class PlayerProfileSelector : MonoBehaviour
         }
         if (playerNum == 1)
         {
-            buttonList[0].GetComponent<ReadyButton>().isReady = false;
+            if (!fencers[playerNum-1].activeSelf)
+                fencers[playerNum - 1].SetActive(true);
+            buttonList[playerNum - 1].GetComponent<ReadyButton>().isReady = false;
             dM.p1 = buttonText;
             p1HeaderText.text = buttonText;
         }
         else if (playerNum == 2)
         {
-            buttonList[1].GetComponent<ReadyButton>().isReady = false;
+            if (!fencers[playerNum - 1].activeSelf)
+                fencers[playerNum - 1].SetActive(true);
+            buttonList[playerNum - 1].GetComponent<ReadyButton>().isReady = false;
             dM.p2 = buttonText;
             p2HeaderText.text = buttonText;
         }

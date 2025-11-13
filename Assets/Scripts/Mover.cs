@@ -60,19 +60,28 @@ public class Mover : MonoBehaviour
             rb.AddForce(-rb.linearVelocity * deceleration, ForceMode.Acceleration);
     }
 
-    public void OnLunge(InputValue value)
+    public void Lunge()
     {
         anim.SetTrigger("Lunge");
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(transform.forward * lungeStrength, ForceMode.Acceleration);
     }
 
-    public void OnBackdash(InputValue value)
+    public void OnLunge(InputValue value)
+    {
+        Lunge();
+    }
+
+    public void Backdash()
     {
         anim.SetTrigger("Backdash");
-
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(-transform.forward * backdashStrength, ForceMode.VelocityChange);
+    }
+
+    public void OnBackdash(InputValue value)
+    {
+        Backdash();
     }
 
     public void SetForwardMovement(bool b)

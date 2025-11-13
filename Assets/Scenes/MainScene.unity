@@ -144,6 +144,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: fencer2Prefab
+      value: 
+      objectReference: {fileID: 8976367000580410152, guid: 93cb57d995e6c4b1abd8d5370ba16fcc, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: scoreUIPrefab
       value: 
       objectReference: {fileID: 289933549122863738, guid: 6e3ac025d6f5dc4479f84d637a5992e4, type: 3}
@@ -230,7 +234,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 86f42929f8d8e4c24acaed3222c2a648, type: 3}
+  m_Resource: {fileID: 8300000, guid: 4cf2823188a8243518af0f5dd9203701, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.179
   m_Pitch: 1

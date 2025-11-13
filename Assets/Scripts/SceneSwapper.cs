@@ -26,6 +26,13 @@ public class SceneSwapper : MonoBehaviour
         ChangeScene(sceneName);
     }
 
+    public static void ChangeSceneAI(string sceneName)
+    {
+        PlayerPrefs.SetString("OpponentType", "AI");
+        PlayerPrefs.Save();
+
+        ChangeScene(sceneName);
+    }
     public static void QuitGame()
     {
         // Start the delay coroutine using any active MonoBehaviour

@@ -13,6 +13,7 @@ public class Fighter : MonoBehaviour
     private float leftParryPos = -2;
     private float rightParryPos = 2;
     private float unParryPos = 0;
+    private Coroutine currentParryCoroutine;
 
     public void Start()
     {
@@ -26,20 +27,24 @@ public class Fighter : MonoBehaviour
 
     public void OnTilt(InputValue tiltDirection)
     {
-        if (tiltDirection.Get<float>() == -1)
+        float tilt = tiltDirection.Get<float>();
+
+        if (currentParryCoroutine != null)
+            StopCoroutine(currentParryCoroutine);
+
+        if (tilt == -1)
         {
             anim.SetTrigger("ParryLeft");
-            StartCoroutine(DoParry(leftParryPos));
+            currentParryCoroutine = StartCoroutine(DoParry(leftParryPos));
         }
-        else if (tiltDirection.Get<float>() == 1)
+        else if (tilt == 1)
         {
             anim.SetTrigger("ParryRight");
-            StartCoroutine(DoParry(rightParryPos));
+            currentParryCoroutine = StartCoroutine(DoParry(rightParryPos));
         }
         else
         {
-            // When player releases (unholds) the parry key, return arm to OG position
-            StartCoroutine(DoParry(unParryPos));
+            currentParryCoroutine = StartCoroutine(DoParry(unParryPos));
         }
     }
 

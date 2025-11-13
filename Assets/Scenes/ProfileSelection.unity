@@ -214,19 +214,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 91018603}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 91018601}
-        m_TargetAssemblyTypeName: SceneSwapper, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: MainScene
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &91018603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,7 +827,7 @@ GameObject:
   m_Component:
   - component: {fileID: 219923654}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Selection1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -858,7 +846,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1534386951}
-  - {fileID: 1386984981}
   - {fileID: 2055104757}
   - {fileID: 1607038106}
   - {fileID: 709798161}
@@ -1259,7 +1246,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 205541856}
+  - {fileID: 1386984981}
   - {fileID: 219923654}
+  - {fileID: 1449892667}
   - {fileID: 2042212295}
   - {fileID: 91018600}
   m_Father: {fileID: 0}
@@ -2253,6 +2242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a27b954d0d8f024ab6c0146a0840225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selection1: {fileID: 219923653}
+  selection2: {fileID: 2042212294}
   contentP1: {fileID: 199350081}
   contentP2: {fileID: 1463503362}
   p1HeaderText: {fileID: 1386984982}
@@ -2292,7 +2283,7 @@ GameObject:
   - component: {fileID: 1386984983}
   - component: {fileID: 1386984982}
   m_Layer: 5
-  m_Name: Player Name
+  m_Name: Player1Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2310,7 +2301,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 219923654}
+  m_Father: {fileID: 585874004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2371,7 +2362,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2428,7 +2419,7 @@ GameObject:
   - component: {fileID: 1449892669}
   - component: {fileID: 1449892668}
   m_Layer: 5
-  m_Name: Player Name
+  m_Name: Player2Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2446,7 +2437,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2042212295}
+  m_Father: {fileID: 585874004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2507,7 +2498,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -4292,7 +4283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2042212295}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Selection2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4311,7 +4302,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 131852313}
-  - {fileID: 1449892667}
   - {fileID: 206684477}
   - {fileID: 456947693}
   - {fileID: 1623415272}

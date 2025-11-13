@@ -47,20 +47,28 @@ public class DisplayGameResults : MonoBehaviour
             }
             else if(text.name == "PlayerStats")
             {
-                PlayerDataManager.PlayerData playerData;
-                if (PlayerPrefs.GetString("RoundWinner").Equals("Player One"))
+                if (PlayerPrefs.GetString("OpponentType", null) == "AI")
                 {
-                    playerData = dM.gameData.data[dM.p1];
+                    text.enabled = false;
                 }
                 else
                 {
-                    playerData = dM.gameData.data[dM.p2];
+                    PlayerDataManager.PlayerData playerData;
+                    if (PlayerPrefs.GetString("RoundWinner").Equals("Player One"))
+                    {
+                        playerData = dM.gameData.data[dM.p1];
+                    }
+                    else
+                    {
+                        playerData = dM.gameData.data[dM.p2];
+                    }
+                        text.text = $"{playerData.name} stats:\n" +
+                            $"Rounds won {playerData.roundsWon}\n" +
+                            $"Rounds played {playerData.roundsPlayed}\n" +
+                            $"Games won {playerData.gamesWon}\n" +
+                            $"Games played {playerData.gamesPlayed}";
                 }
-                    text.text = $"{playerData.name} stats:\n" +
-                        $"Rounds won {playerData.roundsWon}\n" +
-                        $"Rounds played {playerData.roundsPlayed}\n" +
-                        $"Games won {playerData.gamesWon}\n" +
-                        $"Games played {playerData.gamesPlayed}";
+                
             }
         }       
     }

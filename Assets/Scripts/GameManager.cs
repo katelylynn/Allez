@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public float hitTimeScale = 0.01f;
     PlayerDataManager dM;
     private bool roundSequenceRunning;
+
     public void SetUIScore(Canvas ui)
     {
         uiScore = ui;
@@ -90,7 +91,8 @@ public class GameManager : MonoBehaviour
         if (s[0] == pointsToWin || s[1] == pointsToWin)
         {
             dM.UpdatePlayerDataAfterGame(dM.p1, (int)winner == 0, s[0], PlayerPrefs.GetInt("CurrentRound"));
-            dM.UpdatePlayerDataAfterGame(dM.p2, (int)winner == 1, s[1], PlayerPrefs.GetInt("CurrentRound"));
+            if (PlayerPrefs.GetString("OpponentType", null) == "Player")
+                dM.UpdatePlayerDataAfterGame(dM.p2, (int)winner == 1, s[1], PlayerPrefs.GetInt("CurrentRound"));
             dM.SaveData();
             Time.timeScale = 1f;
             EndFight(winner);

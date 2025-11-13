@@ -14,12 +14,20 @@ public class SceneSwapper : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
     }
 
-    public static void StartGame(string opponentType)
+    public static void ChangeScenePlayer(string sceneName)
     {
-        PlayerPrefs.SetString("OpponentType", opponentType.ToString());
+        PlayerPrefs.SetString("OpponentType", "Player");
         PlayerPrefs.Save();
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+        ChangeScene(sceneName);
+    }
+
+    public static void ChangeSceneAI(string sceneName)
+    {
+        PlayerPrefs.SetString("OpponentType", "AI");
+        PlayerPrefs.Save();
+
+        ChangeScene(sceneName);
     }
 
     public static void QuitGame()

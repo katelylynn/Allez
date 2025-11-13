@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class PlayerProfileSelector : MonoBehaviour
 {
     PlayerDataManager dM;
+    public GameObject selection1;
+    public GameObject selection2;
     public Transform contentP1;
     public Transform contentP2;
     public TMP_Text p1HeaderText;
@@ -14,12 +16,29 @@ public class PlayerProfileSelector : MonoBehaviour
     public GameObject startMatchButton;
     public List<GameObject> buttonList;
     public List<GameObject> fencers;
+    private bool isAI;
+
     public void Awake()
     {
         dM = PlayerDataManager.GetInstance();
-        //Debug.Log("DM: " + dM.ToString());
-        PopulateScrollView();
 
+        isAI = PlayerPrefs.GetString("OpponentType", null) == "AI";
+
+        if (isAI) 
+        {
+            SetupAI();
+            startMatchButton.GetComponent<Button>().onClick.AddListener(() => {
+                SceneSwapper.ChangeSceneAI("MainScene");
+            });
+        }
+        else
+        {
+            startMatchButton.GetComponent<Button>().onClick.AddListener(() => {
+                SceneSwapper.ChangeScenePlayer("MainScene");
+            });
+        }
+
+        PopulateScrollView();
     }
 
     public void PopulateScrollView()
@@ -27,6 +46,8 @@ public class PlayerProfileSelector : MonoBehaviour
         ClearScrollViewContent();
         List<string> playerNames = dM.GetAllPlayerNames();
         dM.ClearSelectedPlayers();
+        if (isAI)
+            dM.p2 = "AI";
         //Debug.Log("player names count: " + playerNames.Count);
         startMatchButton.GetComponent<Button>().interactable = false;
         foreach (string playerName in playerNames)
@@ -46,20 +67,43 @@ public class PlayerProfileSelector : MonoBehaviour
     private void Update()
     {
         string p1 = dM.p1, p2 = dM.p2;
-        if (buttonList[0].GetComponent<ReadyButton>().isReady && buttonList[1].GetComponent<ReadyButton>().isReady)
+
+        if (isAI)
         {
-            if (!string.IsNullOrEmpty(p1) && !string.IsNullOrEmpty(p2))
+            if (buttonList[0].GetComponent<ReadyButton>().isReady &&
+                !string.IsNullOrEmpty(p1))
             {
-                if (!string.Equals(p1, p2, System.StringComparison.OrdinalIgnoreCase))
+                startMatchButton.GetComponent<Button>().interactable = true;
+                return;
+            }
+        }
+        else
+        {
+            if (buttonList[0].GetComponent<ReadyButton>().isReady &&
+                buttonList[1].GetComponent<ReadyButton>().isReady)
+            {
+                if (!string.IsNullOrEmpty(p1) && !string.IsNullOrEmpty(p2))
                 {
-                    startMatchButton.GetComponent<Button>().interactable = true;
-                    return;
+                    if (!string.Equals(p1, p2, System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        startMatchButton.GetComponent<Button>().interactable = true;
+                        return;
+                    }
                 }
             }
         }
-        if(startMatchButton.GetComponent<Button>().interactable)
+
+        if (startMatchButton.GetComponent<Button>().interactable)
             startMatchButton.GetComponent<Button>().interactable = false;
     }
+
+    private void SetupAI()
+    {
+        selection2.gameObject.SetActive(false);
+        fencers[1].SetActive(true);
+        p2HeaderText.text = "AI";
+    }
+
     private void ClearScrollViewContent()
     {
         foreach (Transform child in contentP1)
@@ -87,7 +131,7 @@ public class PlayerProfileSelector : MonoBehaviour
             dM.p1 = buttonText;
             p1HeaderText.text = buttonText;
         }
-        else if (playerNum == 2)
+        else if (playerNum == 2 && !isAI)
         {
             if (!fencers[playerNum - 1].activeSelf)
                 fencers[playerNum - 1].SetActive(true);

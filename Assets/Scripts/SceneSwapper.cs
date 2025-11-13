@@ -1,6 +1,10 @@
-﻿using UnityEditor;
+﻿// using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using System.Collections;
 
 public class SceneSwapper : MonoBehaviour
 {
@@ -22,17 +26,24 @@ public class SceneSwapper : MonoBehaviour
         ChangeScene(sceneName);
     }
 
-    public static void ChangeSceneAI(string sceneName)
-    {
-        PlayerPrefs.SetString("OpponentType", "AI");
-        PlayerPrefs.Save();
-
-        ChangeScene(sceneName);
-    }
-
     public static void QuitGame()
     {
-        Application.Quit(); //for builds
-        EditorApplication.isPlaying = false; // for editor
+        // Start the delay coroutine using any active MonoBehaviour
+        var instance = new GameObject("QuitHelper").AddComponent<SceneSwapper>();
+        instance.StartCoroutine(instance.QuitAfterDelay());
+    }
+
+    private IEnumerator QuitAfterDelay()
+    {
+        Debug.Log("Quitting in 1 second...");
+        yield return new WaitForSeconds(1f);
+
+        #if UNITY_EDITOR
+        EditorApplication.isPlaying = false; // Stop play mode in editor
+        #else
+        Application.Quit(); // Quit build
+        #endif
+
+        Debug.Log("Game closed.");
     }
 }

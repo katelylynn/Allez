@@ -911,9 +911,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aefc9151a35474b30beac5644c04243f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cancel: {fileID: 8300000, guid: 0b945dd3662224381998cc78e3f5ddd1, type: 3}
-  confirm: {fileID: 8300000, guid: 98505f0b6c8d04199b6262ae87237317, type: 3}
-  cursor: {fileID: 8300000, guid: 47d01fa18345c43a396cf270c917c412, type: 3}
+  cancel: {fileID: 8300000, guid: e6725ca2471ac4a838da0f6d409ce771, type: 3}
+  confirm: {fileID: 8300000, guid: 25d38938992824d6c868a34bb20f82d5, type: 3}
+  cursor: {fileID: 8300000, guid: bac45315fda7e4446ab44b945a8722d3, type: 3}
   volume: 1
   hoverCooldown: 0.04
   clickCooldown: 0.04
@@ -2266,9 +2266,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aefc9151a35474b30beac5644c04243f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cancel: {fileID: 8300000, guid: 0b945dd3662224381998cc78e3f5ddd1, type: 3}
-  confirm: {fileID: 8300000, guid: 98505f0b6c8d04199b6262ae87237317, type: 3}
-  cursor: {fileID: 8300000, guid: 47d01fa18345c43a396cf270c917c412, type: 3}
+  cancel: {fileID: 8300000, guid: e6725ca2471ac4a838da0f6d409ce771, type: 3}
+  confirm: {fileID: 8300000, guid: 25d38938992824d6c868a34bb20f82d5, type: 3}
+  cursor: {fileID: 8300000, guid: bac45315fda7e4446ab44b945a8722d3, type: 3}
   volume: 1
   hoverCooldown: 0.04
   clickCooldown: 0.04
@@ -2774,9 +2774,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aefc9151a35474b30beac5644c04243f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cancel: {fileID: 8300000, guid: 0b945dd3662224381998cc78e3f5ddd1, type: 3}
-  confirm: {fileID: 8300000, guid: 98505f0b6c8d04199b6262ae87237317, type: 3}
-  cursor: {fileID: 8300000, guid: 47d01fa18345c43a396cf270c917c412, type: 3}
+  cancel: {fileID: 8300000, guid: e6725ca2471ac4a838da0f6d409ce771, type: 3}
+  confirm: {fileID: 8300000, guid: 41d17419927e9479e9165494cd8fe8c3, type: 3}
+  cursor: {fileID: 8300000, guid: bac45315fda7e4446ab44b945a8722d3, type: 3}
   volume: 1
   hoverCooldown: 0.04
   clickCooldown: 0.04

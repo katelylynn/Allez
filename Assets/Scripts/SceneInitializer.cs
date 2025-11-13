@@ -30,6 +30,15 @@ public class SceneInitializer : MonoBehaviour
         f0.GetComponent<Fencer>().Initialize(FencerId.Fencer0, fencer0Type);
 
         GameObject f1 = Spawn(fencerPrefab);
+
+        // Set the correct opponent type
+        string opponentType = PlayerPrefs.GetString("OpponentType", null);
+
+        if (opponentType == "Player")
+            fencer1Type = FencerType.Player;
+        if (opponentType == "AI")
+            fencer1Type = FencerType.AI;
+
         f1.GetComponent<Fencer>().Initialize(FencerId.Fencer1, fencer1Type);
 
         // If the opponent is AI

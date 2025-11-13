@@ -10,7 +10,7 @@ public class Fighter : MonoBehaviour
     public float parrySpeed = 5;
 
     private Animator anim;
-    private float leftParryPos = -2;
+    private float leftParryPos = -5;
     private float rightParryPos = 2;
     private float unParryPos = 0;
     private Coroutine currentParryCoroutine;

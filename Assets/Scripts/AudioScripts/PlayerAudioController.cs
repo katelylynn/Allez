@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerAudioController : MonoBehaviour
 {
     [Header("Sound Clips")]
-    public AudioClip Jump;
     public AudioClip Hit;
     public AudioClip Step;
     public AudioClip Lunge;
@@ -24,8 +23,7 @@ public class PlayerAudioController : MonoBehaviour
         source.dopplerLevel = 0f;
 
     }
-
-    public void PlayJump() => Play(Jump);
+    
     public void PlayAttack() => Play(Hit);
     public void PlayStep() => Play(Step);
     public void PlayLunge() => Play(Lunge);

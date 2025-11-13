@@ -938,7 +938,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
       propertyPath: m_Name
-      value: Fencer
+      value: Fencer2
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
       propertyPath: m_TagString
@@ -1390,7 +1390,6 @@ MonoBehaviour:
   aimTarget: {fileID: 7303818687392440706}
   foilHitbox: {fileID: 7585652432276685990}
   p0ActionAsset: {fileID: -944628639613478452, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
-  p1ActionAsset: {fileID: -944628639613478452, guid: bf3ec6e9a459c2b40899b3ab2855f472, type: 3}
   mover: {fileID: -7059090869714041470}
   fighter: {fileID: 2385721647267272142}
 --- !u!114 &-7059090869714041470
@@ -1690,14 +1689,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1200fa143885147fb8491ca92fa179b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Jump: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
-  Hit: {fileID: 8300000, guid: f5c3c0f3687124e47b385cd77ae945fb, type: 3}
-  Step: {fileID: 8300000, guid: 03577292568e64aa59740a51c3fd43b5, type: 3}
-  Lunge: {fileID: 8300000, guid: 693d1cffb03284d2d9470e6b3f948719, type: 3}
-  Parry: {fileID: 8300000, guid: 930abbcfdc7714ee3a40f3e72f173c51, type: 3}
-  Swing: {fileID: 0}
-  Ouch1: {fileID: 0}
-  Ouch2: {fileID: 0}
+  Hit: {fileID: 8300000, guid: 3ea9108df064048a39792a0dc9c9ad73, type: 3}
+  Step: {fileID: 8300000, guid: 405246b50a0f14325b782108b16c1415, type: 3}
+  Lunge: {fileID: 8300000, guid: d090c7bb0851b4c71bd17557b22a06cc, type: 3}
+  Parry: {fileID: 8300000, guid: 2532fa8bc0c9a4920b1670957e1dfae4, type: 3}
+  Swing: {fileID: 8300000, guid: efd9efdf637f0442eb6d95e9ec4718a1, type: 3}
+  BackDash: {fileID: 8300000, guid: 52c32bb84910b4fb6a39aa9741ebb38b, type: 3}
+  Ouch: {fileID: 8300000, guid: 969278e71188d48b696395cb0c09cb8c, type: 3}
 --- !u!114 &8244651965755501240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1712,6 +1710,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetDistance: 4.6
   tolerance: 0.2
+  minThink: 0.2
+  maxThink: 1
 --- !u!4 &9074882071229469699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 982746526044316282, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}

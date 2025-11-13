@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 public class SceneInitializer : MonoBehaviour
 {
     public GameObject gameManagerPrefab;
-    public GameObject fencerPrefab;
+    public GameObject fencerPrefab; // FEMALE
+    public GameObject fencer2Prefab; // MALE
     public GameObject combatManagerPrefab;
     public GameObject environmentPrefab;
     public GameObject scoreUIPrefab;
@@ -14,8 +15,8 @@ public class SceneInitializer : MonoBehaviour
 
     private GameObject g;
 
-    public FencerType fencer0Type;
-    public FencerType fencer1Type;
+    public FencerType fencer0Type; // FEMALE
+    public FencerType fencer1Type; // MALE
 
     void Awake()
     {
@@ -26,10 +27,10 @@ public class SceneInitializer : MonoBehaviour
     private void SpawnPrefabs()
     {
         /* FENCERS */
-        GameObject f0 = Spawn(fencerPrefab);
+        GameObject f0 = Spawn(fencerPrefab); // FEMALE
         f0.GetComponent<Fencer>().Initialize(FencerId.Fencer0, fencer0Type);
 
-        GameObject f1 = Spawn(fencerPrefab);
+        GameObject f1 = Spawn(fencer2Prefab); // MALE
 
         // Set the correct opponent type
         string opponentType = PlayerPrefs.GetString("OpponentType", null);

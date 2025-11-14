@@ -5,7 +5,7 @@ public class Fighter : MonoBehaviour
 {
     private Animator anim;
     public GameObject foilAttackBox;
-    public bool foilHitBoxEnabled = true;
+    //public bool foilHitBoxEnabled = true;
     public void Start()
     {
         anim = GetComponent<Animator>();
@@ -13,7 +13,7 @@ public class Fighter : MonoBehaviour
 
     private void OnValidate()
     {
-        foilAttackBox.SetActive(foilHitBoxEnabled);
+        //foilAttackBox.SetActive(foilHitBoxEnabled);
     }
 
     public void Attack()

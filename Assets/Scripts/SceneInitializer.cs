@@ -30,7 +30,7 @@ public class SceneInitializer : MonoBehaviour
         GameObject f0 = Spawn(fencerPrefab); // FEMALE
         f0.GetComponent<Fencer>().Initialize(FencerId.Fencer0, fencer0Type);
 
-        GameObject f1 = Spawn(fencer2Prefab); // MALE
+        GameObject f1 = Spawn(fencerPrefab); // MALE
 
         // Set the correct opponent type
         string opponentType = PlayerPrefs.GetString("OpponentType", null);
@@ -53,7 +53,7 @@ public class SceneInitializer : MonoBehaviour
         f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().aimTarget);
 
         // Change fencer 2's outfit color
-        f1.GetComponent<S_A_SkinnedOutfitColorChange>().ChangeOutfitColor(0, new Color(0.15f, 0.24f, 0.67f));
+        f0.GetComponent<S_A_SkinnedOutfitColorChange>().ChangeOutfitColor(0, new Color(0.15f, 0.24f, 0.67f));
 
         /* MANAGERS */
         g = Spawn(gameManagerPrefab);

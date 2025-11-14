@@ -242,6 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78d20a0ba5717e74b84d8be4bf75198b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fencerPrefab: {fileID: 169850790}
 --- !u!82 &102027233
 AudioSource:
   m_ObjectHideFlags: 0
@@ -478,6 +479,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1087553644}
   m_SourcePrefab: {fileID: 100100000, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+--- !u!1 &169850790 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+  m_PrefabInstance: {fileID: 169850789}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &337665784
 GameObject:
   m_ObjectHideFlags: 0

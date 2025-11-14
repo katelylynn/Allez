@@ -692,6 +692,7 @@ GameObject:
   - component: {fileID: 1700930029490588612}
   - component: {fileID: 2513584534638697956}
   - component: {fileID: 427072209514434593}
+  - component: {fileID: 1508541750342305035}
   m_Layer: 0
   m_Name: DistanceCollider
   m_TagString: FencerCollider
@@ -782,7 +783,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -801,6 +802,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mv: {fileID: -7059090869714041470}
+--- !u!54 &1508541750342305035
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8815230606899579167}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 1
 --- !u!1 &8966764309902510023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,6 +1608,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d068b70bfbc89746af15693a6efa88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foilAttackBox: {fileID: 7585652432276685990}
+  foilHitBoxEnabled: 1
 --- !u!114 &4924054493378190649
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ public class DisplayGameResults : MonoBehaviour
 {
     TMP_Text[] resultsText;
     PlayerDataManager dM;
+    public GameObject fencerPrefab;
     void Start()
     {
         dM = PlayerDataManager.GetInstance();
@@ -15,6 +16,7 @@ public class DisplayGameResults : MonoBehaviour
             {
                 if(PlayerPrefs.GetString("RoundWinner").Equals("Player One"))
                 {
+                    fencerPrefab.GetComponent<S_A_SkinnedOutfitColorChange>().ChangeOutfitColor(0, new Color(0.15f, 0.24f, 0.67f));
                     text.text = dM.p1 +" wins in " + PlayerPrefs.GetInt("CurrentRound") + " rounds!";
                     text.color = Color.blue;
                 }else

@@ -4,10 +4,16 @@ using UnityEngine.InputSystem;
 public class Fighter : MonoBehaviour
 {
     private Animator anim;
-
+    public GameObject foilAttackBox;
+    public bool foilHitBoxEnabled = true;
     public void Start()
     {
         anim = GetComponent<Animator>();
+    }
+
+    private void OnValidate()
+    {
+        foilAttackBox.SetActive(foilHitBoxEnabled);
     }
 
     public void Attack()

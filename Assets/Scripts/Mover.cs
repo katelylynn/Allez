@@ -24,11 +24,22 @@ public class Mover : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
     }
-
+    private void Update()
+    {
+        if (moveAmount == -1)
+            allowForwardMovement = true;
+        if (moveAmount != 0 && allowForwardMovement || moveAmount == -1)
+        {
+            Move();
+        }
+        else
+        {
+            rb.linearVelocity = Vector3.zero;
+        }
+    }
     public void FixedUpdate()
     {
-        if (allowForwardMovement || moveAmount == -1)
-            Move();
+        
     }
 
     public void OnMovement(InputValue value)
@@ -51,6 +62,7 @@ public class Mover : MonoBehaviour
 
     private void Move()
     {
+        //Debug.Log("moving now");
         Vector3 localZ = new Vector3(0f, 0f, moveAmount);
         rb.AddRelativeForce(localZ * acceleration, ForceMode.VelocityChange);
 
@@ -87,5 +99,10 @@ public class Mover : MonoBehaviour
     public void SetForwardMovement(bool b)
     {
         allowForwardMovement = b;
+    }
+
+    public void ZeroVelocity()
+    {
+        rb.linearVelocity = Vector3.zero;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -67,7 +68,10 @@ public class Mover : MonoBehaviour
         rb.AddRelativeForce(localZ * acceleration, ForceMode.VelocityChange);
 
         if (Mathf.Abs(moveAmount) > 0f && rb.linearVelocity.magnitude > maxSpeed)
-            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+        {
+            //rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+            rb.linearVelocity = Vector3.Lerp(rb.position, rb.position + (rb.linearVelocity.normalized * maxSpeed), Time.deltaTime);
+        }
         else
             rb.AddForce(-rb.linearVelocity * deceleration, ForceMode.Acceleration);
     }

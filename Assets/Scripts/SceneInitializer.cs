@@ -36,6 +36,9 @@ public class SceneInitializer : MonoBehaviour
         f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().aimTarget);
         f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().aimTarget);
 
+        // Change fencer 2's outfit color
+        f1.GetComponent<S_A_SkinnedOutfitColorChange>().ChangeOutfitColor(0, new Color(0.15f, 0.24f, 0.67f));
+
         /* MANAGERS */
         g = Spawn(gameManagerPrefab);
 
@@ -56,7 +59,7 @@ public class SceneInitializer : MonoBehaviour
             ui.Initialize(g);
             ui.UpdateUI();
         }
-      
+
         /* ENVIRONMENT */
         Spawn(environmentPrefab);
     }

@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
     private RoundStartCountDown countdownTimer;
     public string resultsScene = "resultsScene";
     public float hitTimeScale = 0.01f;
-
+    PlayerDataManager dM;
     private bool roundSequenceRunning;
+
     public void SetUIScore(Canvas ui)
     {
         uiScore = ui;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        dM = PlayerDataManager.GetInstance();
         ResetGameState();
     }
 
@@ -69,15 +71,15 @@ public class GameManager : MonoBehaviour
         s[(int)winner]++;
         SetCurrentScore(winner, s[(int)winner]);
 
-        Debug.Log("hit scored! winner: fencer " + winner);
-        Debug.Log("round: " + PlayerPrefs.GetInt("CurrentRound") + ", score: " + s[0] + ", " + s[1]);
+        //Debug.Log("hit scored! winner: fencer " + winner);
+        //Debug.Log("round: " + PlayerPrefs.GetInt("CurrentRound") + ", score: " + s[0] + ", " + s[1]);
 
         /* Update UI */
         countdownTimer.DisplayWinner((int)winner);
         foreach (var ui in uiScore.GetComponentsInChildren<UIScoreManager>(true))
         {
             ui.Initialize(gameObject);
-            ui.UpdateUI();              
+            ui.UpdateUI();
         }
         yield return new WaitForSecondsRealtime(2.5f);
         countdownTimer.HideWinner();
@@ -88,6 +90,10 @@ public class GameManager : MonoBehaviour
         /* Check for game over */
         if (s[0] == pointsToWin || s[1] == pointsToWin)
         {
+            dM.UpdatePlayerDataAfterGame(dM.p1, (int)winner == 0, s[0], PlayerPrefs.GetInt("CurrentRound"));
+            if (PlayerPrefs.GetString("OpponentType", null) == "Player")
+                dM.UpdatePlayerDataAfterGame(dM.p2, (int)winner == 1, s[1], PlayerPrefs.GetInt("CurrentRound"));
+            dM.SaveData();
             Time.timeScale = 1f;
             EndFight(winner);
             roundSequenceRunning = false;
@@ -110,7 +116,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("winner: fencer " + (int)winner);
 
         /* Change to results scene */
-        PlayerPrefs.SetString("RoundWinner", (int)winner == 0 ? "Player One": "Player Two");
+        PlayerPrefs.SetString("RoundWinner", (int)winner == 0 ? "Player One" : "Player Two");
         SceneSwapper.ChangeScene(resultsScene);
     }
 

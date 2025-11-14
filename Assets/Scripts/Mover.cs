@@ -33,7 +33,15 @@ public class Mover : MonoBehaviour
 
     public void OnMovement(InputValue value)
     {
-        moveAmount = value.Get<float>();
+        SetMoveAmount(value.Get<float>());
+    }
+
+    public void SetMoveAmount(float ma)
+    {
+        if (ma != -1 && ma != 0 && ma != 1)
+            Debug.Log("Mover.cs SetMoveAmount: not a valid move amount!");
+
+        moveAmount = ma;
 
         if (moveAmount == -1)
             anim.SetFloat(walkAnimationParam, 0.5f);
@@ -52,19 +60,28 @@ public class Mover : MonoBehaviour
             rb.AddForce(-rb.linearVelocity * deceleration, ForceMode.Acceleration);
     }
 
-    public void OnLunge(InputValue value)
+    public void Lunge()
     {
         anim.SetTrigger("Lunge");
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(transform.forward * lungeStrength, ForceMode.Acceleration);
     }
 
-    public void OnBackdash(InputValue value)
+    public void OnLunge(InputValue value)
+    {
+        Lunge();
+    }
+
+    public void Backdash()
     {
         anim.SetTrigger("Backdash");
-
         rb.linearVelocity = Vector3.zero;
         rb.AddForce(-transform.forward * backdashStrength, ForceMode.VelocityChange);
+    }
+
+    public void OnBackdash(InputValue value)
+    {
+        Backdash();
     }
 
     public void SetForwardMovement(bool b)

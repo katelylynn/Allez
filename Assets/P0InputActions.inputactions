@@ -364,7 +364,7 @@
                 {
                     "name": "modifier",
                     "id": "f86a07d1-80fb-4ef1-8022-46d36e8891c9",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Keyboard>/rightAlt",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardP2",

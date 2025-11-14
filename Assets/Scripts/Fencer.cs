@@ -51,13 +51,8 @@ public class Fencer : MonoBehaviour
     public Mover mover;
     public Fighter fighter;
 
-
     private bool initialized = false;
-    public void Update()
-    {
-        if (fencerType == FencerType.AI)
-            CalculateNextMove();
-    }
+
     private void OnEnable()
     {
         InputSystem.onDeviceChange += HandleDeviceChange; //allows for hot swapping gamepads
@@ -95,6 +90,7 @@ public class Fencer : MonoBehaviour
             default: break;
         }
     }
+    
     private void OnRoundStart()
     {
         if (playerInput != null)
@@ -274,11 +270,6 @@ public class Fencer : MonoBehaviour
     public AnimatorStateInfo GetStateSnapshot(int layer)
     {
         return anim.GetCurrentAnimatorStateInfo(layer);
-    }
-
-    private void CalculateNextMove()
-    {
-        Debug.Log("calculating next move");
     }
 
     private void OnInputEnable(bool enabled)

@@ -50,7 +50,7 @@ public class PlayerGameResult : MonoBehaviour
                 string winner = PlayerPrefs.GetString("RoundWinner");
                 int rounds = PlayerPrefs.GetInt("CurrentRound");
 
-                text.text = $"{winner} wins in {rounds} rounds!";
+                //text.text = $"{winner} wins in {rounds} rounds!";
 
                 if (winner.Equals("Player One"))
                     Play(P1Win);

@@ -20,7 +20,7 @@ public class Mover : MonoBehaviour
     public float lungeStrength = 50f;
     public float backdashStrength = 20f;
 
-    public void Start()
+    public void Awake()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();

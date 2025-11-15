@@ -17,9 +17,10 @@ public class RoundStartCountDown : MonoBehaviour
     private TMP_Text[] countdownTexts;
     private float countdownTime = 3f;
     private AudioSource audioSource;
-
+    PlayerDataManager dM;
     void Awake()
     {
+        dM = PlayerDataManager.GetInstance();
         audioSource = GetComponent<AudioSource>();
         // Validate early so you see clear messages in Console
         if (!audioSource) Debug.LogError("[RoundStartCountDown] Missing AudioSource on this GameObject.");
@@ -68,7 +69,7 @@ public class RoundStartCountDown : MonoBehaviour
         if (roundWinner != null)
         {
             roundWinner.color = (winner == 0) ? Color.blue : Color.red;
-            roundWinner.text = (winner == 0 ? "Player one" : "Player two") + " scores a touch!";
+            roundWinner.text = (winner == 0 ? dM.p1 : dM.p2) + " scores a touch!";
             roundWinner.gameObject.SetActive(true);
         }
     }

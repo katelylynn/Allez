@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class DisplayGameResults : MonoBehaviour
 {
@@ -16,9 +17,9 @@ public class DisplayGameResults : MonoBehaviour
             {
                 if(PlayerPrefs.GetString("RoundWinner").Equals("Player One"))
                 {
-                    fencerPrefab.GetComponent<S_A_SkinnedOutfitColorChange>().ChangeOutfitColor(0, new Color(0.15f, 0.24f, 0.67f));
-                    text.text = dM.p1 +" wins in " + PlayerPrefs.GetInt("CurrentRound") + " rounds!";
+                    text.text = dM.p1 + " wins in " + PlayerPrefs.GetInt("CurrentRound") + " rounds!";
                     text.color = Color.blue;
+                    fencerPrefab.GetComponent<S_A_SkinnedOutfitColorChange>().ChangeOutfitColor(0, new Color(0.15f, 0.24f, 0.67f));
                 }else
                 {
                     text.text = dM.p2 + " wins in " + PlayerPrefs.GetInt("CurrentRound") + " rounds!";

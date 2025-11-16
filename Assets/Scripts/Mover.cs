@@ -8,6 +8,7 @@ public class Mover : MonoBehaviour
 {
     private Rigidbody rb;
     private Animator anim;
+    PlayerStamina stamina;
 
     [Header("Movement Settings")]
     private float moveAmount = 0f;
@@ -19,8 +20,8 @@ public class Mover : MonoBehaviour
 
     ScriptedMotionPlayer motionPlayer;
     [Header("Scripted Motions")]
-    public ScriptedMotionConfig lungeSettings;
-    public ScriptedMotionConfig backdashSettings;
+    public ScriptedMotionConfig lungeConfig;
+    public ScriptedMotionConfig backdashConfig;
 
     public GameObject foilTipHitBox; //this can be used to disabled foiltip during startup and recovery, not used currently
 
@@ -29,6 +30,7 @@ public class Mover : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        stamina = GetComponent<PlayerStamina>();
         if (motionPlayer == null)
         {
             motionPlayer = GetComponent<ScriptedMotionPlayer>();
@@ -70,7 +72,8 @@ public class Mover : MonoBehaviour
         }
         if (anim.GetCurrentAnimatorStateInfo(1).IsName("Attack")) return;
 
-        motionPlayer.PlayScriptedMotion(lungeSettings, transform.forward);
+        if(stamina.ConsumeStamina(lungeConfig.staminaCost))
+            motionPlayer.PlayScriptedMotion(lungeConfig, transform.forward);
     }
     public void OnLunge(InputValue value)
     {
@@ -86,8 +89,8 @@ public class Mover : MonoBehaviour
 
         if (motionPlayer.isPlaying) return;
 
-
-        motionPlayer.PlayScriptedMotion(backdashSettings, -transform.forward);
+        if(stamina.ConsumeStamina(backdashConfig.staminaCost))
+            motionPlayer.PlayScriptedMotion(backdashConfig, -transform.forward);
     }
 
     public void SetMoveAmount(float ma)

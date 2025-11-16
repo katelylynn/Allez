@@ -25,4 +25,7 @@ public class ScriptedMotionConfig
     public int startupClipFrames = 20;
     public int activeClipFrames = 10;
     public int recoveryClipFrames = 30;
+
+    [Header("Stamina")]
+    public int staminaCost = 0;
 }

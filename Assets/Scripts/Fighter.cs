@@ -9,20 +9,21 @@ public class Fighter : MonoBehaviour
     //public bool foilHitBoxEnabled = true;
 
     ScriptedMotionPlayer motionPlayer;
-
+    PlayerStamina stamina;
     [Header("Scripted Motion Configs")]
     public ScriptedMotionConfig attackConfig;
     public ScriptedMotionConfig parryLeftConfig;
 
     public void Start()
     {
+        stamina = GetComponent<PlayerStamina>();
         anim = GetComponent<Animator>();
         if (motionPlayer == null)
             motionPlayer = GetComponent<ScriptedMotionPlayer>();
     }
     public void Attack()
     {
-        if (motionPlayer != null)
+        if (stamina.ConsumeStamina(attackConfig.staminaCost))
             motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
     }
 
@@ -30,7 +31,7 @@ public class Fighter : MonoBehaviour
 
     public void TiltLeft()
     {
-        if (motionPlayer != null)
+        if (stamina.ConsumeStamina(parryLeftConfig.staminaCost))
             motionPlayer.PlayScriptedMotion(parryLeftConfig, Vector3.zero);
     }
 

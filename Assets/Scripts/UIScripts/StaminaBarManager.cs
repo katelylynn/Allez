@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class StaminaBarManager : MonoBehaviour
 {
-    PlayerStamina p1_stamina; 
+    PlayerStamina p1_stamina;
     PlayerStamina p2_stamina;
 
     public Image p1_green_bar;
@@ -62,7 +62,6 @@ public class StaminaBarManager : MonoBehaviour
         //p2_green_bar.fillAmount = (float)p2_stamina.currentStamina / (float)p2_stamina.maxStamina;
         if (p1_stamina.currentStamina < p1oldStamina)
         {
-            Debug.Log("stamina is old");
             isP1YellowBehind = true;
             if (p1Routine != null) StopCoroutine(p1Routine);
             p1Routine = StartCoroutine(P1YellowBarShrinkRoutine());
@@ -74,7 +73,7 @@ public class StaminaBarManager : MonoBehaviour
             p2Routine = StartCoroutine(P2YellowBarShrinkRoutine());
         }
 
-        if(!isP1YellowBehind)
+        if (!isP1YellowBehind)
         {
             p1_yellow_bar.fillAmount = p1_green_bar.fillAmount;
         }
@@ -161,5 +160,28 @@ public class StaminaBarManager : MonoBehaviour
                 smoothGreenFillSpeed * Time.deltaTime * p2_stamina.staminaRegenRate
             );
         }
+    }
+
+    public void ResetStaminaBars()
+    {
+        if (p1Routine != null) StopCoroutine(p1Routine);
+        if (p2Routine != null) StopCoroutine(p2Routine);
+
+        p1oldStamina = p1_stamina.currentStamina;
+        p2oldStamina = p2_stamina.currentStamina;
+
+        p1_stamina.currentStamina = p1_stamina.maxStamina;
+        p2_stamina.currentStamina = p2_stamina.maxStamina;
+
+        currentP1ShrinkTime = yellowBarShrinkDelay;
+        currentP2ShrinkTime = yellowBarShrinkDelay;
+
+        isP1YellowBehind = false;
+        isP2YellowBehind = false;
+
+        p1_green_bar.fillAmount = 1f;
+        p2_green_bar.fillAmount = 1f;
+        p1_yellow_bar.fillAmount = 1f;
+        p2_yellow_bar.fillAmount = 1f;
     }
 }

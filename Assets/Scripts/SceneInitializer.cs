@@ -74,8 +74,12 @@ public class SceneInitializer : MonoBehaviour
 
         GameObject staminaUI = Spawn(staminaUIPrefab);
         staminaUI.GetComponent<StaminaBarManager>().Initialize(f0, f1);
+        g.GetComponent<GameManager>().SetStaminaUI(staminaUI.GetComponent<Canvas>());
+
         // Setup both players UI managers
         UIScoreManager[] uiManagers = scoreUI.GetComponentsInChildren<UIScoreManager>(true);
+
+
         foreach (var ui in uiManagers)
         {
             ui.Initialize(g);

@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public int pointsToWin = 3;
 
-    private Canvas uiScore;
+    Canvas uiScore;
+    Canvas staminaUI;
     private RoundStartCountDown countdownTimer;
     public string resultsScene = "resultsScene";
     public float hitTimeScale = 0.01f;
@@ -16,6 +17,11 @@ public class GameManager : MonoBehaviour
     public void SetUIScore(Canvas ui)
     {
         uiScore = ui;
+    }
+
+    public void SetStaminaUI(Canvas ui)
+    {
+        staminaUI = ui;
     }
 
     public void SetCountdownTimer(RoundStartCountDown timer)
@@ -103,6 +109,7 @@ public class GameManager : MonoBehaviour
         {
             IncrementCurrentRound();
             Time.timeScale = 1f;
+            staminaUI.GetComponent<StaminaBarManager>().ResetStaminaBars();
             StartRound();
             yield return new WaitForSecondsRealtime(0.5f);
             yield return StartCoroutine(Countdown());

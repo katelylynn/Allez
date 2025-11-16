@@ -46,9 +46,9 @@ public class PlayerStamina : MonoBehaviour
         {
             if (!isStaminaRecharging && currentStamina < maxStamina)
             {
-                Debug.Log($"staminadelay before : {currentStaminaRechargeTime}");
+                //Debug.Log($"staminadelay before : {currentStaminaRechargeTime}");
                 currentStaminaRechargeTime -= Time.deltaTime;
-                Debug.Log($"staminadelay after : {currentStaminaRechargeTime}");
+                //Debug.Log($"staminadelay after : {currentStaminaRechargeTime}");
 
                 if (currentStaminaRechargeTime <= 0)
                     StartCoroutine(RechargeStaminaRoutine());

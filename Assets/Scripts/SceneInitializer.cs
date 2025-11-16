@@ -12,6 +12,7 @@ public class SceneInitializer : MonoBehaviour
     public GameObject environmentPrefab;
     public GameObject scoreUIPrefab;
     public GameObject countdownUIPrefab;
+    public GameObject staminaUIPrefab;
 
     private GameObject g;
 
@@ -71,6 +72,8 @@ public class SceneInitializer : MonoBehaviour
         GameObject countdownUI = Spawn(countdownUIPrefab);
         g.GetComponent<GameManager>().SetCountdownTimer(countdownUI.GetComponentInChildren<RoundStartCountDown>());
 
+        GameObject staminaUI = Spawn(staminaUIPrefab);
+        staminaUI.GetComponent<StaminaBarManager>().Initialize(f0, f1);
         // Setup both players UI managers
         UIScoreManager[] uiManagers = scoreUI.GetComponentsInChildren<UIScoreManager>(true);
         foreach (var ui in uiManagers)

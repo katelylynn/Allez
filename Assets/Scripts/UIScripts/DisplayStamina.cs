@@ -5,6 +5,7 @@ public class DisplayStamina : MonoBehaviour
 {
     public PlayerStamina stamina;
     public TMP_Text tmp_text;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {

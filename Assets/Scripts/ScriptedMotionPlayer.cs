@@ -75,7 +75,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
 
         if (totalFrames <= 0)
         {
-            Debug.LogWarning("[ScriptedMotionPlayer] totalFrames <= 0, aborting.");
+            //Debug.LogWarning("[ScriptedMotionPlayer] totalFrames <= 0, aborting.");
             isPlaying = false;
             yield break;
         }
@@ -111,7 +111,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
             anim.Update(0f);
         }
 
-        Debug.Log($"[ScriptedMotion] BEGIN {cfg.animationName ?? "(no clip)"} at t={Time.time:F4}, totalFrames={totalFrames}");
+        //Debug.Log($"[ScriptedMotion] BEGIN {cfg.animationName ?? "(no clip)"} at t={Time.time:F4}, totalFrames={totalFrames}");
 
         for (int frameIndex = 0; frameIndex < totalFrames; frameIndex++)
         {
@@ -123,7 +123,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
                 if (startupStartTime < 0f)
                 {
                     startupStartTime = Time.time;
-                    Debug.Log($"[ScriptedMotion][Startup] START at t={startupStartTime:F4}");
+                    //Debug.Log($"[ScriptedMotion][Startup] START at t={startupStartTime:F4}");
                 }
 
                 startupCount++;
@@ -149,7 +149,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
                 if (frameIndex == startupFrames - 1)
                 {
                     startupEndTime = Time.time;
-                    Debug.Log($"[ScriptedMotion][Startup] END at t={startupEndTime:F4}");
+                    //Debug.Log($"[ScriptedMotion][Startup] END at t={startupEndTime:F4}");
                 }
             }
             // active portion
@@ -158,7 +158,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
                 if (activeStartTime < 0f)
                 {
                     activeStartTime = Time.time;
-                    Debug.Log($"[ScriptedMotion][Active] START at t={activeStartTime:F4}");
+                    //Debug.Log($"[ScriptedMotion][Active] START at t={activeStartTime:F4}");
                 }
 
                 activeCount++;
@@ -185,7 +185,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
                 if (frameIndex == startupFrames + activeFrames - 1)
                 {
                     activeEndTime = Time.time;
-                    Debug.Log($"[ScriptedMotion][Active] END at t={activeEndTime:F4}");
+                    //Debug.Log($"[ScriptedMotion][Active] END at t={activeEndTime:F4}");
                 }
             }
             // recovery portion
@@ -194,7 +194,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
                 if (recoveryStartTime < 0f)
                 {
                     recoveryStartTime = Time.time;
-                    Debug.Log($"[ScriptedMotion][Recovery] START at t={recoveryStartTime:F4}");
+                    //Debug.Log($"[ScriptedMotion][Recovery] START at t={recoveryStartTime:F4}");
                 }
 
                 recoveryCount++;
@@ -224,7 +224,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
                 if (frameIndex == totalFrames - 1)
                 {
                     recoveryEndTime = Time.time;
-                    Debug.Log($"[ScriptedMotion][Recovery] END at t={recoveryEndTime:F4}");
+                    //Debug.Log($"[ScriptedMotion][Recovery] END at t={recoveryEndTime:F4}");
                 }
             }
 
@@ -247,7 +247,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
         }
 
         float endTime = Time.time;
-        Debug.Log($"[ScriptedMotion] END {clip?.name ?? "(no clip)"} at t={endTime:F4}");
+        //Debug.Log($"[ScriptedMotion] END {clip?.name ?? "(no clip)"} at t={endTime:F4}");
 
         // debugging
         //float targetFPSLocal = targetFPS <= 0 ? 60f : targetFPS;

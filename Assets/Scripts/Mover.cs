@@ -57,7 +57,6 @@ public class Mover : MonoBehaviour
     }
     public void Lunge()
     {
-        Debug.Log("Playing lunge");
         if (motionPlayer == null)
         {
             Debug.LogWarning("[Mover] motionPlayer is NULL, can't lunge.");
@@ -70,7 +69,7 @@ public class Mover : MonoBehaviour
             return;
         }
         if (anim.GetCurrentAnimatorStateInfo(1).IsName("Attack")) return;
-        Debug.Log("lunge reached");
+
         motionPlayer.PlayScriptedMotion(lungeSettings, transform.forward);
     }
     public void OnLunge(InputValue value)
@@ -84,9 +83,9 @@ public class Mover : MonoBehaviour
     public void Backdash()
     {
         if (motionPlayer == null) return;
-        Debug.Log("motion player not null");
+
         if (motionPlayer.isPlaying) return;
-        Debug.Log("motion player not playing");
+
 
         motionPlayer.PlayScriptedMotion(backdashSettings, -transform.forward);
     }

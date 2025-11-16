@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,15 +17,31 @@ public class Mover : MonoBehaviour
     public bool allowForwardMovement = true;
     private string walkAnimationParam = "InputY";
 
-    [Header("Dash Settings")]
-    public float lungeStrength = 50f;
-    public float backdashStrength = 20f;
+    ScriptedMotionPlayer motionPlayer;
+    [Header("Scripted Motions")]
+    public ScriptedMotionConfig lungeSettings;
+    public ScriptedMotionConfig backdashSettings;
+
+    public GameObject foilTipHitBox; //this can be used to disabled foiltip during startup and recovery, not used currently
+
 
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        if (motionPlayer == null)
+        {
+            motionPlayer = GetComponent<ScriptedMotionPlayer>();
+        }
     }
+
+    private void OnDisable()
+    {
+        anim.ResetTrigger("Lunge");
+        anim.ResetTrigger("Backdash");
+        anim.speed = 1f;
+    }
+
     private void Update()
     {
         if (moveAmount == -1)
@@ -33,25 +50,52 @@ public class Mover : MonoBehaviour
         {
             Move();
         }
-        else
+        else if (!rb.isKinematic)
         {
             rb.linearVelocity = Vector3.zero;
         }
     }
-    public void FixedUpdate()
+    public void Lunge()
     {
-        
-    }
+        Debug.Log("Playing lunge");
+        if (motionPlayer == null)
+        {
+            Debug.LogWarning("[Mover] motionPlayer is NULL, can't lunge.");
+            return;
+        }
 
-    public void OnMovement(InputValue value)
+        if (motionPlayer.isPlaying)
+        {
+            Debug.Log("[Mover] motionPlayer is already playing, ignoring lunge.");
+            return;
+        }
+        if (anim.GetCurrentAnimatorStateInfo(1).IsName("Attack")) return;
+        Debug.Log("lunge reached");
+        motionPlayer.PlayScriptedMotion(lungeSettings, transform.forward);
+    }
+    public void OnLunge(InputValue value)
     {
-        SetMoveAmount(value.Get<float>());
+        Lunge();
+    }
+    public void OnBackdash(InputValue value)
+    {
+        Backdash();
+    }
+    public void Backdash()
+    {
+        if (motionPlayer == null) return;
+        Debug.Log("motion player not null");
+        if (motionPlayer.isPlaying) return;
+        Debug.Log("motion player not playing");
+
+        motionPlayer.PlayScriptedMotion(backdashSettings, -transform.forward);
     }
 
     public void SetMoveAmount(float ma)
     {
+        ma = (float)Math.Round(ma);
         if (ma != -1 && ma != 0 && ma != 1)
-            Debug.Log("Mover.cs SetMoveAmount: not a valid move amount!");
+            Debug.Log($"{ma} Mover.cs SetMoveAmount: not a valid move amount!");
 
         moveAmount = ma;
 
@@ -60,44 +104,22 @@ public class Mover : MonoBehaviour
         else
             anim.SetFloat(walkAnimationParam, moveAmount);
     }
+    public void OnMovement(InputValue value)
+    {
+        SetMoveAmount(value.Get<float>());
+    }
 
     private void Move()
     {
-        //Debug.Log("moving now");
         Vector3 localZ = new Vector3(0f, 0f, moveAmount);
         rb.AddRelativeForce(localZ * acceleration, ForceMode.VelocityChange);
 
         if (Mathf.Abs(moveAmount) > 0f && rb.linearVelocity.magnitude > maxSpeed)
         {
-            //rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
-            rb.linearVelocity = Vector3.Lerp(rb.position, rb.position + (rb.linearVelocity.normalized * maxSpeed), Time.deltaTime);
+            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
         else
             rb.AddForce(-rb.linearVelocity * deceleration, ForceMode.Acceleration);
-    }
-
-    public void Lunge()
-    {
-        anim.SetTrigger("Lunge");
-        rb.linearVelocity = Vector3.zero;
-        rb.AddForce(transform.forward * lungeStrength, ForceMode.Acceleration);
-    }
-
-    public void OnLunge(InputValue value)
-    {
-        Lunge();
-    }
-
-    public void Backdash()
-    {
-        anim.SetTrigger("Backdash");
-        rb.linearVelocity = Vector3.zero;
-        rb.AddForce(-transform.forward * backdashStrength, ForceMode.VelocityChange);
-    }
-
-    public void OnBackdash(InputValue value)
-    {
-        Backdash();
     }
 
     public void SetForwardMovement(bool b)
@@ -109,4 +131,5 @@ public class Mover : MonoBehaviour
     {
         rb.linearVelocity = Vector3.zero;
     }
+
 }

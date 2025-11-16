@@ -45,6 +45,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 314ef7a3d0f255b4b9700c97dca060f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parriedConfig:
+    animationName: Parried
+    clip: {fileID: -623603649343465320, guid: c7dabacfd7dd41c46981796afba65f75, type: 3}
+    layerIndex: 1
+    distance: 2
+    returnToStart: 1
+    startupFrames: 30
+    activeFrames: 30
+    recoveryFrames: 30
+    startupClipFrames: 20
+    activeClipFrames: 10
+    recoveryClipFrames: 30
 --- !u!82 &2401273750365362106
 AudioSource:
   m_ObjectHideFlags: 0

@@ -17,8 +17,14 @@ public class ManageParry : StateMachineBehaviour
         //    animator.Update(0f);
         //    EventManager.TriggerParrySuccess();
         //}
-        animator.ApplyBuiltinRootMotion();
+        //animator.ApplyBuiltinRootMotion();
         //animator.GetComponent<Transform>().rotation = new Quaternion(0f, 0f, 0f, 0f);
+    }
+
+    override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        // This is called during the root motion phase
+        //animator.ApplyBuiltinRootMotion();
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

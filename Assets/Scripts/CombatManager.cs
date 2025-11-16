@@ -7,6 +7,13 @@ public class CombatManager : MonoBehaviour
 
     private int foilLayerIndex = 1;
 
+    ScriptedMotionPlayer motionPlayerP0;
+    ScriptedMotionPlayer motionPlayerP1;
+    [Header("Scripted Motion Configs")]
+    public ScriptedMotionConfig parriedConfig;
+    public void Awake()
+    {
+    }
     public void Start()
     {
         EventManager.ParrySuccess += HandleParrySuccess;
@@ -21,6 +28,8 @@ public class CombatManager : MonoBehaviour
     {
         fencer0 = f0;
         fencer1 = f1;
+        motionPlayerP0 = f0.GetComponent<ScriptedMotionPlayer>();
+        motionPlayerP1 = f1.GetComponent<ScriptedMotionPlayer>();
     }
 
     private void HandleParrySuccess()
@@ -29,13 +38,19 @@ public class CombatManager : MonoBehaviour
         {
             Animator f1Animator = fencer1.GetComponent<Animator>();
             if (!f1Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
-                f1Animator.Play("Parried", foilLayerIndex, 0f);
+            {
+                //f1Animator.Play("Parried", foilLayerIndex, 0f); //old method, no frame control
+                motionPlayerP1.PlayScriptedMotion(parriedConfig, Vector3.zero);
+            }
         }
         else if (fencer1.GetStateSnapshot(1).IsName("ParryLeft"))
         {
             Animator f0Animator = fencer0.GetComponent<Animator>();
             if (!f0Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
-                f0Animator.Play("Parried", foilLayerIndex, 0f);
+            {
+                //f1Animator.Play("Parried", foilLayerIndex, 0f); //old method, no frame control
+                motionPlayerP0.PlayScriptedMotion(parriedConfig, Vector3.zero);
+            }
         }
     }
 }

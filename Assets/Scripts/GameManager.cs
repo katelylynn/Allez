@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
 public enum GameMode
 {
@@ -74,18 +75,27 @@ public class GameManager : MonoBehaviour
     private IEnumerator BoutCountdown()
     {
         Debug.Log("Bout timer started!");
+        float secondAccumulator = 0f;
 
         while (elapsedTime < maxTime)
         {
-            while (countdownRunning || roundSequenceRunning)
+            uiScore.transform.Find("CountdownText").GetComponent<TMP_Text>().text =
+                (maxTime - elapsedTime) + "s";
+
+            // Only count time when not in countdown / round sequence
+            if (!countdownRunning && !roundSequenceRunning)
             {
-                yield return null; // wait 1 frame
+                secondAccumulator += Time.deltaTime;
+
+                if (secondAccumulator >= 1f)
+                {
+                    secondAccumulator -= 1f;
+                    elapsedTime++;
+                    Debug.Log("Tick: " + elapsedTime);
+                }
             }
 
-            yield return new WaitForSeconds(1f);
-
-            elapsedTime++;
-            Debug.Log("Tick: " + elapsedTime);
+            yield return null;
         }
 
         Debug.Log("Time is up! " + maxTime + " seconds have passed.");
@@ -166,9 +176,8 @@ public class GameManager : MonoBehaviour
             IncrementCurrentRound();
             Time.timeScale = 1f;
             staminaUI.GetComponent<StaminaBarManager>().ResetStaminaBars();
-            StartRound();
             yield return new WaitForSecondsRealtime(0.5f);
-            yield return StartCoroutine(RoundCountdown());
+            StartRound();
             roundSequenceRunning = false;
         }
     }

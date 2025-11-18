@@ -24,53 +24,29 @@ public class BoutSetupManager : MonoBehaviour
     public List<GameObject> fencers;
     private bool isAI;
 
+    // PlayerPrefs keys
+    private const string KEY_OPPONENT_TYPE = "OpponentType";
+    private const string KEY_GAME_MODE_INDEX = "GameModeIndex";
+    private const string KEY_POINTS_TO_WIN_INDEX = "PointsToWinIndex";
+    private const string KEY_POINTS_TO_WIN_VALUE = "PointsToWin";
+    private const string KEY_BOUT_LENGTH_INDEX = "BoutLengthIndex";
+    private const string KEY_BOUT_LENGTH_VALUE = "BoutLength";
+
     public void Awake()
     {
         dM = PlayerDataManager.GetInstance();
 
-        // Load saved opponent type (default to Player)
-        string savedType = PlayerPrefs.GetString("OpponentType", "Player");
-        isAI = savedType == "AI";
-
-        // Listen for dropdown changes
+        // listen for dropdown changes
         opponentTypeDropdown.onValueChanged.AddListener(OnOpponentTypeChanged);
-
-        // Listen for changes
         gameModeDropdown.onValueChanged.AddListener(OnGameModeChanged);
+        pointsToWinDropdown.onValueChanged.AddListener(OnPointsToWinChanged);
+        boutLengthDropdown.onValueChanged.AddListener(OnBoutLengthChanged);
 
-        // Sync opponent type dropdown to saved value
-        int dropdownIndex = opponentTypeDropdown.options.FindIndex(o => o.text == savedType);
-        if (dropdownIndex < 0) dropdownIndex = 0;
-        opponentTypeDropdown.value = dropdownIndex;
-        opponentTypeDropdown.RefreshShownValue();
-
-        // Configure UI and player data based on initial type
-        OnOpponentTypeChanged(dropdownIndex);
-
-        // Set initial visibility
-        OnGameModeChanged(gameModeDropdown.value);
-
-        // Set up start match button once, branch at click time
-        var btn = startMatchButton.GetComponent<Button>();
-        btn.onClick.RemoveAllListeners();
-        btn.onClick.AddListener(() =>
-        {
-            if (isAI)
-                SceneSwapper.ChangeSceneAI("MainScene");
-            else
-                SceneSwapper.ChangeScenePlayer("MainScene");
-        });
-    }
-
-    private void OnOpponentTypeChanged(int index)
-    {
-        string selected = opponentTypeDropdown.options[index].text;
-
-        // Save selection
-        PlayerPrefs.SetString("OpponentType", selected);
+        // Setup initial opponent type
+        string selected = opponentTypeDropdown.options[opponentTypeDropdown.value].text;
+        PlayerPrefs.SetString(KEY_OPPONENT_TYPE, selected);
         PlayerPrefs.Save();
 
-        // Update local flag
         isAI = selected == "AI";
 
         if (isAI)
@@ -84,7 +60,31 @@ public class BoutSetupManager : MonoBehaviour
             dM.p2 = "";
         }
 
-        // Rebuild player lists
+        PopulateScrollView();
+        OnGameModeChanged(gameModeDropdown.value);
+    }
+
+    private void OnOpponentTypeChanged(int index)
+    {
+        string selected = opponentTypeDropdown.options[index].text;
+
+        // Save selection
+        PlayerPrefs.SetString(KEY_OPPONENT_TYPE, selected);
+        PlayerPrefs.Save();
+
+        isAI = selected == "AI";
+
+        if (isAI)
+        {
+            SetupAI();
+            dM.p2 = "AI";
+        }
+        else
+        {
+            SetupPlayer2();
+            dM.p2 = "";
+        }
+
         PopulateScrollView();
     }
 
@@ -132,28 +132,25 @@ public class BoutSetupManager : MonoBehaviour
             if (buttonList[0].GetComponent<ReadyButton>().isReady &&
                 buttonList[1].GetComponent<ReadyButton>().isReady)
             {
-                if (!string.IsNullOrEmpty(p1) && !string.IsNullOrEmpty(p2))
+                if (!string.IsNullOrEmpty(p1) &&
+                    !string.IsNullOrEmpty(p2) &&
+                    !string.Equals(p1, p2, System.StringComparison.OrdinalIgnoreCase))
                 {
-                    if (!string.Equals(p1, p2, System.StringComparison.OrdinalIgnoreCase))
-                    {
-                        startMatchButton.GetComponent<Button>().interactable = true;
-                        return;
-                    }
+                    startMatchButton.GetComponent<Button>().interactable = true;
+                    return;
                 }
             }
         }
 
-        if (startMatchButton.GetComponent<Button>().interactable)
-            startMatchButton.GetComponent<Button>().interactable = false;
+        startMatchButton.GetComponent<Button>().interactable = false;
     }
 
     private void SetupAI()
     {
-        // Hide Player 2 selection UI, show AI fencer
         selection2.SetActive(false);
         contentP2.gameObject.SetActive(false);
 
-        if (fencers != null && fencers.Count > 1 && fencers[1] != null)
+        if (fencers != null && fencers.Count > 1)
             fencers[1].SetActive(true);
 
         p2HeaderText.text = "AI";
@@ -161,11 +158,10 @@ public class BoutSetupManager : MonoBehaviour
 
     private void SetupPlayer2()
     {
-        // Show Player 2 selection UI, hide fencer until selected/ready
         selection2.SetActive(true);
         contentP2.gameObject.SetActive(true);
 
-        if (fencers != null && fencers.Count > 1 && fencers[1] != null)
+        if (fencers != null && fencers.Count > 1)
             fencers[1].SetActive(false);
 
         p2HeaderText.text = "Player 2";
@@ -174,37 +170,29 @@ public class BoutSetupManager : MonoBehaviour
     private void ClearScrollViewContent()
     {
         foreach (Transform child in contentP1)
-        {
             Destroy(child.gameObject);
-        }
+
         foreach (Transform child in contentP2)
-        {
             Destroy(child.gameObject);
-        }
     }
 
     public void ButtonClicked(string buttonText, int playerNum)
     {
-        if (playerNum == 0)
-        {
-            Debug.Log("Something went wrong, playerNum is 0");
-        }
-
         if (playerNum == 1)
         {
-            if (!fencers[playerNum - 1].activeSelf)
-                fencers[playerNum - 1].SetActive(true);
+            if (!fencers[0].activeSelf)
+                fencers[0].SetActive(true);
 
-            buttonList[playerNum - 1].GetComponent<ReadyButton>().isReady = false;
+            buttonList[0].GetComponent<ReadyButton>().isReady = false;
             dM.p1 = buttonText;
             p1HeaderText.text = buttonText;
         }
         else if (playerNum == 2 && !isAI)
         {
-            if (!fencers[playerNum - 1].activeSelf)
-                fencers[playerNum - 1].SetActive(true);
+            if (!fencers[1].activeSelf)
+                fencers[1].SetActive(true);
 
-            buttonList[playerNum - 1].GetComponent<ReadyButton>().isReady = false;
+            buttonList[1].GetComponent<ReadyButton>().isReady = false;
             dM.p2 = buttonText;
             p2HeaderText.text = buttonText;
         }
@@ -212,8 +200,6 @@ public class BoutSetupManager : MonoBehaviour
 
     private void OnGameModeChanged(int index)
     {
-        // index 0 = First to X points
-        // index 1 = Most points in X seconds
         bool isFirstToX = (index == 0);
 
         pointsToWinText.gameObject.SetActive(isFirstToX);
@@ -221,5 +207,29 @@ public class BoutSetupManager : MonoBehaviour
 
         boutLengthText.gameObject.SetActive(!isFirstToX);
         boutLengthDropdown.gameObject.SetActive(!isFirstToX);
+
+        // Save game mode
+        PlayerPrefs.SetInt(KEY_GAME_MODE_INDEX, index);
+        PlayerPrefs.Save();
+    }
+
+    private void OnPointsToWinChanged(int index)
+    {
+        PlayerPrefs.SetInt(KEY_POINTS_TO_WIN_INDEX, index);
+
+        if (int.TryParse(pointsToWinDropdown.options[index].text, out int value))
+            PlayerPrefs.SetInt(KEY_POINTS_TO_WIN_VALUE, value);
+
+        PlayerPrefs.Save();
+    }
+
+    private void OnBoutLengthChanged(int index)
+    {
+        PlayerPrefs.SetInt(KEY_BOUT_LENGTH_INDEX, index);
+
+        if (int.TryParse(boutLengthDropdown.options[index].text, out int value))
+            PlayerPrefs.SetInt(KEY_BOUT_LENGTH_VALUE, value);
+
+        PlayerPrefs.Save();
     }
 }

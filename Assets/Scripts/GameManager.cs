@@ -105,7 +105,11 @@ public class GameManager : MonoBehaviour
     private FencerId DetermineWinner()
     {
         int[] score = LoadScore();
-        return score[0] > score[1] ? FencerId.Fencer0 : FencerId.Fencer1;
+        if (score[0] > score[1])
+            return FencerId.Fencer0;
+        if (score[0] < score[1])
+            return FencerId.Fencer1;
+        return FencerId.None;
     }
 
     public void StartRound()
@@ -188,7 +192,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("winner: fencer " + (int)winner);
 
         /* Change to results scene */
-        PlayerPrefs.SetString("RoundWinner", (int)winner == 0 ? "Player One" : "Player Two");
+        PlayerPrefs.SetInt("RoundWinner", (int)winner);
         SceneSwapper.ChangeScene(resultsScene);
     }
 

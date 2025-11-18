@@ -403,9 +403,9 @@ GameObject:
   - component: {fileID: 91018604}
   - component: {fileID: 91018603}
   - component: {fileID: 91018602}
-  - component: {fileID: 91018601}
   - component: {fileID: 91018606}
   - component: {fileID: 91018605}
+  - component: {fileID: 91018607}
   m_Layer: 5
   m_Name: StartMatchButton
   m_TagString: Untagged
@@ -433,18 +433,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -474}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &91018601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 91018599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5038bdb1a3ecc0d4390dbdbfbb5834da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &91018602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +476,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 91018603}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 91018607}
+        m_TargetAssemblyTypeName: SceneSwapper, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainScene
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &91018603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,6 +643,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &91018607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91018599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5038bdb1a3ecc0d4390dbdbfbb5834da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &115713253
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public enum FencerType
 
 public enum FencerId : int
 {
-    None,
+    None = -1,
     Fencer0 = 0,
     Fencer1 = 1,
 }

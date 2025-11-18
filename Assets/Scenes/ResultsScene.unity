@@ -243,6 +243,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fencerPrefab: {fileID: 169850790}
+  fencerComponent1: {fileID: 169850792}
+  fencerComponent2: {fileID: 169850791}
 --- !u!82 &102027233
 AudioSource:
   m_ObjectHideFlags: 0
@@ -375,6 +377,10 @@ PrefabInstance:
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4557011708788034512, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5155360022473432977, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       propertyPath: m_Volume
       value: 0.257
@@ -410,6 +416,10 @@ PrefabInstance:
     - target: {fileID: 5567125004550988280, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -9.767
+      objectReference: {fileID: 0}
+    - target: {fileID: 5871660381283768646, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8636116927687823762, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       propertyPath: m_LocalPosition.x
@@ -482,6 +492,16 @@ PrefabInstance:
 --- !u!1 &169850790 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8976367000580410152, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+  m_PrefabInstance: {fileID: 169850789}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &169850791 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5871660381283768646, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+  m_PrefabInstance: {fileID: 169850789}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &169850792 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2686403757423258043, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
   m_PrefabInstance: {fileID: 169850789}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &337665784

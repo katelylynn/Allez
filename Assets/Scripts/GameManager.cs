@@ -2,10 +2,25 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum GameMode
+{
+    FirstToX,
+    MostPointsInXTime,
+}
+
 public class GameManager : MonoBehaviour
 {
+    private GameMode gameMode;
+
+    // first to X mode
     public int pointsToWin = 3;
 
+    // most points in X time mode
+    public float maxTime = 60f; // seconds
+    public int elapsedTime = 0;
+    public bool countdownRunning = false;
+
+    // UI and data
     Canvas uiScore;
     Canvas staminaUI;
     private RoundStartCountDown countdownTimer;
@@ -13,6 +28,11 @@ public class GameManager : MonoBehaviour
     public float hitTimeScale = 0.01f;
     PlayerDataManager dM;
     private bool roundSequenceRunning;
+
+    public void Initialize(GameMode gm)
+    {
+        gameMode = gm;
+    }
 
     public void SetUIScore(Canvas ui)
     {
@@ -45,19 +65,48 @@ public class GameManager : MonoBehaviour
         EventManager.RoundEnd -= EndRound;
     }
 
-    public void StartRound()
+    public void StartBout()
     {
-        StartCoroutine(Countdown());
+        StartRound();
+        if (gameMode == GameMode.MostPointsInXTime) StartCoroutine(BoutCountdown());
     }
 
-    private IEnumerator Countdown()
+    private IEnumerator BoutCountdown()
     {
+        Debug.Log("Bout timer started!");
+
+        while (elapsedTime < maxTime)
+        {
+            while (countdownRunning || roundSequenceRunning)
+            {
+                yield return null; // wait 1 frame
+            }
+
+            yield return new WaitForSeconds(1f);
+
+            elapsedTime++;
+            Debug.Log("Tick: " + elapsedTime);
+        }
+
+        Debug.Log("Time is up! " + maxTime + " seconds have passed.");
+    }
+
+    public void StartRound()
+    {
+        StartCoroutine(RoundCountdown());
+    }
+
+    private IEnumerator RoundCountdown()
+    {
+        countdownRunning = true;
         EventManager.TriggerInputEnable(false);
         yield return StartCoroutine(countdownTimer.Run());
-        //Debug.Log("Countdown finished");
         EventManager.TriggerInputEnable(true);
+        countdownRunning = false;
+
         EventManager.TriggerRoundStart();
     }
+
     private void EndRound(FencerId winner)
     {
         if (!roundSequenceRunning)
@@ -112,7 +161,7 @@ public class GameManager : MonoBehaviour
             staminaUI.GetComponent<StaminaBarManager>().ResetStaminaBars();
             StartRound();
             yield return new WaitForSecondsRealtime(0.5f);
-            yield return StartCoroutine(Countdown());
+            yield return StartCoroutine(RoundCountdown());
             roundSequenceRunning = false;
         }
     }

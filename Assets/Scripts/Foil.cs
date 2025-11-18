@@ -11,7 +11,6 @@ public class Foil : MonoBehaviour
             // Play clash particle
             Vector3 contact = other.ClosestPoint(transform.position);
             ParticleSystem effect = Instantiate(clashEffect, contact, Quaternion.identity);
-            Debug.Log($"⚔️ Clash at position: {contact}");
             Destroy(effect.gameObject, effect.main.duration);
 
             // Trigger parry success event

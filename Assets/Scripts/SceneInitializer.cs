@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class SceneInitializer : MonoBehaviour
 {
+    public GameMode gameMode;
+
     public GameObject gameManagerPrefab;
     public GameObject fencerPrefab; // FEMALE
     public GameObject fencer2Prefab; // MALE
@@ -25,7 +27,7 @@ public class SceneInitializer : MonoBehaviour
         Application.targetFrameRate = 60;
         Time.fixedDeltaTime = 1f / 60f;
         SpawnPrefabs();
-        g.GetComponent<GameManager>().StartRound();
+        g.GetComponent<GameManager>().StartBout();
     }
 
     private void SpawnPrefabs()
@@ -61,6 +63,7 @@ public class SceneInitializer : MonoBehaviour
 
         /* MANAGERS */
         g = Spawn(gameManagerPrefab);
+        g.GetComponent<GameManager>().Initialize(gameMode);
 
         GameObject cm = Spawn(combatManagerPrefab);
         cm.GetComponent<CombatManager>().Initialize(f0.GetComponent<Fencer>(), f1.GetComponent<Fencer>());

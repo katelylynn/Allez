@@ -45,5 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsToWin: 3
+  maxTime: 10
+  elapsedTime: 0
   resultsScene: resultsScene
   hitTimeScale: 0.01

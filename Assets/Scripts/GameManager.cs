@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using TMPro;
+using System;
 
 public enum GameMode
 {
@@ -30,9 +31,12 @@ public class GameManager : MonoBehaviour
     PlayerDataManager dM;
     private bool roundSequenceRunning;
 
-    public void Initialize(GameMode gm)
+    public void Initialize(GameMode gm, int ptw, int bl)
     {
         gameMode = gm;
+        if (ptw != -1) pointsToWin = ptw;
+        if (bl != -1) maxTime = (float) bl;
+        if (gameMode == GameMode.MostPointsInXTime) pointsToWin = 0;
     }
 
     public void SetUIScore(Canvas ui)
@@ -69,7 +73,15 @@ public class GameManager : MonoBehaviour
     public void StartBout()
     {
         StartRound();
-        if (gameMode == GameMode.MostPointsInXTime) StartCoroutine(BoutCountdown());
+        if (gameMode == GameMode.MostPointsInXTime) 
+        {
+            uiScore.transform.Find("CountdownText").GetComponent<TMP_Text>().text = (maxTime - elapsedTime) + "s";
+            StartCoroutine(BoutCountdown());
+        }
+        else if (gameMode == GameMode.FirstToX)
+        {
+            uiScore.transform.Find("CountdownText").GetComponent<TMP_Text>().text = "";
+        }
     }
 
     private IEnumerator BoutCountdown()
@@ -162,6 +174,16 @@ public class GameManager : MonoBehaviour
 
         EventManager.TriggerRoundReset();
         yield return new WaitForEndOfFrame();
+
+        if (gameMode == GameMode.MostPointsInXTime) 
+        {
+            int[] score = LoadScore();
+            pointsToWin = Math.Max(score[0], score[1]);
+            foreach (var ui in uiScore.GetComponentsInChildren<UIScoreManager>(true))
+            {
+                ui.UpdateUI();
+            }
+        }
 
         /* Check for game over */
         if (gameMode == GameMode.FirstToX && (s[0] == pointsToWin || s[1] == pointsToWin))

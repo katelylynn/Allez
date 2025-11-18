@@ -65,15 +65,13 @@ public class SceneInitializer : MonoBehaviour
         g = Spawn(gameManagerPrefab);
 
         string gm = PlayerPrefs.GetString("GameMode", null);
-        Debug.Log(gm);
 
         if (gm == "First to X Points")
             gameMode = GameMode.FirstToX;
         else if (gm == "Most Points in X Seconds")
             gameMode = GameMode.MostPointsInXTime;
-        Debug.Log(gameMode);
 
-        g.GetComponent<GameManager>().Initialize(gameMode);
+        g.GetComponent<GameManager>().Initialize(gameMode, PlayerPrefs.GetInt("PointsToWin", -1), PlayerPrefs.GetInt("BoutLength", -1));
 
         GameObject cm = Spawn(combatManagerPrefab);
         cm.GetComponent<CombatManager>().Initialize(f0.GetComponent<Fencer>(), f1.GetComponent<Fencer>());

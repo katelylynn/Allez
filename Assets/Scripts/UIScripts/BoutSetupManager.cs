@@ -12,7 +12,7 @@ public class BoutSetupManager : MonoBehaviour
     public TMP_Dropdown pointsToWinDropdown;
     public TMP_Text boutLengthText;
     public TMP_Dropdown boutLengthDropdown;
-    public GameObject selection1;
+    // public GameObject selection1; // <- UNUSED, removed
     public GameObject selection2;
     public Transform contentP1;
     public Transform contentP2;
@@ -27,8 +27,8 @@ public class BoutSetupManager : MonoBehaviour
     // PlayerPrefs keys
     private const string KEY_OPPONENT_TYPE = "OpponentType";
     private const string KEY_GAME_MODE = "GameMode";
-    private const string KEY_POINTS_TO_WIN_VALUE = "PointsToWin";
-    private const string KEY_BOUT_LENGTH_VALUE = "BoutLength";
+    private const string KEY_POINTS_TO_WIN = "PointsToWin";
+    private const string KEY_BOUT_LENGTH = "BoutLength";
 
     public void Awake()
     {
@@ -39,13 +39,21 @@ public class BoutSetupManager : MonoBehaviour
         pointsToWinDropdown.onValueChanged.AddListener(OnPointsToWinChanged);
         boutLengthDropdown.onValueChanged.AddListener(OnBoutLengthChanged);
 
-        // Load opponent type (or keep default)
+        // --- Opponent type: load or save default ---
         string savedOpponent = PlayerPrefs.GetString(KEY_OPPONENT_TYPE, null);
-        if (!string.IsNullOrEmpty(savedOpponent))
+        if (string.IsNullOrEmpty(savedOpponent))
+        {
+            // no pref yet → save current dropdown as default
+            savedOpponent = opponentTypeDropdown.options[opponentTypeDropdown.value].text;
+            PlayerPrefs.SetString(KEY_OPPONENT_TYPE, savedOpponent);
+            PlayerPrefs.Save();
+        }
+        else
         {
             int idx = opponentTypeDropdown.options.FindIndex(o => o.text == savedOpponent);
             if (idx >= 0) opponentTypeDropdown.SetValueWithoutNotify(idx);
         }
+
         string selectedOpponent = opponentTypeDropdown.options[opponentTypeDropdown.value].text;
         isAI = selectedOpponent == "AI";
 
@@ -60,32 +68,69 @@ public class BoutSetupManager : MonoBehaviour
             dM.p2 = "";
         }
 
-        // Load game mode (or keep default)
+        // --- Game mode: load or save default ---
         string savedMode = PlayerPrefs.GetString(KEY_GAME_MODE, null);
-        if (!string.IsNullOrEmpty(savedMode))
+        if (string.IsNullOrEmpty(savedMode))
+        {
+            savedMode = gameModeDropdown.options[gameModeDropdown.value].text;
+            PlayerPrefs.SetString(KEY_GAME_MODE, savedMode);
+            PlayerPrefs.Save();
+        }
+        else
         {
             int idx = gameModeDropdown.options.FindIndex(o => o.text == savedMode);
             if (idx >= 0) gameModeDropdown.SetValueWithoutNotify(idx);
         }
 
-        // Load points to win (or keep default)
-        int savedPoints = PlayerPrefs.GetInt(KEY_POINTS_TO_WIN_VALUE, -1);
-        if (savedPoints > 0)
+        // --- Points to win: load or save default ---
+        int savedPoints;
+        if (PlayerPrefs.HasKey(KEY_POINTS_TO_WIN))
         {
-            int idx = pointsToWinDropdown.options.FindIndex(o => o.text == savedPoints.ToString());
-            if (idx >= 0) pointsToWinDropdown.SetValueWithoutNotify(idx);
+            savedPoints = PlayerPrefs.GetInt(KEY_POINTS_TO_WIN);
         }
+        else
+        {
+            string defaultPointsStr = pointsToWinDropdown.options[pointsToWinDropdown.value].text;
+            savedPoints = ExtractNumber(defaultPointsStr);
+            PlayerPrefs.SetInt(KEY_POINTS_TO_WIN, savedPoints);
+            PlayerPrefs.Save();
+        }
+        int idxPoints = pointsToWinDropdown.options.FindIndex(o => ExtractNumber(o.text) == savedPoints);
+        if (idxPoints >= 0) pointsToWinDropdown.SetValueWithoutNotify(idxPoints);
 
-        // Load bout length (or keep default)
-        int savedLength = PlayerPrefs.GetInt(KEY_BOUT_LENGTH_VALUE, -1);
-        if (savedLength > 0)
+        // --- Bout length: load or save default ---
+        int savedLength;
+        if (PlayerPrefs.HasKey(KEY_BOUT_LENGTH))
         {
-            int idx = boutLengthDropdown.options.FindIndex(o => o.text == savedLength.ToString());
-            if (idx >= 0) boutLengthDropdown.SetValueWithoutNotify(idx);
+            savedLength = PlayerPrefs.GetInt(KEY_BOUT_LENGTH);
         }
+        else
+        {
+            string defaultLengthStr = boutLengthDropdown.options[boutLengthDropdown.value].text;
+            savedLength = ExtractNumber(defaultLengthStr);
+            PlayerPrefs.SetInt(KEY_BOUT_LENGTH, savedLength);
+            PlayerPrefs.Save();
+        }
+        int idxLength = boutLengthDropdown.options.FindIndex(o => ExtractNumber(o.text) == savedLength);
+        if (idxLength >= 0) boutLengthDropdown.SetValueWithoutNotify(idxLength);
 
         PopulateScrollView();
         OnGameModeChanged(gameModeDropdown.value);
+    }
+
+    private int ExtractNumber(string text)
+    {
+        string digits = "";
+        foreach (char c in text)
+        {
+            if (char.IsDigit(c))
+                digits += c;
+        }
+
+        if (int.TryParse(digits, out int result))
+            return result;
+
+        return 0;
     }
 
     private void OnOpponentTypeChanged(int index)
@@ -237,19 +282,15 @@ public class BoutSetupManager : MonoBehaviour
 
     private void OnPointsToWinChanged(int index)
     {
-        if (int.TryParse(pointsToWinDropdown.options[index].text, out int value))
-        {
-            PlayerPrefs.SetInt(KEY_POINTS_TO_WIN_VALUE, value);
-            PlayerPrefs.Save();
-        }
+        int value = ExtractNumber(pointsToWinDropdown.options[index].text);
+        PlayerPrefs.SetInt(KEY_POINTS_TO_WIN, value);
+        PlayerPrefs.Save();
     }
 
     private void OnBoutLengthChanged(int index)
     {
-        if (int.TryParse(boutLengthDropdown.options[index].text, out int value))
-        {
-            PlayerPrefs.SetInt(KEY_BOUT_LENGTH_VALUE, value);
-            PlayerPrefs.Save();
-        }
+        int value = ExtractNumber(boutLengthDropdown.options[index].text);
+        PlayerPrefs.SetInt(KEY_BOUT_LENGTH, value);
+        PlayerPrefs.Save();
     }
 }

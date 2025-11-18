@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class CreateNewProfileButton : MonoBehaviour
 {
     public TMP_InputField input;
-    public PlayerProfileSelector playerProfileSelector;
+    public BoutSetupManager boutSetupManager;
     PlayerDataManager dM;
     public Button b;
     public Transform content;
@@ -27,7 +27,7 @@ public class CreateNewProfileButton : MonoBehaviour
         {
             //Debug.Log($"input text is {input.text}");
             dM.AddNewPlayer(input.text);
-            playerProfileSelector.PopulateScrollView();
+            boutSetupManager.PopulateScrollView();
         }
         else
         {

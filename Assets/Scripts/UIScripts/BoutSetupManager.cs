@@ -3,9 +3,15 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerProfileSelector : MonoBehaviour
+public class BoutSetupManager : MonoBehaviour
 {
     PlayerDataManager dM;
+    public TMP_Dropdown gameModeDropdown;
+    public TMP_Dropdown opponentTypeDropdown;
+    public TMP_Text pointsToWinText;
+    public TMP_Dropdown pointsToWinDropdown;
+    public TMP_Text boutLengthText;
+    public TMP_Dropdown boutLengthDropdown;
     public GameObject selection1;
     public GameObject selection2;
     public Transform contentP1;
@@ -22,22 +28,63 @@ public class PlayerProfileSelector : MonoBehaviour
     {
         dM = PlayerDataManager.GetInstance();
 
-        isAI = PlayerPrefs.GetString("OpponentType", null) == "AI";
+        // Load saved opponent type (default to Player)
+        string savedType = PlayerPrefs.GetString("OpponentType", "Player");
+        isAI = savedType == "AI";
 
-        if (isAI) 
+        // Listen for dropdown changes
+        opponentTypeDropdown.onValueChanged.AddListener(OnOpponentTypeChanged);
+
+        // Listen for changes
+        gameModeDropdown.onValueChanged.AddListener(OnGameModeChanged);
+
+        // Sync opponent type dropdown to saved value
+        int dropdownIndex = opponentTypeDropdown.options.FindIndex(o => o.text == savedType);
+        if (dropdownIndex < 0) dropdownIndex = 0;
+        opponentTypeDropdown.value = dropdownIndex;
+        opponentTypeDropdown.RefreshShownValue();
+
+        // Configure UI and player data based on initial type
+        OnOpponentTypeChanged(dropdownIndex);
+
+        // Set initial visibility
+        OnGameModeChanged(gameModeDropdown.value);
+
+        // Set up start match button once, branch at click time
+        var btn = startMatchButton.GetComponent<Button>();
+        btn.onClick.RemoveAllListeners();
+        btn.onClick.AddListener(() =>
+        {
+            if (isAI)
+                SceneSwapper.ChangeSceneAI("MainScene");
+            else
+                SceneSwapper.ChangeScenePlayer("MainScene");
+        });
+    }
+
+    private void OnOpponentTypeChanged(int index)
+    {
+        string selected = opponentTypeDropdown.options[index].text;
+
+        // Save selection
+        PlayerPrefs.SetString("OpponentType", selected);
+        PlayerPrefs.Save();
+
+        // Update local flag
+        isAI = selected == "AI";
+
+        if (isAI)
         {
             SetupAI();
-            startMatchButton.GetComponent<Button>().onClick.AddListener(() => {
-                SceneSwapper.ChangeSceneAI("MainScene");
-            });
+            dM.p2 = "AI";
         }
         else
         {
-            startMatchButton.GetComponent<Button>().onClick.AddListener(() => {
-                SceneSwapper.ChangeScenePlayer("MainScene");
-            });
+            SetupPlayer2();
+            dM.p2 = "";
         }
 
+        // Rebuild player lists
         PopulateScrollView();
     }
 
@@ -46,19 +93,22 @@ public class PlayerProfileSelector : MonoBehaviour
         ClearScrollViewContent();
         List<string> playerNames = dM.GetAllPlayerNames();
         dM.ClearSelectedPlayers();
+
         if (isAI)
             dM.p2 = "AI";
-        //Debug.Log("player names count: " + playerNames.Count);
+
         startMatchButton.GetComponent<Button>().interactable = false;
+
         foreach (string playerName in playerNames)
         {
-            //Debug.Log("PName: " + playerName);
             MyButton buttonP1 = Instantiate(buttonPrefab, contentP1).GetComponent<MyButton>();
             buttonP1.playerId = 1;
             MyButton buttonP2 = Instantiate(buttonPrefab, contentP2).GetComponent<MyButton>();
             buttonP2.playerId = 2;
+
             buttonP1.SetText(playerName);
             buttonP2.SetText(playerName);
+
             buttonP1.callback = ButtonClicked;
             buttonP2.callback = ButtonClicked;
         }
@@ -99,9 +149,26 @@ public class PlayerProfileSelector : MonoBehaviour
 
     private void SetupAI()
     {
-        selection2.gameObject.SetActive(false);
-        fencers[1].SetActive(true);
+        // Hide Player 2 selection UI, show AI fencer
+        selection2.SetActive(false);
+        contentP2.gameObject.SetActive(false);
+
+        if (fencers != null && fencers.Count > 1 && fencers[1] != null)
+            fencers[1].SetActive(true);
+
         p2HeaderText.text = "AI";
+    }
+
+    private void SetupPlayer2()
+    {
+        // Show Player 2 selection UI, hide fencer until selected/ready
+        selection2.SetActive(true);
+        contentP2.gameObject.SetActive(true);
+
+        if (fencers != null && fencers.Count > 1 && fencers[1] != null)
+            fencers[1].SetActive(false);
+
+        p2HeaderText.text = "Player 2";
     }
 
     private void ClearScrollViewContent()
@@ -118,15 +185,16 @@ public class PlayerProfileSelector : MonoBehaviour
 
     public void ButtonClicked(string buttonText, int playerNum)
     {
-        //Debug.Log("Clicked " + buttonText);
         if (playerNum == 0)
         {
             Debug.Log("Something went wrong, playerNum is 0");
         }
+
         if (playerNum == 1)
         {
-            if (!fencers[playerNum-1].activeSelf)
+            if (!fencers[playerNum - 1].activeSelf)
                 fencers[playerNum - 1].SetActive(true);
+
             buttonList[playerNum - 1].GetComponent<ReadyButton>().isReady = false;
             dM.p1 = buttonText;
             p1HeaderText.text = buttonText;
@@ -135,10 +203,23 @@ public class PlayerProfileSelector : MonoBehaviour
         {
             if (!fencers[playerNum - 1].activeSelf)
                 fencers[playerNum - 1].SetActive(true);
+
             buttonList[playerNum - 1].GetComponent<ReadyButton>().isReady = false;
             dM.p2 = buttonText;
             p2HeaderText.text = buttonText;
         }
     }
-}
 
+    private void OnGameModeChanged(int index)
+    {
+        // index 0 = First to X points
+        // index 1 = Most points in X seconds
+        bool isFirstToX = (index == 0);
+
+        pointsToWinText.gameObject.SetActive(isFirstToX);
+        pointsToWinDropdown.gameObject.SetActive(isFirstToX);
+
+        boutLengthText.gameObject.SetActive(!isFirstToX);
+        boutLengthDropdown.gameObject.SetActive(!isFirstToX);
+    }
+}

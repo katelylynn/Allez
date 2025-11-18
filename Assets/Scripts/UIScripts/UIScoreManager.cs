@@ -14,12 +14,18 @@ public class UIScoreManager : MonoBehaviour
     private bool p2Scored;
     private int[] oldScore = {0,0};
     PlayerDataManager dm;
+    public TMP_Text countdownText;
 
     public void Initialize(GameObject gameManager)
     {
         gm = gameManager.GetComponent<GameManager>();
         dm = PlayerDataManager.GetInstance();
         scoreUI = transform.Find("PipContainer");
+    }
+
+    public void UpdateCountdown(float timeLeft)
+    {
+        countdownText.text = (int) timeLeft + "s";
     }
 
     public void UpdateUI()

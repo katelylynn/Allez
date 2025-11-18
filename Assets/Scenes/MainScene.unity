@@ -136,6 +136,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 413784316865445471, guid: 6c8ee44a7674f1242bce6c406cea2f71, type: 3}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: gameMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: fencer1Type
       value: 0
       objectReference: {fileID: 0}

@@ -89,6 +89,13 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log("Time is up! " + maxTime + " seconds have passed.");
+        EndFight(DetermineWinner());
+    }
+
+    private FencerId DetermineWinner()
+    {
+        int[] score = LoadScore();
+        return score[0] > score[1] ? FencerId.Fencer0 : FencerId.Fencer1;
     }
 
     public void StartRound()
@@ -143,7 +150,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         /* Check for game over */
-        if (s[0] == pointsToWin || s[1] == pointsToWin)
+        if (gameMode == GameMode.FirstToX && (s[0] == pointsToWin || s[1] == pointsToWin))
         {
             dM.UpdatePlayerDataAfterGame(dM.p1, (int)winner == 0, s[0], PlayerPrefs.GetInt("CurrentRound"));
             if (PlayerPrefs.GetString("OpponentType", null) == "Player")

@@ -26,28 +26,28 @@ public class BoutSetupManager : MonoBehaviour
 
     // PlayerPrefs keys
     private const string KEY_OPPONENT_TYPE = "OpponentType";
-    private const string KEY_GAME_MODE_INDEX = "GameModeIndex";
-    private const string KEY_POINTS_TO_WIN_INDEX = "PointsToWinIndex";
+    private const string KEY_GAME_MODE = "GameMode";
     private const string KEY_POINTS_TO_WIN_VALUE = "PointsToWin";
-    private const string KEY_BOUT_LENGTH_INDEX = "BoutLengthIndex";
     private const string KEY_BOUT_LENGTH_VALUE = "BoutLength";
 
     public void Awake()
     {
         dM = PlayerDataManager.GetInstance();
 
-        // listen for dropdown changes
         opponentTypeDropdown.onValueChanged.AddListener(OnOpponentTypeChanged);
         gameModeDropdown.onValueChanged.AddListener(OnGameModeChanged);
         pointsToWinDropdown.onValueChanged.AddListener(OnPointsToWinChanged);
         boutLengthDropdown.onValueChanged.AddListener(OnBoutLengthChanged);
 
-        // Setup initial opponent type
-        string selected = opponentTypeDropdown.options[opponentTypeDropdown.value].text;
-        PlayerPrefs.SetString(KEY_OPPONENT_TYPE, selected);
-        PlayerPrefs.Save();
-
-        isAI = selected == "AI";
+        // Load opponent type (or keep default)
+        string savedOpponent = PlayerPrefs.GetString(KEY_OPPONENT_TYPE, null);
+        if (!string.IsNullOrEmpty(savedOpponent))
+        {
+            int idx = opponentTypeDropdown.options.FindIndex(o => o.text == savedOpponent);
+            if (idx >= 0) opponentTypeDropdown.SetValueWithoutNotify(idx);
+        }
+        string selectedOpponent = opponentTypeDropdown.options[opponentTypeDropdown.value].text;
+        isAI = selectedOpponent == "AI";
 
         if (isAI)
         {
@@ -60,6 +60,30 @@ public class BoutSetupManager : MonoBehaviour
             dM.p2 = "";
         }
 
+        // Load game mode (or keep default)
+        string savedMode = PlayerPrefs.GetString(KEY_GAME_MODE, null);
+        if (!string.IsNullOrEmpty(savedMode))
+        {
+            int idx = gameModeDropdown.options.FindIndex(o => o.text == savedMode);
+            if (idx >= 0) gameModeDropdown.SetValueWithoutNotify(idx);
+        }
+
+        // Load points to win (or keep default)
+        int savedPoints = PlayerPrefs.GetInt(KEY_POINTS_TO_WIN_VALUE, -1);
+        if (savedPoints > 0)
+        {
+            int idx = pointsToWinDropdown.options.FindIndex(o => o.text == savedPoints.ToString());
+            if (idx >= 0) pointsToWinDropdown.SetValueWithoutNotify(idx);
+        }
+
+        // Load bout length (or keep default)
+        int savedLength = PlayerPrefs.GetInt(KEY_BOUT_LENGTH_VALUE, -1);
+        if (savedLength > 0)
+        {
+            int idx = boutLengthDropdown.options.FindIndex(o => o.text == savedLength.ToString());
+            if (idx >= 0) boutLengthDropdown.SetValueWithoutNotify(idx);
+        }
+
         PopulateScrollView();
         OnGameModeChanged(gameModeDropdown.value);
     }
@@ -68,7 +92,6 @@ public class BoutSetupManager : MonoBehaviour
     {
         string selected = opponentTypeDropdown.options[index].text;
 
-        // Save selection
         PlayerPrefs.SetString(KEY_OPPONENT_TYPE, selected);
         PlayerPrefs.Save();
 
@@ -208,28 +231,25 @@ public class BoutSetupManager : MonoBehaviour
         boutLengthText.gameObject.SetActive(!isFirstToX);
         boutLengthDropdown.gameObject.SetActive(!isFirstToX);
 
-        // Save game mode
-        PlayerPrefs.SetInt(KEY_GAME_MODE_INDEX, index);
+        PlayerPrefs.SetString(KEY_GAME_MODE, gameModeDropdown.options[index].text);
         PlayerPrefs.Save();
     }
 
     private void OnPointsToWinChanged(int index)
     {
-        PlayerPrefs.SetInt(KEY_POINTS_TO_WIN_INDEX, index);
-
         if (int.TryParse(pointsToWinDropdown.options[index].text, out int value))
+        {
             PlayerPrefs.SetInt(KEY_POINTS_TO_WIN_VALUE, value);
-
-        PlayerPrefs.Save();
+            PlayerPrefs.Save();
+        }
     }
 
     private void OnBoutLengthChanged(int index)
     {
-        PlayerPrefs.SetInt(KEY_BOUT_LENGTH_INDEX, index);
-
         if (int.TryParse(boutLengthDropdown.options[index].text, out int value))
+        {
             PlayerPrefs.SetInt(KEY_BOUT_LENGTH_VALUE, value);
-
-        PlayerPrefs.Save();
+            PlayerPrefs.Save();
+        }
     }
 }

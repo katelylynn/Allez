@@ -43,7 +43,7 @@ public class SceneInitializer : MonoBehaviour
 
         if (opponentType == "Player")
             fencer1Type = FencerType.Player;
-        if (opponentType == "AI")
+        else if (opponentType == "AI")
             fencer1Type = FencerType.AI;
 
         f1.GetComponent<Fencer>().Initialize(FencerId.Fencer1, fencer1Type);
@@ -63,6 +63,16 @@ public class SceneInitializer : MonoBehaviour
 
         /* MANAGERS */
         g = Spawn(gameManagerPrefab);
+
+        string gm = PlayerPrefs.GetString("GameMode", null);
+        Debug.Log(gm);
+
+        if (gm == "First to X Points")
+            gameMode = GameMode.FirstToX;
+        else if (gm == "Most Points in X Seconds")
+            gameMode = GameMode.MostPointsInXTime;
+        Debug.Log(gameMode);
+
         g.GetComponent<GameManager>().Initialize(gameMode);
 
         GameObject cm = Spawn(combatManagerPrefab);

@@ -8,8 +8,7 @@ public class SceneInitializer : MonoBehaviour
     public GameMode gameMode;
 
     public GameObject gameManagerPrefab;
-    public GameObject fencerPrefab; // FEMALE
-    public GameObject fencer2Prefab; // MALE
+    public GameObject fencerPrefab; 
     public GameObject combatManagerPrefab;
     public GameObject environmentPrefab;
     public GameObject scoreUIPrefab;
@@ -18,8 +17,8 @@ public class SceneInitializer : MonoBehaviour
 
     private GameObject g;
 
-    public FencerType fencer0Type; // FEMALE
-    public FencerType fencer1Type; // MALE
+    public FencerType fencer0Type; 
+    public FencerType fencer1Type; 
 
     void Awake()
     {
@@ -53,6 +52,11 @@ public class SceneInitializer : MonoBehaviour
             f1.GetComponent<AI>().enabled = true;
             f1.GetComponent<AI>().Initialize(f0);
         }
+
+        // Set up 2 different audios
+        f0.GetComponent<PlayerAudioController>().SetGenderAudios(FencerId.Fencer0);
+        f0.GetComponent<PlayerAudioController>().SetGenderAudios(FencerId.Fencer1);
+
 
         // Set opponent's torso as the aim target for both players
         f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().aimTarget);

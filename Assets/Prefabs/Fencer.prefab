@@ -2271,6 +2271,8 @@ MonoBehaviour:
   Swing: {fileID: 8300000, guid: efd9efdf637f0442eb6d95e9ec4718a1, type: 3}
   BackDash: {fileID: 8300000, guid: 88c877dd9825944fd8c9a59a864087b9, type: 3}
   Ouch: {fileID: 8300000, guid: b4da45b8ebd7e48be8121068dd542dc4, type: 3}
+  LungeFemale: {fileID: 8300000, guid: 48c07ad26ecac4b0ebd37cd337e77e42, type: 3}
+  LungeMale: {fileID: 8300000, guid: d090c7bb0851b4c71bd17557b22a06cc, type: 3}
 --- !u!95 &1640650689443052321
 Animator:
   serializedVersion: 7

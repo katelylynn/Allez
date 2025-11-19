@@ -12,18 +12,44 @@ public class PlayerAudioController : MonoBehaviour
     public AudioClip BackDash;
     public AudioClip Ouch;
 
+    [Header("Female Sound Clips")]
+    public AudioClip LungeFemale;
+    public AudioClip OuchFemale;
+    public AudioClip BackDashFemale;
+    
+    [Header("Male Sound Clips")]
+    public AudioClip LungeMale;
+    public AudioClip OuchMale;
+    public AudioClip BackDashMale;
+
     private AudioSource source;
 
-    void Awake()
+    public void Awake()
     {
         source = GetComponent<AudioSource>();
         source.playOnAwake = false;
-        // For 3D sounds, spatialBlend = 1f and delete dopplerLevel
-        source.spatialBlend = 0f; // 2d sound
-        source.dopplerLevel = 0f;
-
+        // source.spatialBlend = 0f; 
+        // source.dopplerLevel = 0f;
     }
-    
+
+    public void SetGenderAudios(FencerId id)
+    {
+        // Female
+        if (id == FencerId.Fencer0)   
+        {
+            Lunge = LungeFemale;
+            Ouch = OuchFemale;
+            BackDash = BackDashFemale;
+        }
+        // Male
+        else if (id == FencerId.Fencer1) 
+        {
+            Lunge = LungeMale;
+            Ouch = OuchMale;
+            BackDash = BackDashMale;
+        }
+    }
+
     public void PlayAttack() => Play(Hit);
     public void PlayStep() => Play(Step);
     public void PlayLunge() => Play(Lunge);

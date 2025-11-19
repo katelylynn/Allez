@@ -146,6 +146,7 @@ public class BoutSetupManager : MonoBehaviour
         {
             SetupAI();
             dM.p2 = "AI";
+            buttonList[1].GetComponent<ReadyButton>().isReady = false;
         }
         else
         {
@@ -160,7 +161,19 @@ public class BoutSetupManager : MonoBehaviour
     {
         ClearScrollViewContent();
         List<string> playerNames = dM.GetAllPlayerNames();
+        string tempP1 = null;
+
+        if(dM.p1 != null) //shitty hacky fix to prevent ready up bug when opponent type changes. part 1
+        {
+            tempP1 = dM.p1;
+        }
+
         dM.ClearSelectedPlayers();
+
+        if(tempP1 != null) //part 2 of shitty fix, should redo later. does reset clear selected player even need to be called above here?
+        {
+            dM.p1 = tempP1;
+        }
 
         if (isAI)
             dM.p2 = "AI";
@@ -209,7 +222,6 @@ public class BoutSetupManager : MonoBehaviour
                 }
             }
         }
-
         startMatchButton.GetComponent<Button>().interactable = false;
     }
 

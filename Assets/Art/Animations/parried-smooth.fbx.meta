@@ -56,7 +56,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.24786325
-        functionName: PlayParry()
+        functionName: PlayParry
         data: 
         objectReferenceParameter: {fileID: 8300000, guid: 2532fa8bc0c9a4920b1670957e1dfae4, type: 3}
         floatParameter: 0

@@ -171,7 +171,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.3292159
+      - time: 0
         functionName: PlayLunge
         data: 
         objectReferenceParameter: {fileID: 8300000, guid: 48c07ad26ecac4b0ebd37cd337e77e42, type: 3}
@@ -207,7 +207,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.15614256
+      - time: 0
         functionName: PlaySwing
         data: 
         objectReferenceParameter: {fileID: 8300000, guid: efd9efdf637f0442eb6d95e9ec4718a1, type: 3}

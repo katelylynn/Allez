@@ -55,7 +55,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.515857
+      - time: 0.029014876
         functionName: PlayLunge
         data: 
         objectReferenceParameter: {fileID: 8300000, guid: 48c07ad26ecac4b0ebd37cd337e77e42, type: 3}

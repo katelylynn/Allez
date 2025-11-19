@@ -54,17 +54,23 @@ public class Mover : MonoBehaviour
 
     public void OnLunge(InputValue value)
     {
-        anim.SetTrigger("Lunge");
-        rb.linearVelocity = Vector3.zero;
-        rb.AddForce(transform.forward * lungeStrength, ForceMode.Acceleration);
+        if (!anim.GetBool("Parry"))
+        {
+            anim.SetTrigger("Lunge");
+            rb.linearVelocity = Vector3.zero;
+            rb.AddForce(transform.forward * lungeStrength, ForceMode.Acceleration);
+        }
     }
 
     public void OnBackdash(InputValue value)
     {
-        anim.SetTrigger("Backdash");
+        if (!anim.GetBool("Parry"))
+        {
+            anim.SetTrigger("Backdash");
 
-        rb.linearVelocity = Vector3.zero;
-        rb.AddForce(-transform.forward * backdashStrength, ForceMode.VelocityChange);
+            rb.linearVelocity = Vector3.zero;
+            rb.AddForce(-transform.forward * backdashStrength, ForceMode.VelocityChange);
+        }
     }
 
     public void SetForwardMovement(bool b)

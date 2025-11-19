@@ -25,15 +25,21 @@ public class CombatManager : MonoBehaviour
 
     private void HandleParrySuccess()
     {
-        if (fencer0.GetStateSnapshot(1).IsName("ParryLeft"))
+        Animator f0Animator = fencer0.GetComponent<Animator>();
+        Animator f1Animator = fencer1.GetComponent<Animator>();
+
+        bool f0IsParrying = f0Animator.GetBool("Parry");
+        bool f1IsParrying = f1Animator.GetBool("Parry");
+
+        if (f0IsParrying)
         {
-            Animator f1Animator = fencer1.GetComponent<Animator>();
+            // fencer0 parried apply Parried animation to fencer1
             if (!f1Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
                 f1Animator.Play("Parried", foilLayerIndex, 0f);
         }
-        else if (fencer1.GetStateSnapshot(1).IsName("ParryLeft"))
+        else if (f1IsParrying)
         {
-            Animator f0Animator = fencer0.GetComponent<Animator>();
+            // fencer1 parried apply Parried animation to fencer0
             if (!f0Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
                 f0Animator.Play("Parried", foilLayerIndex, 0f);
         }

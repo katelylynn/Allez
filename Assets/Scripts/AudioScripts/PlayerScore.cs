@@ -38,15 +38,15 @@ public class PlayerScore : MonoBehaviour
 
         // point SFX (only when score increases)
         if (p1 > prevP1) {             
-            Play(p2Ouch);
-            Play(p1PointSfx); 
+            Play(p1Ouch);
+            Play(p2PointSfx); 
         }
 
 
         if (p2 > prevP2)
         {
-            Play(p1Ouch);
-            Play(p2PointSfx);
+            Play(p2Ouch);
+            Play(p1PointSfx);
         }
 
         // update previous after checks

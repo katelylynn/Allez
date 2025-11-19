@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 662.6366, y: -0}
-  m_SizeDelta: {x: 84.19, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &3119778510431119532
 CanvasRenderer:
@@ -474,7 +474,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 400.00003, y: -0}
-  m_SizeDelta: {x: 20.01, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2988096427000258031
 CanvasRenderer:
@@ -779,6 +779,7 @@ MonoBehaviour:
   gm: {fileID: 7296043609486496743, guid: 06dcee9b4c91724438891ac1424bad46, type: 3}
   playerName: {fileID: 664169701466415487}
   isP1: 1
+  countdownText: {fileID: 0}
 --- !u!1 &4497800655963903813
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,6 +909,7 @@ MonoBehaviour:
   gm: {fileID: 7296043609486496743, guid: 06dcee9b4c91724438891ac1424bad46, type: 3}
   playerName: {fileID: 2068209859286059450}
   isP1: 0
+  countdownText: {fileID: 0}
 --- !u!1 &6852270934477110435
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,7 +946,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 137.36334, y: 0}
-  m_SizeDelta: {x: 84.19, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4764520591527239224
 CanvasRenderer:

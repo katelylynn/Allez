@@ -55,8 +55,9 @@ public class PlayerAudioController : MonoBehaviour
     public void PlayLunge() => Play(Lunge);
     public void PlayParry() => Play(Parry);
     public void PlaySwing() => Play(Swing);
-    public void PlayOuchOne() => Play(BackDash);
-    public void PlayOuchTwo2() => Play(Ouch);
+    
+    public void PlayBackDash() => Play(BackDash);
+    public void PlayOuch() => Play(Ouch);
 
     private void Play(AudioClip clip, float volume = 1f)
     {

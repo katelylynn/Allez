@@ -42,12 +42,12 @@ GameObject:
   - component: {fileID: 7922980191722943125}
   - component: {fileID: 3249652477915776723}
   m_Layer: 0
-  m_Name: ArmAimRig (1)
+  m_Name: ParryAimRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7922980191722943125
 Transform:
   m_ObjectHideFlags: 0
@@ -902,7 +902,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8166801798762088326}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

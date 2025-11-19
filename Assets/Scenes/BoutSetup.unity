@@ -3045,7 +3045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 206684474}
-  boutSetupManager: {fileID: 0}
+  boutSetupManager: {fileID: 1334747474}
   b: {fileID: 456947695}
   content: {fileID: 1463503362}
 --- !u!114 &456947695
@@ -6904,7 +6904,6 @@ MonoBehaviour:
   pointsToWinDropdown: {fileID: 500635896}
   boutLengthText: {fileID: 523482157}
   boutLengthDropdown: {fileID: 501450639}
-  selection1: {fileID: 219923653}
   selection2: {fileID: 2042212294}
   contentP1: {fileID: 199350081}
   contentP2: {fileID: 1463503362}
@@ -8196,7 +8195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 2055104758}
-  boutSetupManager: {fileID: 0}
+  boutSetupManager: {fileID: 1334747474}
   b: {fileID: 1607038107}
   content: {fileID: 199350081}
 --- !u!1 &1623415271

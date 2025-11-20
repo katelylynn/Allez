@@ -4811,7 +4811,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 4cf2823188a8243518af0f5dd9203701, type: 3}
+  m_Resource: {fileID: 8300000, guid: 3449bdb65c31043558ce375434048667, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -6904,7 +6904,6 @@ MonoBehaviour:
   pointsToWinDropdown: {fileID: 500635896}
   boutLengthText: {fileID: 523482157}
   boutLengthDropdown: {fileID: 501450639}
-  selection1: {fileID: 219923653}
   selection2: {fileID: 2042212294}
   contentP1: {fileID: 199350081}
   contentP2: {fileID: 1463503362}

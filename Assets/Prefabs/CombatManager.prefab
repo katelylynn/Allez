@@ -57,6 +57,7 @@ MonoBehaviour:
     startupClipFrames: 20
     activeClipFrames: 10
     recoveryClipFrames: 30
+    staminaCost: 0
 --- !u!82 &2401273750365362106
 AudioSource:
   m_ObjectHideFlags: 0
@@ -68,11 +69,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 74bc0bc120f934916bb455a7140428aa, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

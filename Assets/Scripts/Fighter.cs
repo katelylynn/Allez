@@ -2,6 +2,7 @@ using System.Collections;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
 
@@ -13,8 +14,8 @@ public class Fighter : MonoBehaviour
 
     private Animator anim;
 
-    private float leftTiltPos = -5;
-    private float rightTiltPos = 2;
+    public float leftTiltPos = -5;
+    public float rightTiltPos = 2;
     private float unTiltPos = 0;
 
     private Coroutine currentTiltCoroutine;
@@ -72,12 +73,11 @@ public class Fighter : MonoBehaviour
 
     public void OnParry(InputValue parryDirection)
     {
-        // need to check if other triggers are being set
-        // can only do this if player is not attacking, lunging, or backdashing
-        if (currentParryCoroutine == null)
-        {
-            float parryDir = parryDirection.Get<float>();
+        float parryDir = parryDirection.Get<float>();
 
+        // can only do this if player is not attacking, lunging, or backdashing        
+        if (currentParryCoroutine == null && ParryTracker.localPosition.x == 0 && parryDir != 0)
+        {
             GameObject Rig1 = ParryTracker.parent.gameObject;
             Transform child = Rig1.transform.GetChild(0);
             MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();

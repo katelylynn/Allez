@@ -4,28 +4,43 @@ public class FencerColliderScript : MonoBehaviour
 {
 
     public Mover mv;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("collider enter");
-        if(collision.gameObject.tag == "FencerCollider")
+        Debug.Log("trigger");
+        if (collision.gameObject.tag == "FencerCollider")
+        {
+            mv.ZeroVelocity();
             mv.SetForwardMovement(false);
+        }
     }
 
     private void OnTriggerExit(Collider collision)
     {
-        Debug.Log("collider exit");
+        Debug.Log("Left trigger");
         if (collision.gameObject.tag == "FencerCollider")
+        {
             mv.SetForwardMovement(true);
+            mv.ZeroVelocity();
+        }
+        
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "FencerCollider")
+        {
+            Debug.Log("Enter collision");
+            mv.SetForwardMovement(false);
+        }
+    }
+
+    private void OnCollisonExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "FencerCollider")
+        {
+            Debug.Log("Left collision");
+            mv.SetForwardMovement(true);
+        }
     }
 }

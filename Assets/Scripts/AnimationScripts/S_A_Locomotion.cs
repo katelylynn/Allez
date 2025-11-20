@@ -12,7 +12,9 @@ public class S_A_Locomotion : MonoBehaviour
     private Animator animator;
     private Rigidbody rb;
 
-     private bool isSprinting = false;
+    //private bool isSprinting = false;
+
+    private bool isBackdashing = false;
 
     private Vector2 direction = Vector2.zero;
 
@@ -37,8 +39,17 @@ public class S_A_Locomotion : MonoBehaviour
         {
             direction.y = -1.0f;
             animator.SetFloat("InputY", 0.5f);
-        } else {
+        }
+        else
+        {
             animator.SetFloat("InputY", direction.y);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isBackdashing = true;
+            direction.y = -1.0f;
+            animator.SetTrigger("Backdash");
         }
 
         if (direction != Vector2.zero)
@@ -53,9 +64,10 @@ public class S_A_Locomotion : MonoBehaviour
     void FixedUpdate()
     {
         // --- Movement ---
-        float targetSpeed = isSprinting ? runSpeed : walkSpeed;
+        float targetSpeed = isBackdashing ? runSpeed : walkSpeed;
 
         Vector3 move = new Vector3(direction.x, 0, direction.y) * targetSpeed;
+        Debug.Log("Velocity: " + move);
 
         // Keep existing vertical velocity (gravity)
         Vector3 velocity = rb.linearVelocity;

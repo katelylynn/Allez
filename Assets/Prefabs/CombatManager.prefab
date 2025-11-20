@@ -45,6 +45,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 314ef7a3d0f255b4b9700c97dca060f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parriedConfig:
+    animationName: Parried
+    clip: {fileID: -623603649343465320, guid: c7dabacfd7dd41c46981796afba65f75, type: 3}
+    layerIndex: 1
+    distance: 2
+    returnToStart: 1
+    startupFrames: 30
+    activeFrames: 30
+    recoveryFrames: 30
+    startupClipFrames: 20
+    activeClipFrames: 10
+    recoveryClipFrames: 30
+    staminaCost: 0
 --- !u!82 &2401273750365362106
 AudioSource:
   m_ObjectHideFlags: 0
@@ -56,11 +69,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 74bc0bc120f934916bb455a7140428aa, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

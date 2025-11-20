@@ -5,38 +5,60 @@ public class CombatManager : MonoBehaviour
     private Fencer fencer0;
     private Fencer fencer1;
 
-    // I'm considering a better way to organize all the animation layers and their indices
     private int foilLayerIndex = 1;
 
+    ScriptedMotionPlayer motionPlayerP0;
+    ScriptedMotionPlayer motionPlayerP1;
+    [Header("Scripted Motion Configs")]
+    public ScriptedMotionConfig parriedConfig;
+    public void Awake()
+    {
+    }
     public void Start()
     {
         EventManager.ParrySuccess += HandleParrySuccess;
     }
+
     public void OnDestroy()
     {
         EventManager.ParrySuccess -= HandleParrySuccess;
     }
-    public void Initialize( Fencer f0, Fencer f1 )
+
+    public void Initialize(Fencer f0, Fencer f1)
     {
         fencer0 = f0;
         fencer1 = f1;
+        motionPlayerP0 = f0.GetComponent<ScriptedMotionPlayer>();
+        motionPlayerP1 = f1.GetComponent<ScriptedMotionPlayer>();
     }
 
     private void HandleParrySuccess()
     {
-        if ( fencer0.GetStateSnapshot( 1 ).IsName( "ParryLeft" ) )
+        Animator f0Animator = fencer0.GetComponent<Animator>();
+        Animator f1Animator = fencer1.GetComponent<Animator>();
+
+        bool f0IsParrying = f0Animator.GetBool("Parry");
+        bool f1IsParrying = f1Animator.GetBool("Parry");
+
+        if (f0IsParrying)
         {
-            Debug.Log( "fencer 0 parries Fencer 1!" );
-            Animator f1Animator = fencer1.GetComponent<Animator>();
+            // fencer0 parried apply Parried animation to fencer1
             if (!f1Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
-                f1Animator.Play( "Parried", foilLayerIndex, 0f );
+            {
+                fencer1.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
+                //f1Animator.Play("Parried", foilLayerIndex, 0f); //old method, no frame control
+                motionPlayerP1.PlayScriptedMotion(parriedConfig, Vector3.zero);
+            }
         }
-        else if ( fencer1.GetStateSnapshot( 1 ).IsName( "ParryLeft" ) )
+        else if (f1IsParrying)
         {
-            Debug.Log( "Fencer 1 parries Fencer 0!" );
-            Animator f0Animator = fencer0.GetComponent<Animator>();
+            // fencer1 parried apply Parried animation to fencer0
             if (!f0Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
-                f0Animator.Play( "Parried", foilLayerIndex, 0f );
+            { 
+                fencer0.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
+                //f1Animator.Play("Parried", foilLayerIndex, 0f); //old method, no frame control
+                motionPlayerP0.PlayScriptedMotion(parriedConfig, Vector3.zero);
+            }
         }
     }
 }

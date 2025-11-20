@@ -1,7 +1,11 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.Rendering.Universal;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.Utilities;
 
 public enum FencerType
 {
@@ -11,7 +15,7 @@ public enum FencerType
 
 public enum FencerId : int
 {
-    None,
+    None = -1,
     Fencer0 = 0,
     Fencer1 = 1,
 }
@@ -22,11 +26,15 @@ public class Fencer : MonoBehaviour
     public FencerId fencerId;
     private FencerType fencerType;
     public Animator anim;
+    public Transform aimTarget;
+    public GameObject foilHitbox;
 
     // input variables
     private PlayerInput playerInput;
     public InputActionAsset p0ActionAsset;
-    public InputActionAsset p1ActionAsset;
+    //public InputActionAsset p1ActionAsset;
+    private string kbGroup;
+    private Gamepad myPad;
 
     // scene variables
     private Camera cam;
@@ -38,16 +46,62 @@ public class Fencer : MonoBehaviour
         Quaternion.Euler(0f, 0f, 0f),
         Quaternion.Euler(0f, 180f, 0f)
     };
-    public Transform torso;
 
-    void Awake()
+    // scripts
+    public Mover mover;
+    public Fighter fighter;
+
+    private bool initialized = false;
+
+    private void OnEnable()
     {
-        torso = transform.Find("AimTarget");
+        InputSystem.onDeviceChange += HandleDeviceChange; //allows for hot swapping gamepads
     }
 
-    public void Start()
+    private void OnDisable()
     {
-        anim = GetComponent<Animator>();
+        if (playerInput != null) playerInput.onControlsChanged -= OnControlsChanged;
+        InputSystem.onDeviceChange -= HandleDeviceChange;
+    }
+
+    private void HandleDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (!(device is Gamepad)) return;
+
+        // if a pad event (add/remove/reconnect) occurs, re-evaluate our assignment + filters
+        switch (change)
+        {
+            case InputDeviceChange.Added:
+            case InputDeviceChange.Removed:
+            case InputDeviceChange.Disconnected:
+            case InputDeviceChange.Reconnected:
+            case InputDeviceChange.Enabled:
+            case InputDeviceChange.Disabled:
+                {
+                    var newPad = PickPadForFencer(fencerId);
+                    if (newPad != myPad)
+                    {
+                        myPad = newPad;
+                        SetActionsDeviceFilter(); 
+                        ApplyMask();                                         
+                    }
+                    break;
+                }
+            default: break;
+        }
+    }
+    
+    private void OnRoundStart()
+    {
+        if (playerInput != null)
+            playerInput.enabled = true;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.RoundStart -= OnRoundStart;
+        EventManager.RoundReset -= OnRoundReset;
+        EventManager.InputEnable -= OnInputEnable;
     }
 
     public void Initialize(FencerId fn, FencerType ft)
@@ -55,34 +109,122 @@ public class Fencer : MonoBehaviour
         // set instance variables
         fencerId = fn;
         fencerType = ft;
+        anim = GetComponent<Animator>();
 
         // setup player input
         SetupPlayerInput();
 
         // set camera position
-        cam = GetComponentInChildren<Camera>(); 
+        cam = GetComponentInChildren<Camera>();
         Rect r = cam.rect;
         r.x = (fencerId == FencerId.Fencer0 ? 0f : 0.5f);
         cam.rect = r;
 
-        // set fencer position, deactivating to overcome rigidbody
-        ResetFencer();
-
+        OnRoundReset();
         // set event callbacks
         EventManager.RoundStart += OnRoundStart;
-        EventManager.RoundEnd += ResetFencer;
-    }
-    private void OnRoundStart()
-    {
-        if (playerInput != null)
-            playerInput.enabled = true;
-    }
-    private void OnDestroy()
-    {
-        EventManager.RoundEnd -= ResetFencer;
+        EventManager.RoundReset += OnRoundReset;
+        EventManager.InputEnable += OnInputEnable;
+
     }
 
-    public void SetAimTarget(Transform target) {
+    private void SetupPlayerInput()
+    {
+        playerInput = GetComponent<PlayerInput>();
+
+        if (fencerType != FencerType.Player) { playerInput.enabled = false; return; }
+
+        playerInput.actions = p0ActionAsset;
+        playerInput.defaultActionMap = "Player";
+        playerInput.neverAutoSwitchControlSchemes = true;
+        playerInput.defaultControlScheme = "";                    // don't let control schemes overwrite bindingMask
+        playerInput.notificationBehavior = PlayerNotifications.SendMessages; // so it works with player input behavior
+
+        kbGroup = (fencerId == FencerId.Fencer0) ? "KeyboardP1" : "KeyboardP2";
+
+        PairDevicesOptional();
+
+        ApplyMask();
+
+        playerInput.actions.Enable();
+        playerInput.SwitchCurrentActionMap("Player");
+
+        // subscribe to changes late to avoid timing issues
+        initialized = true;
+        playerInput.onControlsChanged -= OnControlsChanged;
+        playerInput.onControlsChanged += OnControlsChanged;
+
+        //Debug.Log($"[{name}] Map: {playerInput.currentActionMap?.name}, Enabled: {playerInput.currentActionMap?.enabled}");
+        //Debug.Log($"[{name}] Mask: {playerInput.actions.bindingMask}");
+    }
+
+    //
+    private void PairDevicesOptional()
+    {
+        myPad = PickPadForFencer(fencerId);
+        SetActionsDeviceFilter();
+        //Debug.Log($"[{name}] No gamepad available? {(myPad == null ? "Yes" : "No")}");
+        //Debug.Log($"[{name}] Filtered devices: {string.Join(", ", playerInput.actions.devices)}");
+    }
+
+    private void SetActionsDeviceFilter()
+    {
+        
+        if (myPad == null) //allows for the case where 0 pads are plugged in
+        {
+            playerInput.actions.devices = default; // clears filter => all devices
+        }
+        else
+        {
+            // if there is a pad, restrict access to pad and keyboard 
+            var list = new System.Collections.Generic.List<InputDevice>();
+            if (Keyboard.current != null) list.Add(Keyboard.current);
+            list.Add(myPad);
+            playerInput.actions.devices = new ReadOnlyArray<InputDevice>(list.ToArray());
+        }
+
+        InputActionMap map = playerInput.currentActionMap ?? playerInput.actions.FindActionMap("Player", true);
+        if (map.enabled) { map.Disable(); map.Enable(); } // this forces bindings to reset
+    }
+   
+    //for hot swapping controllers
+    private void OnControlsChanged(PlayerInput pi)
+    {
+        if (!initialized) return;
+
+        Gamepad newPad = PickPadForFencer(fencerId);
+        myPad = newPad; 
+
+        SetActionsDeviceFilter();
+        ApplyMask();
+    }
+
+    // sets mask on players input so only their respective keyboard controls and gamepad (if present) are used
+    private void ApplyMask()
+    {
+        if (playerInput == null) return;
+        var actions = playerInput.actions;
+        if (actions == null) return;
+        if (string.IsNullOrEmpty(kbGroup)) return;
+
+        // if this fencer has no pad yet, don't include Gamepad group
+        if (myPad == null)
+            actions.bindingMask = InputBinding.MaskByGroups(kbGroup);
+        else
+            actions.bindingMask = InputBinding.MaskByGroups(kbGroup, "Gamepad");
+    }
+
+    //gets gamepad device for fencer based on their fencerid
+    private static Gamepad PickPadForFencer(FencerId id)
+    {
+        var ordered = Gamepad.all.OrderBy(g => g.deviceId).ToList();
+        int idx = (int)id;
+        if (idx < 0 || idx >= ordered.Count) return null;
+        return ordered[idx];
+    }
+
+    public void SetAimTarget(Transform target)
+    {
         var headAim = transform.Find("Rig 1/HeadAimRig");
         var foilAim = transform.Find("Rig 1/FoilAimRig");
 
@@ -108,28 +250,22 @@ public class Fencer : MonoBehaviour
         if (rigBuilder != null)
         {
             rigBuilder.Build();
-        } else {
+        }
+        else
+        {
             Debug.Log("Rigbuilder is null!");
         }
     }
 
-    private void SetupPlayerInput()
+    private void OnRoundReset()
     {
-        playerInput = GetComponent<PlayerInput>();
-
-        if (fencerType == FencerType.Player)
-        {
-            if (fencerId == FencerId.Fencer0)
-                playerInput.actions = p0ActionAsset;
-            else if (fencerId == FencerId.Fencer1)
-                playerInput.actions = p1ActionAsset;
-
-            playerInput.defaultActionMap = "Player";
-        }
-        else if (fencerType == FencerType.AI)
-        {
-            playerInput.enabled = false;
-        }
+        gameObject.GetComponent<Mover>().SetForwardMovement(true);
+        gameObject.SetActive(false);
+        gameObject.transform.position = startingPos[(int)fencerId];
+        gameObject.transform.rotation = startingRot[(int)fencerId];
+        gameObject.SetActive(true);
+        gameObject.GetComponent<Mover>().ZeroVelocity();
+        //foilHitbox.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 
     public AnimatorStateInfo GetStateSnapshot(int layer)
@@ -137,24 +273,10 @@ public class Fencer : MonoBehaviour
         return anim.GetCurrentAnimatorStateInfo(layer);
     }
 
-    private void ResetFencer(FencerId winner = FencerId.None)
+    private void OnInputEnable(bool enabled)
     {
-        playerInput.enabled = false;
-        gameObject.GetComponent<Mover>().SetForwardMovement(true);
-        gameObject.SetActive(false);
-        gameObject.transform.position = startingPos[(int)fencerId];
-        gameObject.transform.rotation = startingRot[(int)fencerId];
-        gameObject.SetActive(true);
-    }
-
-    public void Update()
-    {
-        if (fencerType == FencerType.AI)
-            CalculateNextMove();
-    }
-
-    private void CalculateNextMove()
-    {
-        Debug.Log("calculating next move");
+        if (playerInput) playerInput.enabled = enabled && (fencerType == FencerType.Player);
+        if (mover) mover.enabled = enabled;
+        if (fighter) fighter.enabled = enabled;
     }
 }

@@ -1,62 +1,210 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
+using System;
+
+public enum GameMode
+{
+    FirstToX,
+    MostPointsInXTime,
+}
 
 public class GameManager : MonoBehaviour
 {
+    private GameMode gameMode;
+
+    // first to X mode
     public int pointsToWin = 3;
-    public Canvas uiScore; //leave this unassigned in the editor
-    public RoundStartCountDown countdownTimer;
+
+    // most points in X time mode
+    public float maxTime = 60f; // seconds
+    public int elapsedTime = 0;
+    public bool countdownRunning = false;
+
+    // UI and data
+    Canvas uiScore;
+    Canvas staminaUI;
+    private RoundStartCountDown countdownTimer;
+    public string resultsScene = "resultsScene";
+    public float hitTimeScale = 0.01f;
+    PlayerDataManager dM;
+    private bool roundSequenceRunning;
+
+    public void Initialize(GameMode gm, int ptw, int bl)
+    {
+        gameMode = gm;
+        if (ptw != -1) pointsToWin = ptw;
+        if (bl != -1) maxTime = (float) bl;
+        if (gameMode == GameMode.MostPointsInXTime) pointsToWin = 0;
+    }
+
+    public void SetUIScore(Canvas ui)
+    {
+        uiScore = ui;
+    }
+
+    public void SetStaminaUI(Canvas ui)
+    {
+        staminaUI = ui;
+    }
+
+    public void SetCountdownTimer(RoundStartCountDown timer)
+    {
+        countdownTimer = timer;
+    }
+
     private void Awake()
     {
+        dM = PlayerDataManager.GetInstance();
         ResetGameState();
     }
+
     private void Start()
     {
         EventManager.RoundEnd += EndRound;
     }
+
     private void OnDestroy()
     {
         EventManager.RoundEnd -= EndRound;
     }
-    public void StartDuel()
+
+    public void StartBout()
     {
-        //Countdown();
-        //EventManager.TriggerRoundStart();
-        StartCoroutine(StartDuelRoutine());
+        StartRound();
+        if (gameMode == GameMode.MostPointsInXTime) 
+        {
+            uiScore.transform.Find("CountdownText").GetComponent<TMP_Text>().text = (maxTime - elapsedTime) + "s";
+            StartCoroutine(BoutCountdown());
+        }
+        else if (gameMode == GameMode.FirstToX)
+        {
+            uiScore.transform.Find("CountdownText").GetComponent<TMP_Text>().text = "";
+        }
     }
 
-    private void Countdown()
+    private IEnumerator BoutCountdown()
     {
-        countdownTimer.Run();
-        Debug.Log("En garde, pret, allez!");
+        Debug.Log("Bout timer started!");
+        float secondAccumulator = 0f;
+
+        while (elapsedTime < maxTime)
+        {
+            uiScore.transform.Find("CountdownText").GetComponent<TMP_Text>().text =
+                (maxTime - elapsedTime) + "s";
+
+            // Only count time when not in countdown / round sequence
+            if (!countdownRunning && !roundSequenceRunning)
+            {
+                secondAccumulator += Time.deltaTime;
+
+                if (secondAccumulator >= 1f)
+                {
+                    secondAccumulator -= 1f;
+                    elapsedTime++;
+                    Debug.Log("Tick: " + elapsedTime);
+                }
+            }
+
+            yield return null;
+        }
+
+        Debug.Log("Time is up! " + maxTime + " seconds have passed.");
+        EndFight(DetermineWinner());
+    }
+
+    private FencerId DetermineWinner()
+    {
+        int[] score = LoadScore();
+        if (score[0] > score[1])
+            return FencerId.Fencer0;
+        if (score[0] < score[1])
+            return FencerId.Fencer1;
+        return FencerId.None;
+    }
+
+    public void StartRound()
+    {
+        StartCoroutine(RoundCountdown());
+    }
+
+    private IEnumerator RoundCountdown()
+    {
+        countdownRunning = true;
+        EventManager.TriggerInputEnable(false);
+        yield return StartCoroutine(countdownTimer.Run());
+        EventManager.TriggerInputEnable(true);
+        countdownRunning = false;
+
+        EventManager.TriggerRoundStart();
     }
 
     private void EndRound(FencerId winner)
     {
-        
-        int[] s = LoadScore();
-        int currRound = PlayerPrefs.GetInt("CurrentRound");
-        s[(int)winner]++;
-        SetCurrentScore((int)winner, s[(int)winner]);
+        if (!roundSequenceRunning)
+        {
+            StartCoroutine(EndRoundSequence(winner));
+        }
+    }
 
-        Debug.Log("hit scored! winner: fencer " + winner);
-        Debug.Log("round: " + currRound + ", score: " + s[0] + ", " + s[1]);
-        StartCoroutine(DisplayRoundWinner(winner));
-        //refresh both player UIs
+    private IEnumerator EndRoundSequence(FencerId winner)
+    {
+        roundSequenceRunning = true;
+        Time.timeScale = hitTimeScale;
+        EventManager.TriggerInputEnable(false);
+
+        /* Update score */
+        int[] s = LoadScore();
+        s[(int)winner]++;
+        SetCurrentScore(winner, s[(int)winner]);
+
+        //Debug.Log("hit scored! winner: fencer " + winner);
+        //Debug.Log("round: " + PlayerPrefs.GetInt("CurrentRound") + ", score: " + s[0] + ", " + s[1]);
+
+        /* Update UI */
+        countdownTimer.DisplayWinner((int)winner);
         foreach (var ui in uiScore.GetComponentsInChildren<UIScoreManager>(true))
         {
             ui.Initialize(gameObject);
-            ui.UpdateUI();              
+            ui.UpdateUI();
+        }
+        yield return new WaitForSecondsRealtime(2.5f);
+        countdownTimer.HideWinner();
+
+        EventManager.TriggerRoundReset();
+        yield return new WaitForEndOfFrame();
+
+        if (gameMode == GameMode.MostPointsInXTime) 
+        {
+            int[] score = LoadScore();
+            pointsToWin = Math.Max(score[0], score[1]);
+            foreach (var ui in uiScore.GetComponentsInChildren<UIScoreManager>(true))
+            {
+                ui.UpdateUI();
+            }
         }
 
-        if (s[0] == pointsToWin || (s[1] == pointsToWin))
+        /* Check for game over */
+        if (gameMode == GameMode.FirstToX && (s[0] == pointsToWin || s[1] == pointsToWin))
         {
+            dM.UpdatePlayerDataAfterGame(dM.p1, (int)winner == 0, s[0], PlayerPrefs.GetInt("CurrentRound"));
+            if (PlayerPrefs.GetString("OpponentType", null) == "Player")
+                dM.UpdatePlayerDataAfterGame(dM.p2, (int)winner == 1, s[1], PlayerPrefs.GetInt("CurrentRound"));
+            dM.SaveData();
+            Time.timeScale = 1f;
             EndFight(winner);
+            roundSequenceRunning = false;
+            yield break;
         }
         else
         {
             IncrementCurrentRound();
-            StartDuel();
+            Time.timeScale = 1f;
+            staminaUI.GetComponent<StaminaBarManager>().ResetStaminaBars();
+            yield return new WaitForSecondsRealtime(0.5f);
+            StartRound();
+            roundSequenceRunning = false;
         }
     }
 
@@ -64,8 +212,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GAME OVER!");
         Debug.Log("winner: fencer " + (int)winner);
-        PlayerPrefs.SetString("RoundWinner", (int)winner == 0 ? "Player One": "Player Two");
-        SceneSwapper.ChangeScene("ResultsScene");
+
+        /* Change to results scene */
+        PlayerPrefs.SetInt("RoundWinner", (int)winner);
+        SceneSwapper.ChangeScene(resultsScene);
     }
 
     public static int[] LoadScore()
@@ -73,16 +223,12 @@ public class GameManager : MonoBehaviour
         return new int[2] { PlayerPrefs.GetInt("P1Score"), PlayerPrefs.GetInt("P2Score") };
     }
 
-    private void SetCurrentScore(int playerID, int num)
+    private void SetCurrentScore(FencerId fencerId, int num)
     {
-        if (playerID == 0)
-        {
+        if (fencerId == FencerId.Fencer0)
             PlayerPrefs.SetInt("P1Score", num);
-        }
         else
-        {
             PlayerPrefs.SetInt("P2Score", num);
-        }
     }
 
     private void IncrementCurrentRound()
@@ -97,21 +243,4 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("CurrentRound", 1);
     }
 
-    private IEnumerator StartDuelRoutine()
-    {
-        yield return StartCoroutine(countdownTimer.Run());
-        Debug.Log("Cd finished");
-        EventManager.TriggerRoundStart();
-    }
-
-    IEnumerator DisplayRoundWinner(FencerId winner)
-    {
-        //Time.timeScale = 0;
-        countdownTimer.DisplayWinner((int)winner);
-
-        yield return new WaitForSecondsRealtime(2.0f);
-
-        countdownTimer.HideWinner();
-        //Time.timeScale = 1;
-    }
 }

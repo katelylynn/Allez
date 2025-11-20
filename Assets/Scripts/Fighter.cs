@@ -111,11 +111,13 @@ public class Fighter : MonoBehaviour
             {
                 //parry left
                 currentParryCoroutine = StartCoroutine(DoParry(-parryForce, true));
+                GetComponent<PlayerAudioController>().PlaySwing();
             }
             else if (parryDir == 1)
             {
                 //parry right
                 currentParryCoroutine = StartCoroutine(DoParry(parryForce, true));
+                GetComponent<PlayerAudioController>().PlaySwing();
             }
         }
     }

@@ -18,6 +18,9 @@ public class AI : MonoBehaviour
     public float maxThink = 1.0f;
     private bool isThinking;
 
+    // other
+    private Coroutine currentTiltCoroutine;
+
     private void Start()
     {
         // easy references to the AI's own scripts
@@ -93,22 +96,36 @@ public class AI : MonoBehaviour
 
     private void CalculateNextMove()
     {
-        switch (Random.Range(0, 5))
+        if (currentTiltCoroutine != null)
+            StopCoroutine(currentTiltCoroutine);
+
+        switch (Random.Range(0, 8))
         {
             case 0:
                 fighter.Attack();
                 break;
             case 1:
-                fighter.TiltLeft();
+                Debug.Log("left parry");
+                fighter.DoParry(-1);
                 break;
             case 2:
-                fighter.TiltRight();
+                Debug.Log("right parry");
+                fighter.DoParry(1);
                 break;
             case 3:
                 mover.Lunge();
                 break;
             case 4:
                 mover.Backdash();
+                break;
+            case 5:
+                currentTiltCoroutine = StartCoroutine(fighter.DoTilt(fighter.leftTiltPos));
+                break;
+            case 6:
+                currentTiltCoroutine = StartCoroutine(fighter.DoTilt(fighter.rightTiltPos));
+                break;
+            case 7:
+                currentTiltCoroutine = StartCoroutine(fighter.DoTilt(fighter.unTiltPos));
                 break;
         }
     }

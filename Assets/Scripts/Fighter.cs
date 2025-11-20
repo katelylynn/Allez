@@ -16,7 +16,7 @@ public class Fighter : MonoBehaviour
 
     public float leftTiltPos = -5;
     public float rightTiltPos = 1.9f;
-    private float unTiltPos = 0;
+    public float unTiltPos = 0;
 
     private Coroutine currentTiltCoroutine;
     private Coroutine currentParryCoroutine;
@@ -79,7 +79,7 @@ public class Fighter : MonoBehaviour
         }
     }
 
-    private IEnumerator DoTilt(float targetLocalX)
+    public IEnumerator DoTilt(float targetLocalX)
     {
         float time = 0;
         Vector3 startPos = ParryTracker.localPosition;
@@ -122,7 +122,7 @@ public class Fighter : MonoBehaviour
         }
     }
 
-    private IEnumerator DoParry(float direction, bool isReversing = false)
+    public IEnumerator DoParry(float direction, bool isReversing = false)
     {
         anim.SetBool("Parry", true);
         float time = 0;

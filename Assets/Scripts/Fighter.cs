@@ -100,20 +100,20 @@ public class Fighter : MonoBehaviour
         float parryDir = parryDirection.Get<float>();
 
         // can only do this if player is not attacking, lunging, or backdashing        
-        if (currentParryCoroutine == null && ParryTracker.localPosition.x == 0 && parryDir != 0 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
+        if (currentParryCoroutine == null && ParryTracker.localPosition.x == 0 && parryDir != 0)
         {
             GameObject Rig1 = ParryTracker.parent.gameObject;
             Transform child = Rig1.transform.GetChild(0);
             MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
             aimConstraint.weight = 0f;
 
-            if (parryDir == -1)
+            if (parryDir == -1 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
             {
                 //parry left
                 currentParryCoroutine = StartCoroutine(DoParry(-parryForce, true));
                 GetComponent<PlayerAudioController>().PlaySwing();
             }
-            else if (parryDir == 1)
+            else if (parryDir == 1 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
             {
                 //parry right
                 currentParryCoroutine = StartCoroutine(DoParry(parryForce, true));

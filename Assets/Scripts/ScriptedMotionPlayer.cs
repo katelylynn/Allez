@@ -106,9 +106,10 @@ public class ScriptedMotionPlayer : MonoBehaviour
 
         if (clip != null) 
         {
+            //anim.Update(0f);
+            //anim.CrossFade(cfg.animationName, 0f, cfg.layerIndex, 0f);
+            //yield return null;
             anim.speed = 0f; //must be zero initially so we can control animation times
-            anim.Play(cfg.animationName, cfg.layerIndex, 0f);
-            anim.Update(0f);
         }
 
         //Debug.Log($"[ScriptedMotion] BEGIN {cfg.animationName ?? "(no clip)"} at t={Time.time:F4}, totalFrames={totalFrames}");
@@ -232,8 +233,9 @@ public class ScriptedMotionPlayer : MonoBehaviour
             if (clip != null)
             {
                 normalizedTimeForThisFrame = Mathf.Clamp01(normalizedTimeForThisFrame);
-                anim.Play(cfg.animationName, cfg.layerIndex, normalizedTimeForThisFrame);
-                anim.Update(0f);
+                //anim.Update(0f);
+                anim.CrossFade(cfg.animationName, 0f, cfg.layerIndex, normalizedTimeForThisFrame);
+                yield return null;
             }
 
             // apparently works better than yield return null??

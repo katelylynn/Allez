@@ -15,7 +15,7 @@ public class Fighter : MonoBehaviour
     private Animator anim;
 
     public float leftTiltPos = -5;
-    public float rightTiltPos = 2;
+    public float rightTiltPos = 1.9f;
     private float unTiltPos = 0;
 
     private Coroutine currentTiltCoroutine;

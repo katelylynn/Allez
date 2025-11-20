@@ -39,6 +39,7 @@ public class CombatManager : MonoBehaviour
             Animator f1Animator = fencer1.GetComponent<Animator>();
             if (!f1Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
             {
+                fencer1.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
                 //f1Animator.Play("Parried", foilLayerIndex, 0f); //old method, no frame control
                 motionPlayerP1.PlayScriptedMotion(parriedConfig, Vector3.zero);
             }
@@ -47,7 +48,8 @@ public class CombatManager : MonoBehaviour
         {
             Animator f0Animator = fencer0.GetComponent<Animator>();
             if (!f0Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
-            {
+            { 
+                fencer0.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
                 //f1Animator.Play("Parried", foilLayerIndex, 0f); //old method, no frame control
                 motionPlayerP0.PlayScriptedMotion(parriedConfig, Vector3.zero);
             }

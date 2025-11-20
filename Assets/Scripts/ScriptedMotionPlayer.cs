@@ -302,4 +302,15 @@ public class ScriptedMotionPlayer : MonoBehaviour
             transform.position = targetPos;
         }
     }
+
+    public void StopCurrentMotion()
+    {
+        if (currentRoutine != null)
+        {
+            StopCoroutine(currentRoutine);
+            anim.speed = 1f;
+            isPlaying = false;
+            currentRoutine = null;
+        }
+    }
 }

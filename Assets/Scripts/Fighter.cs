@@ -23,7 +23,6 @@ public class Fighter : MonoBehaviour
 
     // coroutines
     private Coroutine currentTiltCoroutine;
-    private Coroutine currentParryCoroutine;
 
     // util script references
     ScriptedMotionPlayer motionPlayer;
@@ -81,69 +80,6 @@ public class Fighter : MonoBehaviour
         ParryTracker.localPosition = targetPos; // Snap to final position
     }
 
-    public void OnParry(InputValue parryDirection) => Parry(parryDirection.Get<float>());
-
-    public void Parry(float parryDir)
-    {
-        // can only do this if player is not attacking, lunging, or backdashing        
-        if (currentParryCoroutine == null && ParryTracker.localPosition.x == 0 && parryDir != 0)
-        {
-            GameObject Rig1 = ParryTracker.parent.gameObject;
-            Transform child = Rig1.transform.GetChild(0);
-            MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
-            aimConstraint.weight = 0f;
-
-            if (parryDir == -1 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
-            {
-                //parry left
-                currentParryCoroutine = StartCoroutine(DoParry(-parryForce, true));
-                GetComponent<PlayerAudioController>().PlaySwing();
-            }
-            else if (parryDir == 1 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
-            {
-                //parry right
-                currentParryCoroutine = StartCoroutine(DoParry(parryForce, true));
-                GetComponent<PlayerAudioController>().PlaySwing();
-            }
-        }
-    }
-
-    private IEnumerator DoParry(float direction, bool isReversing = false)
-    {
-        anim.SetBool("Parry", true);
-        float time = 0;
-        Vector3 startPos = ParryTracker.localPosition;
-
-        // Instead of absolute position, use relative offset:
-        Vector3 targetPos = startPos + new Vector3(direction, 0, 0);
-
-        while (time < 1)
-        {
-            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, time);
-            time += Time.deltaTime * tiltSpeed;
-            yield return null;
-        }
-
-        ParryTracker.localPosition = targetPos;
-        currentParryCoroutine = null;
-
-        // Ensures that the sword goes back to its original position
-        if (isReversing)
-        {
-            currentParryCoroutine = StartCoroutine(DoParry(-direction));
-        }
-
-        if (currentParryCoroutine == null)
-        {
-            GameObject Rig1 = ParryTracker.parent.gameObject;
-            Transform child = Rig1.transform.GetChild(0);
-            MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
-            aimConstraint.weight = 1f;
-
-            anim.SetBool("Parry", false);
-        }
-    }
-
     public void ResetSword()
     {
         //Reset weight to disable wide wrist movement
@@ -154,7 +90,5 @@ public class Fighter : MonoBehaviour
 
         //Reset the sphere game object to center, which resets sword to center
         ParryTracker.localPosition = new Vector3(unTiltPos, ParryTracker.localPosition.y, ParryTracker.localPosition.z);
-
-        currentParryCoroutine = null;
     }
 }

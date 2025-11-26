@@ -99,12 +99,10 @@ public class AI : MonoBehaviour
                 fighter.Attack();
                 break;
             case 1:
-                Debug.Log("left parry");
-                fighter.Parry(-1);
+                fighter.Tilt(-1);
                 break;
             case 2:
-                Debug.Log("right parry");
-                fighter.Parry(1);
+                fighter.Tilt(1);
                 break;
             case 3:
                 mover.Lunge();
@@ -113,14 +111,6 @@ public class AI : MonoBehaviour
                 mover.Backdash();
                 break;
             case 5:
-                Debug.Log("Tilt left");
-                fighter.Tilt(-1);
-                break;
-            case 6:
-                Debug.Log("Tilt right");
-                fighter.Tilt(1);
-                break;
-            case 7:
                 Debug.Log("un Tilt");
                 fighter.Tilt(0);
                 break;

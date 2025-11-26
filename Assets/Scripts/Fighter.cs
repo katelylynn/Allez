@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,11 +9,10 @@ using UnityEngine.InputSystem;
 public class Fighter : MonoBehaviour
 {
     public Transform ParryTracker;
-    public float tiltSpeed = 5;
-    public float parryForce = 3;
 
     private Animator anim;
-
+    
+    public float tiltSpeed = 5;
     public float leftTiltPos = -5;
     public float rightTiltPos = 1.9f;
     public float unTiltPos = 0;
@@ -27,7 +26,7 @@ public class Fighter : MonoBehaviour
     PlayerStamina stamina;
     [Header("Scripted Motion Configs")]
     public ScriptedMotionConfig attackConfig;
-    public ScriptedMotionConfig parryLeftConfig;
+    public ScriptedMotionConfig parryConfig;
 
     public void Start()
     {
@@ -38,7 +37,7 @@ public class Fighter : MonoBehaviour
     }
     public void Attack()
     {
-        if (stamina.ConsumeStamina(attackConfig.staminaCost))
+        if (stamina.ConsumeStamina(attackConfig.staminaCost) && !anim.GetBool("Parry"))
             motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
     }
 
@@ -100,16 +99,16 @@ public class Fighter : MonoBehaviour
             MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
             aimConstraint.weight = 0f;
 
-            if (parryDir == -1 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
+            if (parryDir == -1 && stamina.ConsumeStamina(parryConfig.staminaCost))
             {
                 //parry left
-                currentParryCoroutine = StartCoroutine(DoParry(-parryForce, true));
+                currentParryCoroutine = StartCoroutine(DoParry(-parryConfig.distance, true));
                 GetComponent<PlayerAudioController>().PlaySwing();
             }
-            else if (parryDir == 1 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
+            else if (parryDir == 1 && stamina.ConsumeStamina(parryConfig.staminaCost))
             {
                 //parry right
-                currentParryCoroutine = StartCoroutine(DoParry(parryForce, true));
+                currentParryCoroutine = StartCoroutine(DoParry(parryConfig.distance, true));
                 GetComponent<PlayerAudioController>().PlaySwing();
             }
         }
@@ -118,17 +117,17 @@ public class Fighter : MonoBehaviour
     private IEnumerator DoParry(float direction, bool isReversing = false)
     {
         anim.SetBool("Parry", true);
-        float time = 0;
         Vector3 startPos = ParryTracker.localPosition;
 
         // Instead of absolute position, use relative offset:
         Vector3 targetPos = startPos + new Vector3(direction, 0, 0);
 
-        while (time < 1)
+        float frameCount = isReversing ? parryConfig.activeFrames : parryConfig.recoveryFrames;
+        for (int i = 0; i < frameCount; i++)
         {
-            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, time);
-            time += Time.deltaTime * tiltSpeed;
-            yield return null;
+            float t = (float)i / (frameCount - 1);  // normalized 0 → 1
+            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, t);
+            yield return null;   // wait 1 frame
         }
 
         ParryTracker.localPosition = targetPos;

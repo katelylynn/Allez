@@ -3653,9 +3653,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ParryTracker: {fileID: 7503634212462944958}
   tiltSpeed: 5
-  parryForce: 3
   leftTiltPos: -5
   rightTiltPos: 1.9
+  unTiltPos: 0
   foilAttackBox: {fileID: 7585652432276685990}
   attackConfig:
     animationName: Attack
@@ -3670,19 +3670,19 @@ MonoBehaviour:
     activeClipFrames: 5
     recoveryClipFrames: 20
     staminaCost: 5
-  parryLeftConfig:
-    animationName: ParryLeft
-    clip: {fileID: 304406136598300900, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
-    layerIndex: 1
+  parryConfig:
+    animationName: 
+    clip: {fileID: 0}
+    layerIndex: 0
     distance: 2
-    returnToStart: 0
-    startupFrames: 10
-    activeFrames: 5
-    recoveryFrames: 10
-    startupClipFrames: 10
-    activeClipFrames: 5
-    recoveryClipFrames: 20
-    staminaCost: 15
+    returnToStart: 1
+    startupFrames: 0
+    activeFrames: 12
+    recoveryFrames: 24
+    startupClipFrames: 20
+    activeClipFrames: 10
+    recoveryClipFrames: 30
+    staminaCost: 0
 --- !u!114 &4924054493378190649
 MonoBehaviour:
   m_ObjectHideFlags: 0

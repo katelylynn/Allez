@@ -44,24 +44,13 @@ public class Fighter : MonoBehaviour
 
     public void OnAttack(InputValue value) => Attack();
 
-    public void TiltLeft()
-    {
-        if (stamina.ConsumeStamina(parryLeftConfig.staminaCost))
-            motionPlayer.PlayScriptedMotion(parryLeftConfig, Vector3.zero);
-    }
-
-    public void TiltRight()
-    {
-        //if (motionPlayer != null)
-        //    motionPlayer.PlayScriptedMotion(parryRightConfig, Vector3.zero);
-    }
-
     public void OnTilt(InputValue tiltDirection)
     {
-        // need to check if any triggers are being set before doing this
-        // can only not do this if player is lunging
-        float tilt = tiltDirection.Get<float>();
+        Tilt(tiltDirection.Get<float>());
+    }
 
+    public void Tilt(float tilt)
+    {
         if (currentTiltCoroutine != null)
             StopCoroutine(currentTiltCoroutine);
 
@@ -77,9 +66,10 @@ public class Fighter : MonoBehaviour
         {
             currentTiltCoroutine = StartCoroutine(DoTilt(unTiltPos));
         }
+
     }
 
-    public IEnumerator DoTilt(float targetLocalX)
+    private IEnumerator DoTilt(float targetLocalX)
     {
         float time = 0;
         Vector3 startPos = ParryTracker.localPosition;
@@ -97,8 +87,11 @@ public class Fighter : MonoBehaviour
 
     public void OnParry(InputValue parryDirection)
     {
-        float parryDir = parryDirection.Get<float>();
+        Parry(parryDirection.Get<float>());
+    }
 
+    public void Parry(float parryDir)
+    {
         // can only do this if player is not attacking, lunging, or backdashing        
         if (currentParryCoroutine == null && ParryTracker.localPosition.x == 0 && parryDir != 0)
         {
@@ -122,7 +115,7 @@ public class Fighter : MonoBehaviour
         }
     }
 
-    public IEnumerator DoParry(float direction, bool isReversing = false)
+    private IEnumerator DoParry(float direction, bool isReversing = false)
     {
         anim.SetBool("Parry", true);
         float time = 0;

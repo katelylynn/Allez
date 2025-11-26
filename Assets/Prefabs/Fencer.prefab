@@ -3589,11 +3589,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f20aa6b7ed0387645b459f1e9f299b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fencerId: 0
+  fencerId: -1
   anim: {fileID: 0}
   aimTarget: {fileID: 7303818687392440706}
   foilHitbox: {fileID: 7585652432276685990}
-  p0ActionAsset: {fileID: -944628639613478452, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
+  playerActionAsset: {fileID: -944628639613478452, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
   mover: {fileID: -7059090869714041470}
   fighter: {fileID: 2385721647267272142}
 --- !u!114 &-7059090869714041470
@@ -3656,6 +3656,7 @@ MonoBehaviour:
   parryForce: 3
   leftTiltPos: -5
   rightTiltPos: 1.9
+  unTiltPos: 0
   foilAttackBox: {fileID: 7585652432276685990}
   attackConfig:
     animationName: Attack
@@ -3695,7 +3696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
+  m_Actions: {fileID: -944628639613478452, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -3708,9 +3709,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &4557011708788034512

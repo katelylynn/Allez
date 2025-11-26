@@ -8,23 +8,27 @@ using UnityEngine.InputSystem;
 
 public class Fighter : MonoBehaviour
 {
+    private Animator anim;
+    public GameObject foilAttackBox;
+
+    // parry params
     public Transform ParryTracker;
     public float tiltSpeed = 5;
     public float parryForce = 3;
 
-    private Animator anim;
-
+    // tilt params
     public float leftTiltPos = -5;
     public float rightTiltPos = 1.9f;
     public float unTiltPos = 0;
 
+    // coroutines
     private Coroutine currentTiltCoroutine;
     private Coroutine currentParryCoroutine;
-    public GameObject foilAttackBox;
-    //public bool foilHitBoxEnabled = true;
 
+    // util script references
     ScriptedMotionPlayer motionPlayer;
     PlayerStamina stamina;
+
     [Header("Scripted Motion Configs")]
     public ScriptedMotionConfig attackConfig;
     public ScriptedMotionConfig parryLeftConfig;
@@ -36,18 +40,16 @@ public class Fighter : MonoBehaviour
         if (motionPlayer == null)
             motionPlayer = GetComponent<ScriptedMotionPlayer>();
     }
+
+    public void OnAttack(InputValue value) => Attack();
+
     public void Attack()
     {
         if (stamina.ConsumeStamina(attackConfig.staminaCost))
             motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
     }
 
-    public void OnAttack(InputValue value) => Attack();
-
-    public void OnTilt(InputValue tiltDirection)
-    {
-        Tilt(tiltDirection.Get<float>());
-    }
+    public void OnTilt(InputValue tiltDirection) => Tilt(tiltDirection.Get<float>());
 
     public void Tilt(float tilt)
     {
@@ -55,17 +57,11 @@ public class Fighter : MonoBehaviour
             StopCoroutine(currentTiltCoroutine);
 
         if (tilt == -1)
-        {
             currentTiltCoroutine = StartCoroutine(DoTilt(leftTiltPos));
-        }
         else if (tilt == 1)
-        {
             currentTiltCoroutine = StartCoroutine(DoTilt(rightTiltPos));
-        }
         else
-        {
             currentTiltCoroutine = StartCoroutine(DoTilt(unTiltPos));
-        }
 
     }
 
@@ -85,10 +81,7 @@ public class Fighter : MonoBehaviour
         ParryTracker.localPosition = targetPos; // Snap to final position
     }
 
-    public void OnParry(InputValue parryDirection)
-    {
-        Parry(parryDirection.Get<float>());
-    }
+    public void OnParry(InputValue parryDirection) => Parry(parryDirection.Get<float>());
 
     public void Parry(float parryDir)
     {

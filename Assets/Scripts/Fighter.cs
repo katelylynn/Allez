@@ -150,4 +150,18 @@ public class Fighter : MonoBehaviour
             anim.SetBool("Parry", false);
         }
     }
+
+    public void ResetSword()
+    {
+        //Reset weight to disable wide wrist movement
+        GameObject Rig1 = ParryTracker.parent.gameObject;
+        Transform child = Rig1.transform.GetChild(0);
+        MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
+        aimConstraint.weight = 1f;
+
+        //Reset the sphere game object to center, which resets sword to center
+        ParryTracker.localPosition = new Vector3(unTiltPos, ParryTracker.localPosition.y, ParryTracker.localPosition.z);
+
+        currentParryCoroutine = null;
+    }
 }

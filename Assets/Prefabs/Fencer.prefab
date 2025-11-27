@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 7597309122141414}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.03, y: 1.28, z: 0.1}
+  m_LocalPosition: {x: 0, y: 0.85, z: 0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -231,14 +231,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2282580083807208855}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.43653038, y: 0.521456, z: 0.44681555, w: 0.5812751}
-  m_LocalPosition: {x: 0.01055, y: -0.00777, z: 0.00253}
+  m_LocalRotation: {x: -0.40827727, y: 0.40907937, z: 0.5801899, w: 0.5738845}
+  m_LocalPosition: {x: 0.01232, y: -0.00545, z: 0.00009}
   m_LocalScale: {x: 0.009999995, y: 0.009999993, z: 0.010000002}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 590505967987864538}
   m_Father: {fileID: 5767764954070276032}
-  m_LocalEulerAnglesHint: {x: -103.225, y: -109.149994, z: 196.293}
+  m_LocalEulerAnglesHint: {x: -109.387, y: -180.73, z: 271.143}
 --- !u!33 &3242036038517123052
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -636,7 +636,7 @@ MonoBehaviour:
       m_Item7:
         transform: {fileID: 0}
         weight: 0
-    m_Offset: {x: 0, y: 0, z: 0}
+    m_Offset: {x: 0, y: -2.5, z: 0}
     m_MinLimit: -180
     m_MaxLimit: 180
     m_AimAxis: 2
@@ -1018,7 +1018,7 @@ Transform:
   m_GameObject: {fileID: 8166801798762088326}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.77, z: 3.21}
+  m_LocalPosition: {x: 0, y: 2, z: 3.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3653,7 +3653,7 @@ MonoBehaviour:
   foilAttackBox: {fileID: 7585652432276685990}
   ParryTracker: {fileID: 7503634212462944958}
   tiltSpeed: 5
-  leftTiltPos: -5
+  leftTiltPos: -3
   rightTiltPos: 3
   unTiltPos: 0
   attackConfig:

@@ -37,7 +37,7 @@ public class Fighter : MonoBehaviour
     }
     public void Attack()
     {
-        if (stamina.ConsumeStamina(attackConfig.staminaCost) && !anim.GetBool("Parry"))
+        if (!anim.GetBool("Parry") && stamina.ConsumeStamina(attackConfig.staminaCost))
             motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
     }
 
@@ -91,6 +91,8 @@ public class Fighter : MonoBehaviour
 
     public void Parry(float parryDir)
     {
+        if (motionPlayer.isPlaying) return;
+
         // can only do this if player is not attacking, lunging, or backdashing        
         if (currentParryCoroutine == null && ParryTracker.localPosition.x == 0 && parryDir != 0)
         {

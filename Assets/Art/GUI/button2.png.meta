@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4f8e653bf1c0b054680c13a05741c202
+guid: 711fb7a2b8e1ff54da609e52c3e729b8
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
@@ -75,7 +75,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 85cf612f75e690446babccbf3faef30c
+    spriteID: de9c204e4c6d5e648a81cfe1a1b4293c
     vertices: []
     indices: 
     edges: []
@@ -91,5 +91,5 @@ AssetOrigin:
   productId: 159068
   packageName: GUI Parts
   packageVersion: 1.0
-  assetPath: Assets/Art/GUI/Hp_line.png
+  assetPath: Assets/GUI_Parts/Gui_parts/button2.png
   uploadId: 342429

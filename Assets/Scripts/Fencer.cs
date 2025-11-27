@@ -31,6 +31,8 @@ public class Fencer : MonoBehaviour
 
     // input variables
     private PlayerInput playerInput;
+    public InputActionAsset p0ActionAsset;
+    //public InputActionAsset p1ActionAsset;
     private string kbGroup;
     private Gamepad myPad;
 
@@ -132,6 +134,8 @@ public class Fencer : MonoBehaviour
 
         if (fencerType != FencerType.Player) { playerInput.enabled = false; return; }
 
+        playerInput.actions = p0ActionAsset;
+        playerInput.defaultActionMap = "Player";
         playerInput.neverAutoSwitchControlSchemes = true;
         playerInput.defaultControlScheme = "";                    // don't let control schemes overwrite bindingMask
         playerInput.notificationBehavior = PlayerNotifications.SendMessages; // so it works with player input behavior
@@ -261,7 +265,6 @@ public class Fencer : MonoBehaviour
         gameObject.transform.rotation = startingRot[(int)fencerId];
         gameObject.SetActive(true);
         gameObject.GetComponent<Mover>().ZeroVelocity();
-        gameObject.GetComponent<Fighter>().ResetSword();
         //foilHitbox.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 

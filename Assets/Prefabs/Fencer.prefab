@@ -3593,6 +3593,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   aimTarget: {fileID: 7303818687392440706}
   foilHitbox: {fileID: 7585652432276685990}
+  p0ActionAsset: {fileID: -944628639613478452, guid: 4c9eadc7de1818e4db0fc352c597a0de, type: 3}
   mover: {fileID: -7059090869714041470}
   fighter: {fileID: 2385721647267272142}
 --- !u!114 &-7059090869714041470
@@ -3650,15 +3651,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d068b70bfbc89746af15693a6efa88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foilAttackBox: {fileID: 7585652432276685990}
   ParryTracker: {fileID: 7503634212462944958}
-  parrySpeed: 5
-  leftParryPos: -5
-  rightParryPos: 3
-  noParryPos: 0
-  currParryDirection: 0
-  isParrying: 0
-  armConstraint: {fileID: 4008746438624817078}
+  tiltSpeed: 5
+  parryForce: 3
+  leftTiltPos: -5
+  rightTiltPos: 1.9
+  unTiltPos: 0
+  foilAttackBox: {fileID: 7585652432276685990}
   attackConfig:
     animationName: Attack
     clip: {fileID: 3427247649299217752, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
@@ -3672,19 +3671,19 @@ MonoBehaviour:
     activeClipFrames: 5
     recoveryClipFrames: 20
     staminaCost: 5
-  parryConfig:
+  parryLeftConfig:
     animationName: 
     clip: {fileID: 0}
     layerIndex: 0
     distance: 2
     returnToStart: 1
-    startupFrames: 0
-    activeFrames: 12
-    recoveryFrames: 24
+    startupFrames: 25
+    activeFrames: 5
+    recoveryFrames: 40
     startupClipFrames: 20
     activeClipFrames: 10
     recoveryClipFrames: 30
-    staminaCost: 20
+    staminaCost: 0
 --- !u!114 &4924054493378190649
 MonoBehaviour:
   m_ObjectHideFlags: 0

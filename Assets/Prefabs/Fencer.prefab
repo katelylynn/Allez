@@ -3682,7 +3682,7 @@ MonoBehaviour:
     startupClipFrames: 20
     activeClipFrames: 10
     recoveryClipFrames: 30
-    staminaCost: 0
+    staminaCost: 20
 --- !u!114 &4924054493378190649
 MonoBehaviour:
   m_ObjectHideFlags: 0

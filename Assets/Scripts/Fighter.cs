@@ -92,24 +92,25 @@ public class Fighter : MonoBehaviour
     public void Parry(float parryDir)
     {
         if (motionPlayer.isPlaying) return;
-
+        
         // can only do this if player is not attacking, lunging, or backdashing        
         if (currentParryCoroutine == null && ParryTracker.localPosition.x == 0 && parryDir != 0)
         {
             GameObject Rig1 = ParryTracker.parent.gameObject;
             Transform child = Rig1.transform.GetChild(0);
             MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
-            aimConstraint.weight = 0f;
 
             if (parryDir == -1 && stamina.ConsumeStamina(parryConfig.staminaCost))
             {
                 //parry left
+                aimConstraint.weight = 0f;
                 currentParryCoroutine = StartCoroutine(DoParry(-parryConfig.distance, true));
                 GetComponent<PlayerAudioController>().PlaySwing();
             }
             else if (parryDir == 1 && stamina.ConsumeStamina(parryConfig.staminaCost))
             {
                 //parry right
+                aimConstraint.weight = 0f;
                 currentParryCoroutine = StartCoroutine(DoParry(parryConfig.distance, true));
                 GetComponent<PlayerAudioController>().PlaySwing();
             }

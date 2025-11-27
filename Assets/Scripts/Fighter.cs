@@ -14,13 +14,8 @@ public class Fighter : MonoBehaviour
     // parry params
     public Transform ParryTracker;
 
-<<<<<<< HEAD
     // tilt params
-=======
-    private Animator anim;
-    
     public float tiltSpeed = 5;
->>>>>>> 0a4d88bb299855e122441c141c8f85c18b315929
     public float leftTiltPos = -5;
     public float rightTiltPos = 1.9f;
     public float unTiltPos = 0;

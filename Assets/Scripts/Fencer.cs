@@ -221,8 +221,8 @@ public class Fencer : MonoBehaviour
 
     public void SetAimTarget(Transform target)
     {
-        var headAim = transform.Find("Rig 1/HeadAimRig");
-        var foilAim = transform.Find("Rig 1/FoilAimRig");
+        var headAim = transform.Find("Rigs/HeadAimRig");
+        var foilAim = transform.Find("Rigs/FoilAimRig");
 
         MultiAimConstraint headAimConstraint = headAim.GetComponent<MultiAimConstraint>();
         MultiAimConstraint foilAimConstraint = foilAim.GetComponent<MultiAimConstraint>();

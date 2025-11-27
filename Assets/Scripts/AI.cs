@@ -93,16 +93,16 @@ public class AI : MonoBehaviour
 
     private void CalculateNextMove()
     {
-        switch (Random.Range(0, 8))
+        switch (Random.Range(0, 6))
         {
             case 0:
                 fighter.Attack();
                 break;
             case 1:
-                fighter.Tilt(-1);
+                fighter.Parry(-1);
                 break;
             case 2:
-                fighter.Tilt(1);
+                fighter.Parry(1);
                 break;
             case 3:
                 mover.Lunge();
@@ -112,7 +112,7 @@ public class AI : MonoBehaviour
                 break;
             case 5:
                 Debug.Log("un Tilt");
-                fighter.Tilt(0);
+                fighter.Parry(0);
                 break;
         }
     }

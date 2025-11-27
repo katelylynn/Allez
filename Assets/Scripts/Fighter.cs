@@ -13,15 +13,17 @@ public class Fighter : MonoBehaviour
 
     // parry params
     public Transform ParryTracker;
+    private Coroutine currentParryCoroutine;
 
-    // tilt params
-    public float tiltSpeed = 5;
-    public float leftTiltPos = -5;
-    public float rightTiltPos = 1.9f;
-    public float unTiltPos = 0;
+    public float parrySpeed = 5;
+    public float leftParryPos = -5;
+    public float rightParryPos = 1.9f;
+    public float noParryPos = 0;
 
-    // coroutines
-    private Coroutine currentTiltCoroutine;
+    public float currParryDirection = 0;
+    public bool isParrying = false;
+
+    public MultiAimConstraint armConstraint;
 
     // util script references
     ScriptedMotionPlayer motionPlayer;
@@ -39,6 +41,16 @@ public class Fighter : MonoBehaviour
             motionPlayer = GetComponent<ScriptedMotionPlayer>();
     }
 
+    public void FixedUpdate()
+    {
+        if (ParryTracker.localPosition.x < leftParryPos / 2)
+            currParryDirection = -1;
+        else if (ParryTracker.localPosition.x > rightParryPos / 2)
+            currParryDirection = 1;
+        else
+            currParryDirection = 0;
+    }
+
     public void OnAttack(InputValue value) => Attack();
 
     public void Attack()
@@ -47,24 +59,35 @@ public class Fighter : MonoBehaviour
             motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
     }
 
-    public void OnTilt(InputValue tiltDirection) => Tilt(tiltDirection.Get<float>());
+    public void OnParry(InputValue parryDirection) => Parry(parryDirection.Get<float>());
 
-    public void Tilt(float tilt)
+    public void Parry(float parryDir)
     {
-        if (currentTiltCoroutine != null)
-            StopCoroutine(currentTiltCoroutine);
+        if (currentParryCoroutine != null)
+            StopCoroutine(currentParryCoroutine);
 
-        if (tilt == -1)
-            currentTiltCoroutine = StartCoroutine(DoTilt(leftTiltPos));
-        else if (tilt == 1)
-            currentTiltCoroutine = StartCoroutine(DoTilt(rightTiltPos));
+        // can only do this if player is not attacking, lunging, or backdashing        
+        if (parryDir == -1 && stamina.ConsumeStamina(parryConfig.staminaCost))
+        {
+            //parry left
+            currentParryCoroutine = StartCoroutine(DoParry(leftParryPos));
+            GetComponent<PlayerAudioController>().PlaySwing();
+        }
+        else if (parryDir == 1 && stamina.ConsumeStamina(parryConfig.staminaCost))
+        {
+            //parry right
+            currentParryCoroutine = StartCoroutine(DoParry(rightParryPos));
+            GetComponent<PlayerAudioController>().PlaySwing();
+        }
         else
-            currentTiltCoroutine = StartCoroutine(DoTilt(unTiltPos));
-
+        {
+            currentParryCoroutine = StartCoroutine(DoParry(noParryPos));
+        }
     }
 
-    private IEnumerator DoTilt(float targetLocalX)
+    private IEnumerator DoParry(float targetLocalX)
     {
+        isParrying = true;
         float time = 0;
         Vector3 startPos = ParryTracker.localPosition;
         Vector3 targetPos = new Vector3(targetLocalX, startPos.y, startPos.z);
@@ -72,22 +95,19 @@ public class Fighter : MonoBehaviour
         while (time < 1)
         {
             ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, time);
-            time += Time.deltaTime * tiltSpeed;
+            time += Time.deltaTime * parrySpeed;
             yield return null;
         }
 
         ParryTracker.localPosition = targetPos; // Snap to final position
+        isParrying = false;
     }
 
     public void ResetSword()
     {
-        //Reset weight to disable wide wrist movement
-        GameObject Rig1 = ParryTracker.parent.gameObject;
-        Transform child = Rig1.transform.GetChild(0);
-        MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
-        aimConstraint.weight = 1f;
+        armConstraint.weight = 1f;
 
         //Reset the sphere game object to center, which resets sword to center
-        ParryTracker.localPosition = new Vector3(unTiltPos, ParryTracker.localPosition.y, ParryTracker.localPosition.z);
+        ParryTracker.localPosition = new Vector3(noParryPos, ParryTracker.localPosition.y, ParryTracker.localPosition.z);
     }
 }

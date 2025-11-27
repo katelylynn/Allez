@@ -43,7 +43,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Tilt",
+                    "name": "Parry",
                     "type": "Value",
                     "id": "ea3cbc1b-7218-4ae3-873f-2753246be480",
                     "expectedControlType": "",
@@ -192,7 +192,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Tilt",
+                    "action": "Parry",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -203,7 +203,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardP1",
-                    "action": "Tilt",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -214,7 +214,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardP1",
-                    "action": "Tilt",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -225,7 +225,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Tilt",
+                    "action": "Parry",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -236,7 +236,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardP2",
-                    "action": "Tilt",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -247,7 +247,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardP2",
-                    "action": "Tilt",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -258,7 +258,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Tilt",
+                    "action": "Parry",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -269,7 +269,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Tilt",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -280,7 +280,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Tilt",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },

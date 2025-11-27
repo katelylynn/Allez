@@ -1039,7 +1039,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8166801798762088326}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1367,7 +1367,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.21
+  m_Radius: 0.24
   m_Height: 1.7012588
   m_Direction: 1
   m_Center: {x: 0, y: 0.8143706, z: 0}
@@ -3652,10 +3652,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foilAttackBox: {fileID: 7585652432276685990}
   ParryTracker: {fileID: 7503634212462944958}
-  tiltSpeed: 5
-  leftTiltPos: -3
-  rightTiltPos: 3
-  unTiltPos: 0
+  parrySpeed: 5
+  leftParryPos: -5
+  rightParryPos: 3
+  noParryPos: 0
+  currParryDirection: 0
+  isParrying: 0
+  armConstraint: {fileID: 4008746438624817078}
   attackConfig:
     animationName: Attack
     clip: {fileID: 3427247649299217752, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}

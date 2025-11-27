@@ -1,22 +1,34 @@
 using UnityEngine;
+using System.Collections;
 
 public class CombatManager : MonoBehaviour
 {
     private Fencer fencer0;
     private Fencer fencer1;
 
-    private int foilLayerIndex = 1;
+    private Fighter fighter0;
+    private Fighter fighter1;
+
+    Animator f0Animator;
+    Animator f1Animator;
 
     ScriptedMotionPlayer motionPlayerP0;
     ScriptedMotionPlayer motionPlayerP1;
+
     [Header("Scripted Motion Configs")]
     public ScriptedMotionConfig parriedConfig;
-    public void Awake()
-    {
-    }
+
+    private int foilLayerIndex = 1;
+
     public void Start()
     {
         EventManager.ParrySuccess += HandleParrySuccess;
+
+        fighter0 = fencer0.GetComponent<Fighter>();
+        fighter1 = fencer1.GetComponent<Fighter>();
+
+        f0Animator = fencer0.GetComponent<Animator>();
+        f1Animator = fencer1.GetComponent<Animator>();
     }
 
     public void OnDestroy()
@@ -34,31 +46,33 @@ public class CombatManager : MonoBehaviour
 
     private void HandleParrySuccess()
     {
-        Animator f0Animator = fencer0.GetComponent<Animator>();
-        Animator f1Animator = fencer1.GetComponent<Animator>();
-
-        bool f0IsParrying = f0Animator.GetBool("Parry");
-        bool f1IsParrying = f1Animator.GetBool("Parry");
-
-        if (f0IsParrying)
+        if (fighter0.isParrying && !f1Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
         {
-            // fencer0 parried apply Parried animation to fencer1
-            if (!f1Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
-            {
-                fencer1.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
-                //f1Animator.Play("Parried", foilLayerIndex, 0f); //old method, no frame control
-                motionPlayerP1.PlayScriptedMotion(parriedConfig, Vector3.zero);
-            }
+            fencer1.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
+            StartCoroutine(DoParried(motionPlayerP1, fighter1));
         }
-        else if (f1IsParrying)
+        else if (fighter1.isParrying && !f0Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
         {
-            // fencer1 parried apply Parried animation to fencer0
-            if (!f0Animator.GetCurrentAnimatorStateInfo(foilLayerIndex).IsName("Parried"))
-            { 
-                fencer0.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
-                //f1Animator.Play("Parried", foilLayerIndex, 0f); //old method, no frame control
-                motionPlayerP0.PlayScriptedMotion(parriedConfig, Vector3.zero);
-            }
+            fencer0.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
+            StartCoroutine(DoParried(motionPlayerP0, fighter0));
         }
+    }
+
+    private IEnumerator DoParried(ScriptedMotionPlayer smp, Fighter fighter)
+    {
+        smp.PlayScriptedMotion(parriedConfig, Vector3.zero);
+
+        Debug.Log("started");
+
+        fighter.armConstraint.weight = 0f;
+
+        while (smp.isPlaying)
+        {
+            yield return null;
+        }
+
+        fighter.armConstraint.weight = 1f;
+
+        Debug.Log("finished");
     }
 }

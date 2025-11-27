@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,10 +13,14 @@ public class Fighter : MonoBehaviour
 
     // parry params
     public Transform ParryTracker;
-    public float tiltSpeed = 5;
-    public float parryForce = 3;
 
+<<<<<<< HEAD
     // tilt params
+=======
+    private Animator anim;
+    
+    public float tiltSpeed = 5;
+>>>>>>> 0a4d88bb299855e122441c141c8f85c18b315929
     public float leftTiltPos = -5;
     public float rightTiltPos = 1.9f;
     public float unTiltPos = 0;
@@ -30,7 +34,7 @@ public class Fighter : MonoBehaviour
 
     [Header("Scripted Motion Configs")]
     public ScriptedMotionConfig attackConfig;
-    public ScriptedMotionConfig parryLeftConfig;
+    public ScriptedMotionConfig parryConfig;
 
     public void Start()
     {
@@ -44,7 +48,7 @@ public class Fighter : MonoBehaviour
 
     public void Attack()
     {
-        if (stamina.ConsumeStamina(attackConfig.staminaCost))
+        if (stamina.ConsumeStamina(attackConfig.staminaCost) && !anim.GetBool("Parry"))
             motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
     }
 

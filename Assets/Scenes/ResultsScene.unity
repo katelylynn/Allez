@@ -362,9 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de088e3f98e104b1f9cee57876ef9639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  P1Win: {fileID: 8300000, guid: 2616839f203184db8abeb825bad2c91e, type: 3}
-  P2Win: {fileID: 8300000, guid: a80ad1fd42d55446292aee5b6c7d5f9d, type: 3}
-  backgroundMusic: {fileID: 8300000, guid: fda34f44ee8c24e37ac2145b9e3cd913, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: 771b185ba21d74c9bbd0730c1e43c866, type: 3}
 --- !u!1001 &169850789
 PrefabInstance:
   m_ObjectHideFlags: 0

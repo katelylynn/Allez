@@ -44,9 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4842fdcb92fd3584992c85905117ee50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMode: 0
   pointsToWin: 3
   maxTime: 20
   elapsedTime: 0
   countdownRunning: 0
   resultsScene: resultsScene
   hitTimeScale: 0.01
+  bgmController: {fileID: -7153881081130195116, guid: 26e8bf1f0867340589245583e3f26c56, type: 3}

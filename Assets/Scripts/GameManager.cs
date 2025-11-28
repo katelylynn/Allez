@@ -12,7 +12,7 @@ public enum GameMode
 
 public class GameManager : MonoBehaviour
 {
-    private GameMode gameMode;
+    public GameMode gameMode;
 
     // first to X mode
     public int pointsToWin = 3;
@@ -31,12 +31,17 @@ public class GameManager : MonoBehaviour
     PlayerDataManager dM;
     private bool roundSequenceRunning;
 
+    // timer bgm controll
+    // public TimerModeBGMController bgmController; 
+
     public void Initialize(GameMode gm, int ptw, int bl)
     {
         gameMode = gm;
         if (ptw != -1) pointsToWin = ptw;
         if (bl != -1) maxTime = (float) bl;
         if (gameMode == GameMode.MostPointsInXTime) pointsToWin = 0;
+
+        // bgmController.OnGameManagerReady(gm);
     }
 
     public void SetUIScore(Canvas ui)

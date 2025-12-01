@@ -3618,26 +3618,26 @@ MonoBehaviour:
     layerIndex: 0
     distance: 2
     returnToStart: 1
-    startupFrames: 15
-    activeFrames: 5
-    recoveryFrames: 12
-    startupClipFrames: 20
-    activeClipFrames: 10
-    recoveryClipFrames: 30
-    staminaCost: 25
+    startupFrames: 7
+    activeFrames: 3
+    recoveryFrames: 5
+    startupClipFrames: 7
+    activeClipFrames: 3
+    recoveryClipFrames: 5
+    staminaCost: 35
   backdashConfig:
     animationName: BackdashSmooth
     clip: {fileID: -623603649343465320, guid: 67d732e2b37bb9942a54049745b37932, type: 3}
     layerIndex: 0
-    distance: 2
+    distance: 4
     returnToStart: 0
-    startupFrames: 25
-    activeFrames: 5
-    recoveryFrames: 40
-    startupClipFrames: 20
-    activeClipFrames: 10
-    recoveryClipFrames: 30
-    staminaCost: 10
+    startupFrames: 6
+    activeFrames: 6
+    recoveryFrames: 6
+    startupClipFrames: 8
+    activeClipFrames: 8
+    recoveryClipFrames: 8
+    staminaCost: 15
   foilTipHitBox: {fileID: 7585652432276685990}
 --- !u!114 &2385721647267272142
 MonoBehaviour:
@@ -3663,25 +3663,25 @@ MonoBehaviour:
     layerIndex: 1
     distance: 2
     returnToStart: 0
-    startupFrames: 5
+    startupFrames: 6
     activeFrames: 2
-    recoveryFrames: 10
-    startupClipFrames: 10
-    activeClipFrames: 5
-    recoveryClipFrames: 20
-    staminaCost: 5
+    recoveryFrames: 6
+    startupClipFrames: 6
+    activeClipFrames: 2
+    recoveryClipFrames: 6
+    staminaCost: 25
   parryConfig:
-    animationName: 
-    clip: {fileID: 0}
-    layerIndex: 0
+    animationName: Parried
+    clip: {fileID: -623603649343465320, guid: c7dabacfd7dd41c46981796afba65f75, type: 3}
+    layerIndex: 1
     distance: 2
     returnToStart: 1
-    startupFrames: 0
-    activeFrames: 12
-    recoveryFrames: 24
-    startupClipFrames: 20
-    activeClipFrames: 10
-    recoveryClipFrames: 30
+    startupFrames: 6
+    activeFrames: 6
+    recoveryFrames: 6
+    startupClipFrames: 6
+    activeClipFrames: 6
+    recoveryClipFrames: 6
     staminaCost: 20
 --- !u!114 &4924054493378190649
 MonoBehaviour:
@@ -4043,7 +4043,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStamina: 100
   maxStamina: 100
-  staminaRegenRate: 1
+  staminaRegenRate: 7
   staminaRegenDelay: 2
 --- !u!4 &9074882071229469699 stripped
 Transform:

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3109516327018247191}
   - component: {fileID: 9018298493973622897}
   - component: {fileID: 2401273750365362106}
-  - component: {fileID: 1147594737769321159}
   m_Layer: 0
   m_Name: CombatManager
   m_TagString: Untagged
@@ -71,9 +70,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 58114731596ec4504b705ca9d3fb6d2a, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.02
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -156,16 +155,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1147594737769321159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8668127140170294290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4835e30e317a04d3a98b9237a5fa6e99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TimerBGM: {fileID: 8300000, guid: 58114731596ec4504b705ca9d3fb6d2a, type: 3}

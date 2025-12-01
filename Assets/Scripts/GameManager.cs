@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
     PlayerDataManager dM;
     private bool roundSequenceRunning;
 
-    // timer bgm controll
-    // public TimerModeBGMController bgmController; 
 
     public void Initialize(GameMode gm, int ptw, int bl)
     {
@@ -40,8 +38,6 @@ public class GameManager : MonoBehaviour
         if (ptw != -1) pointsToWin = ptw;
         if (bl != -1) maxTime = (float) bl;
         if (gameMode == GameMode.MostPointsInXTime) pointsToWin = 0;
-
-        // bgmController.OnGameManagerReady(gm);
     }
 
     public void SetUIScore(Canvas ui)

@@ -1,73 +1,52 @@
 using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(AudioSource))]
 public class TimerModeBGMController : MonoBehaviour
 {
-    private GameManager gameManager;
+    public GameManager gameManager;
 
     [Header("Sound Clips")]
     public AudioClip TimerBGM;
-    // public AudioClip ScoreBGM;
 
     private AudioSource source;
+    private float timer = 0f;
 
-    void Awake()
+    void Start()
     {
         source = GetComponent<AudioSource>();
-
-        if (source == null)
-        {
-            Debug.LogError($"[BGM] No AudioSource found on {name}");
-            return;
-        }
-
-        source.playOnAwake = true;
+        source.playOnAwake = false;
         source.loop = true;
+        source.clip = TimerBGM;
 
-        // gameManager = FindObjectOfType<GameManager>();
-    }
-
-    // Called by GameManager.Initialize()
-    // public void OnGameManagerReady(GameMode gm)
-    // {
-    //     // Debug.Log("BGM Controller: GameManager is ready! Starting BGM...");
-
-    //     // Debug.Log($"BGM GameMode from GM: {gm}");
-
-    //     // if (gm == GameMode.MostPointsInXTime)
-    //     //     PlayLoop(TimerBGM, 1f, 1f);
-    //     // else
-    //     //     PlayLoop(ScoreBGM, 1f, 1f);
-    // }
-
-    void PlayLoop(AudioClip clip, float volume, float pitch)
-    {
-        // if (clip == null)
-        // {
-        //     Debug.LogWarning("[BGM] Missing clip!");
-        //     return;
-        // }
-        // if (source == null) return;
-
-        source.clip = clip;
-        source.volume = volume;
-        source.pitch = pitch;
         source.Play();
+
+        Debug.Log(gameManager.pointsToWin);
     }
 
     void Update()
     {
-        if (gameManager == null || source == null) return;
+        if (gameManager.pointsToWin != 0) {
+            return;
+        }
 
-        int timer = (int)gameManager.elapsedTime;
+        timer += Time.deltaTime;
 
-        if (timer <= 30)
-            source.pitch = 1.0f;
-        else if (timer <= 60)
-            source.pitch = 1.1f;
-        else if (timer <= 90)
-            source.pitch = 1.2f;
-        else 
-            source.pitch = 1.3f;
+        if (timer <= 30f)
+        {
+            source.pitch = 1.0f;   
+        }
+        else if (timer <= 60f)
+        {
+            source.pitch = 1.1f;   
+        }
+        else if (timer <= 90f)
+        {
+            source.pitch = 1.2f;   
+        }
+        else
+        {
+            source.pitch = 1.3f;  
+        }
     }
 }

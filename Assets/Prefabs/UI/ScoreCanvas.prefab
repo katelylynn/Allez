@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 662.6366, y: -0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 84.19, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &3119778510431119532
 CanvasRenderer:
@@ -368,8 +368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbf68d90f61a463d8bc98ceafd5bb50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p1PointSfx: {fileID: 8300000, guid: 3ef2280c8e97c48e99c638bbdb101499, type: 3}
-  p2PointSfx: {fileID: 8300000, guid: d887227a898f64b4480ad3a81adc7077, type: 3}
+  p1PointSfx: {fileID: 8300000, guid: 31dddbbf8380f4bbaae957e29ff392f6, type: 3}
+  p2PointSfx: {fileID: 8300000, guid: d5ddc4e9602ba4628825c778679e933a, type: 3}
   p1Ouch: {fileID: 8300000, guid: b4da45b8ebd7e48be8121068dd542dc4, type: 3}
   p2Ouch: {fileID: 8300000, guid: 969278e71188d48b696395cb0c09cb8c, type: 3}
   sfxVolume: 1
@@ -474,7 +474,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 400.00003, y: -0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 20.01, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2988096427000258031
 CanvasRenderer:
@@ -946,7 +946,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 137.36334, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 84.19, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4764520591527239224
 CanvasRenderer:

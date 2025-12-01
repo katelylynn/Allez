@@ -208,7 +208,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: PlaySwing
+        functionName: PlayParry
         data: 
         objectReferenceParameter: {fileID: 8300000, guid: efd9efdf637f0442eb6d95e9ec4718a1, type: 3}
         floatParameter: 0

@@ -30,6 +30,8 @@ public class TimerModeBGMController : MonoBehaviour
             return;
         }
 
+        // Sometimes gameManaer.elapsedTime doesn't work so randomly. 
+        // So i'm using timer separately.
         timer += Time.deltaTime;
 
         if (timer <= 30f)
@@ -38,15 +40,15 @@ public class TimerModeBGMController : MonoBehaviour
         }
         else if (timer <= 60f)
         {
-            source.pitch = 1.1f;   
+            source.pitch = 1.05f;   
         }
         else if (timer <= 90f)
         {
-            source.pitch = 1.2f;   
+            source.pitch = 1.1f;   
         }
         else
         {
-            source.pitch = 1.3f;  
+            source.pitch = 1.15f;  
         }
     }
 }

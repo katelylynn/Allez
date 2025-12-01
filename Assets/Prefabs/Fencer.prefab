@@ -4061,8 +4061,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveAxis: {fileID: -6813939778624975522, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
+  tiltAxis: {fileID: -4196157778826778833, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
   moveStep: {fileID: 8300000, guid: 405246b50a0f14325b782108b16c1415, type: 3}
   stepInterval: 0.3
+  tiltSound: {fileID: 8300000, guid: 83611b29d39094b608f4c78bda8171d0, type: 3}
+  tiltInterval: 0.5
 --- !u!4 &9074882071229469699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 982746526044316282, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}

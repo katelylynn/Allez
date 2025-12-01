@@ -3214,6 +3214,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3662473575950823517}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3996823959933083993}
   m_SourcePrefab: {fileID: 100100000, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
 --- !u!4 &485442293731937927 stripped
 Transform:
@@ -3656,6 +3659,7 @@ MonoBehaviour:
   parryForce: 3
   leftTiltPos: -5
   rightTiltPos: 1.9
+  unTiltPos: 0
   foilAttackBox: {fileID: 7585652432276685990}
   attackConfig:
     animationName: Attack
@@ -4045,6 +4049,21 @@ MonoBehaviour:
   maxStamina: 100
   staminaRegenRate: 1
   staminaRegenDelay: 2
+--- !u!114 &-3996823959933083993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976367000580410152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b84fbade2bcb494da0f640ef0ff4a1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveAxis: {fileID: -6813939778624975522, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
+  moveStep: {fileID: 8300000, guid: 405246b50a0f14325b782108b16c1415, type: 3}
+  stepInterval: 0.25
 --- !u!4 &9074882071229469699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 982746526044316282, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}

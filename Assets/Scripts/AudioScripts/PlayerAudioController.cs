@@ -5,7 +5,7 @@ public class PlayerAudioController : MonoBehaviour
 {
     [Header("Sound Clips")]
     public AudioClip Hit;
-    public AudioClip Step;
+    // public AudioClip Step;
     public AudioClip Lunge;
     public AudioClip Parry;
     public AudioClip Swing;
@@ -51,7 +51,7 @@ public class PlayerAudioController : MonoBehaviour
     }
 
     public void PlayAttack() => Play(Hit);
-    public void PlayStep() => Play(Step);
+    // public void PlayStep() => Play(Step);
     public void PlayLunge() => Play(Lunge);
     public void PlayParry() => Play(Parry);
     public void PlaySwing() => Play(Swing);

@@ -15,7 +15,7 @@ public class Fighter : MonoBehaviour
     private Animator anim;
     
     public float tiltSpeed = 5;
-    public float leftTiltPos = -10;
+    public float leftTiltPos = -5f;
     public float rightTiltPos = 1.9f;
     public float unTiltPos = 0;
     public float tiltFramePercentage = 0.2f;
@@ -79,9 +79,6 @@ public class Fighter : MonoBehaviour
         
         for (int i = 0; i < frameCount; i++)
         {
-            float t = (float)i / (frameCount - 1);  // normalized 0 → 1
-            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, t);
-            yield return null;   // wait 1 frame
             if (motionPlayer.isPlaying)
             {
                 //reset parry tracker if another animation starts playing
@@ -91,6 +88,9 @@ public class Fighter : MonoBehaviour
                 currentAttackLeftCoroutine = null;
                 yield break;
             }
+            float t = (float)i / (frameCount - 1);  // normalized 0 → 1
+            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, t);
+            yield return null;   // wait 1 frame
         }
 
         ParryTracker.localPosition = targetPos; // Snap to final position
@@ -189,5 +189,6 @@ public class Fighter : MonoBehaviour
         ParryTracker.localPosition = new Vector3(unTiltPos, ParryTracker.localPosition.y, ParryTracker.localPosition.z);
 
         currentParryCoroutine = null;
+        currentAttackLeftCoroutine = null;
     }
 }

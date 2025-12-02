@@ -17,7 +17,7 @@ public class Fighter : MonoBehaviour
     public float rightTiltPos = 1.9f;
     public float unTiltPos = 0;
 
-    private Coroutine currentTiltCoroutine;
+    private Coroutine currentAttackLeftCoroutine;
     private Coroutine currentParryCoroutine;
     public GameObject foilAttackBox;
     //public bool foilHitBoxEnabled = true;
@@ -35,6 +35,9 @@ public class Fighter : MonoBehaviour
         if (motionPlayer == null)
             motionPlayer = GetComponent<ScriptedMotionPlayer>();
     }
+
+    public void OnAttack(InputValue value) => Attack(value.Get<float>());
+    
     public void Attack(float value)
     {
         if (anim.GetBool("Parry"))
@@ -42,15 +45,43 @@ public class Fighter : MonoBehaviour
 
         if (value == -1 && stamina.ConsumeStamina(attackConfig.staminaCost))
         {
-            Debug.Log("Attack Left!");
+            if (currentAttackLeftCoroutine == null)
+            {
+                currentAttackLeftCoroutine = StartCoroutine(DoAttackLeft(value));
+            }
         } else if (value == 1 && stamina.ConsumeStamina(attackConfig.staminaCost))
         {
             motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
         }
-            
     }
 
-    public void OnAttack(InputValue value) => Attack(value.Get<float>());
+    private IEnumerator DoAttackLeft(float targetLocalX, bool finishedAttack = false)
+    {
+        Debug.Log("ATTACKING LEFT");
+        float time = 0;
+        Vector3 startPos = ParryTracker.localPosition;
+        Vector3 targetPos = new Vector3(targetLocalX, startPos.y, startPos.z);
+
+        while (time < 1)
+        {
+            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, time);
+            time += Time.deltaTime * tiltSpeed;
+            yield return null;
+        }
+
+        ParryTracker.localPosition = targetPos; // Snap to final position
+
+        if (!finishedAttack)
+            motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
+        
+        while(motionPlayer.isPlaying)
+            yield return null;
+
+        if(!finishedAttack)
+            currentAttackLeftCoroutine = StartCoroutine(DoAttackLeft(unTiltPos, true));
+
+        currentAttackLeftCoroutine = null;
+    }
 
     public void OnParry(InputValue parryDirection) => Parry(parryDirection.Get<float>());
 

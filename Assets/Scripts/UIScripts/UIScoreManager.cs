@@ -50,7 +50,7 @@ public class UIScoreManager : MonoBehaviour
             if (playerScore > i){
                 prefab = winPip;
                 newPip = Instantiate(prefab);
-                if (i == playerScore-1 && ((isP1 && p1Scored) || (!isP1 && p2Scored))) newPip.GetComponent<Image>().color = Color.green;
+                //if (i == playerScore-1 && ((isP1 && p1Scored) || (!isP1 && p2Scored))) newPip.GetComponent<Image>().color = Color.green;
             }
             else
             {

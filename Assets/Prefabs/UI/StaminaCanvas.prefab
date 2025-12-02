@@ -120,7 +120,6 @@ MonoBehaviour:
   p1_yellow_bar: {fileID: 7694489094128827227}
   p2_green_bar: {fileID: 8685268986990494067}
   p2_yellow_bar: {fileID: 5385546110210710904}
-  smoothGreenFillSpeed: 2
   yellowBarShrinkDelay: 1
   yellowShrinkRate: 1
 --- !u!1 &715498413090519452
@@ -408,7 +407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.49019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -560,7 +559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.49019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

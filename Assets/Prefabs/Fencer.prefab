@@ -270,7 +270,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: a308f759eec998245bce748232b96c07, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -435,6 +435,116 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &3238231401258669387
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7465294400179499384}
+  - component: {fileID: 7648081467577909776}
+  - component: {fileID: 7456415131561483560}
+  - component: {fileID: 2292225049184429346}
+  m_Layer: 0
+  m_Name: FoilEndHighlight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7465294400179499384
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3238231401258669387}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.6210519, y: 0.03481461, z: -0.040550184, w: 0.7819451}
+  m_LocalPosition: {x: -0.5, y: -1.17, z: -5.86}
+  m_LocalScale: {x: 0.8, y: 5.3313622, z: 0.8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 590505967987864538}
+  m_LocalEulerAnglesHint: {x: 76.926, y: 1.033, z: -5.116}
+--- !u!33 &7648081467577909776
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3238231401258669387}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7456415131561483560
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3238231401258669387}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 5c25c46ec56106a40baa99eac9b01b2a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &2292225049184429346
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3238231401258669387}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &3583191141341775425
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,6 +929,7 @@ Transform:
   m_Children:
   - {fileID: 8411532507093542349}
   - {fileID: 7488977415123674603}
+  - {fileID: 7465294400179499384}
   m_Father: {fileID: 4145396384276011379}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1840078533993526276
@@ -3618,26 +3729,26 @@ MonoBehaviour:
     layerIndex: 0
     distance: 2
     returnToStart: 1
-    startupFrames: 15
-    activeFrames: 5
-    recoveryFrames: 12
-    startupClipFrames: 20
-    activeClipFrames: 10
-    recoveryClipFrames: 30
-    staminaCost: 25
+    startupFrames: 7
+    activeFrames: 3
+    recoveryFrames: 5
+    startupClipFrames: 7
+    activeClipFrames: 3
+    recoveryClipFrames: 5
+    staminaCost: 35
   backdashConfig:
     animationName: BackdashSmooth
     clip: {fileID: -623603649343465320, guid: 67d732e2b37bb9942a54049745b37932, type: 3}
     layerIndex: 0
-    distance: 2
+    distance: 4
     returnToStart: 0
-    startupFrames: 25
-    activeFrames: 5
-    recoveryFrames: 40
-    startupClipFrames: 20
-    activeClipFrames: 10
-    recoveryClipFrames: 30
-    staminaCost: 10
+    startupFrames: 6
+    activeFrames: 6
+    recoveryFrames: 6
+    startupClipFrames: 8
+    activeClipFrames: 8
+    recoveryClipFrames: 8
+    staminaCost: 15
   foilTipHitBox: {fileID: 7585652432276685990}
 --- !u!114 &2385721647267272142
 MonoBehaviour:
@@ -3653,9 +3764,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ParryTracker: {fileID: 7503634212462944958}
   tiltSpeed: 5
-  parryForce: 3
   leftTiltPos: -5
   rightTiltPos: 1.9
+  unTiltPos: 0
   foilAttackBox: {fileID: 7585652432276685990}
   attackConfig:
     animationName: Attack
@@ -3663,26 +3774,26 @@ MonoBehaviour:
     layerIndex: 1
     distance: 2
     returnToStart: 0
-    startupFrames: 5
+    startupFrames: 6
     activeFrames: 2
-    recoveryFrames: 10
-    startupClipFrames: 10
-    activeClipFrames: 5
-    recoveryClipFrames: 20
-    staminaCost: 5
-  parryLeftConfig:
-    animationName: ParryLeft
-    clip: {fileID: 304406136598300900, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
+    recoveryFrames: 6
+    startupClipFrames: 6
+    activeClipFrames: 2
+    recoveryClipFrames: 6
+    staminaCost: 25
+  parryConfig:
+    animationName: Parried
+    clip: {fileID: -623603649343465320, guid: c7dabacfd7dd41c46981796afba65f75, type: 3}
     layerIndex: 1
     distance: 2
-    returnToStart: 0
-    startupFrames: 10
-    activeFrames: 5
-    recoveryFrames: 10
-    startupClipFrames: 10
-    activeClipFrames: 5
-    recoveryClipFrames: 20
-    staminaCost: 15
+    returnToStart: 1
+    startupFrames: 6
+    activeFrames: 6
+    recoveryFrames: 6
+    startupClipFrames: 6
+    activeClipFrames: 6
+    recoveryClipFrames: 6
+    staminaCost: 20
 --- !u!114 &4924054493378190649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4043,7 +4154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStamina: 100
   maxStamina: 100
-  staminaRegenRate: 1
+  staminaRegenRate: 7
   staminaRegenDelay: 2
 --- !u!4 &9074882071229469699 stripped
 Transform:

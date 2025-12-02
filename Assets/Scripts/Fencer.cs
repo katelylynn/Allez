@@ -265,6 +265,7 @@ public class Fencer : MonoBehaviour
         gameObject.transform.rotation = startingRot[(int)fencerId];
         gameObject.SetActive(true);
         gameObject.GetComponent<Mover>().ZeroVelocity();
+        gameObject.GetComponent<Fighter>().ResetSword();
         //foilHitbox.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 

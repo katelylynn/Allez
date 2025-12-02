@@ -72,4 +72,16 @@ public class PlayerStamina : MonoBehaviour
         }
         isStaminaRecharging = false;
     }
+
+    public void AddStamina(int value)
+    {
+        currentStamina = currentStamina + value > 100 ? 100: currentStamina + value;
+
+    }
+
+    public void ConsumeStaminaWhenParried(int stamina)
+    {
+        currentStamina -= stamina;
+        isStaminaRecharging = false;
+    }
 }

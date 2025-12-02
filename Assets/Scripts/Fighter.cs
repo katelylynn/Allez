@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,11 +9,10 @@ using UnityEngine.InputSystem;
 public class Fighter : MonoBehaviour
 {
     public Transform ParryTracker;
-    public float tiltSpeed = 5;
-    public float parryForce = 3;
 
     private Animator anim;
-
+    
+    public float tiltSpeed = 5;
     public float leftTiltPos = -5;
     public float rightTiltPos = 1.9f;
     public float unTiltPos = 0;
@@ -27,7 +26,7 @@ public class Fighter : MonoBehaviour
     PlayerStamina stamina;
     [Header("Scripted Motion Configs")]
     public ScriptedMotionConfig attackConfig;
-    public ScriptedMotionConfig parryLeftConfig;
+    public ScriptedMotionConfig parryConfig;
 
     public void Start()
     {
@@ -38,30 +37,19 @@ public class Fighter : MonoBehaviour
     }
     public void Attack()
     {
-        if (stamina.ConsumeStamina(attackConfig.staminaCost))
+        if (!anim.GetBool("Parry") && stamina.ConsumeStamina(attackConfig.staminaCost))
             motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
     }
 
     public void OnAttack(InputValue value) => Attack();
 
-    public void TiltLeft()
-    {
-        if (stamina.ConsumeStamina(parryLeftConfig.staminaCost))
-            motionPlayer.PlayScriptedMotion(parryLeftConfig, Vector3.zero);
-    }
-
-    public void TiltRight()
-    {
-        //if (motionPlayer != null)
-        //    motionPlayer.PlayScriptedMotion(parryRightConfig, Vector3.zero);
-    }
-
     public void OnTilt(InputValue tiltDirection)
     {
-        // need to check if any triggers are being set before doing this
-        // can only not do this if player is lunging
-        float tilt = tiltDirection.Get<float>();
+        Tilt(tiltDirection.Get<float>());
+    }
 
+    public void Tilt(float tilt)
+    {
         if (currentTiltCoroutine != null)
             StopCoroutine(currentTiltCoroutine);
 
@@ -77,9 +65,10 @@ public class Fighter : MonoBehaviour
         {
             currentTiltCoroutine = StartCoroutine(DoTilt(unTiltPos));
         }
+
     }
 
-    public IEnumerator DoTilt(float targetLocalX)
+    private IEnumerator DoTilt(float targetLocalX)
     {
         float time = 0;
         Vector3 startPos = ParryTracker.localPosition;
@@ -97,45 +86,51 @@ public class Fighter : MonoBehaviour
 
     public void OnParry(InputValue parryDirection)
     {
-        float parryDir = parryDirection.Get<float>();
+        Parry(parryDirection.Get<float>());
+    }
 
+    public void Parry(float parryDir)
+    {
+        if (motionPlayer.isPlaying) return;
+        
         // can only do this if player is not attacking, lunging, or backdashing        
         if (currentParryCoroutine == null && ParryTracker.localPosition.x == 0 && parryDir != 0)
         {
             GameObject Rig1 = ParryTracker.parent.gameObject;
             Transform child = Rig1.transform.GetChild(0);
             MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
-            aimConstraint.weight = 0f;
 
-            if (parryDir == -1 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
+            if (parryDir == -1 && stamina.ConsumeStamina(parryConfig.staminaCost))
             {
                 //parry left
-                currentParryCoroutine = StartCoroutine(DoParry(-parryForce, true));
+                aimConstraint.weight = 0f;
+                currentParryCoroutine = StartCoroutine(DoParry(-parryConfig.distance, true));
                 GetComponent<PlayerAudioController>().PlaySwing();
             }
-            else if (parryDir == 1 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
+            else if (parryDir == 1 && stamina.ConsumeStamina(parryConfig.staminaCost))
             {
                 //parry right
-                currentParryCoroutine = StartCoroutine(DoParry(parryForce, true));
+                aimConstraint.weight = 0f;
+                currentParryCoroutine = StartCoroutine(DoParry(parryConfig.distance, true));
                 GetComponent<PlayerAudioController>().PlaySwing();
             }
         }
     }
 
-    public IEnumerator DoParry(float direction, bool isReversing = false)
+    private IEnumerator DoParry(float direction, bool isReversing = false)
     {
         anim.SetBool("Parry", true);
-        float time = 0;
         Vector3 startPos = ParryTracker.localPosition;
 
         // Instead of absolute position, use relative offset:
         Vector3 targetPos = startPos + new Vector3(direction, 0, 0);
 
-        while (time < 1)
+        float frameCount = isReversing ? parryConfig.activeFrames : parryConfig.recoveryFrames;
+        for (int i = 0; i < frameCount; i++)
         {
-            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, time);
-            time += Time.deltaTime * tiltSpeed;
-            yield return null;
+            float t = (float)i / (frameCount - 1);  // normalized 0 → 1
+            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, t);
+            yield return null;   // wait 1 frame
         }
 
         ParryTracker.localPosition = targetPos;
@@ -156,5 +151,19 @@ public class Fighter : MonoBehaviour
 
             anim.SetBool("Parry", false);
         }
+    }
+
+    public void ResetSword()
+    {
+        //Reset weight to disable wide wrist movement
+        GameObject Rig1 = ParryTracker.parent.gameObject;
+        Transform child = Rig1.transform.GetChild(0);
+        MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
+        aimConstraint.weight = 1f;
+
+        //Reset the sphere game object to center, which resets sword to center
+        ParryTracker.localPosition = new Vector3(unTiltPos, ParryTracker.localPosition.y, ParryTracker.localPosition.z);
+
+        currentParryCoroutine = null;
     }
 }

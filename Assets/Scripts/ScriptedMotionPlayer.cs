@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,7 +13,6 @@ public class ScriptedMotionPlayer : MonoBehaviour
     Animator anim;
     Rigidbody rb;
     Coroutine currentRoutine;
-
     void Awake()
     {
         anim = GetComponent<Animator>();
@@ -58,7 +58,6 @@ public class ScriptedMotionPlayer : MonoBehaviour
     IEnumerator ScriptedMotionRoutine(ScriptedMotionConfig cfg, Vector3 direction)
     {
         isPlaying = true;
-
         Vector3 startPos = transform.position;
 
         // If direction is nearly zero, don't move the character; animation-only. This does not block other player controlled movement
@@ -235,7 +234,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
                 normalizedTimeForThisFrame = Mathf.Clamp01(normalizedTimeForThisFrame);
                 //anim.Update(0f);
                 anim.CrossFade(cfg.animationName, 0f, cfg.layerIndex, normalizedTimeForThisFrame);
-                yield return null;
+                //yield return null;
             }
 
             // apparently works better than yield return null??
@@ -309,8 +308,11 @@ public class ScriptedMotionPlayer : MonoBehaviour
     {
         if (currentRoutine != null)
         {
+            Debug.Log("Stopping current routine");
             StopCoroutine(currentRoutine);
-            anim.speed = 1f;
+            anim.speed = 1f;           
+            anim.CrossFade(ScriptedMotionConfig.interruptStateName, 0f, ScriptedMotionConfig.interruptLayerIndex, 0f);           
+            anim.Update(0f);
             isPlaying = false;
             currentRoutine = null;
         }

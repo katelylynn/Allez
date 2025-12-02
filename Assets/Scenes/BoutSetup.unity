@@ -743,6 +743,7 @@ GameObject:
   - component: {fileID: 131852315}
   - component: {fileID: 131852314}
   - component: {fileID: 131852317}
+  - component: {fileID: 131852318}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -880,6 +881,19 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 131852315}
+--- !u!114 &131852318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131852312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780e9d2abe15ac44089aa1f431f9fe1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstItem: {fileID: 0}
 --- !u!1 &142186632
 GameObject:
   m_ObjectHideFlags: 0
@@ -5772,7 +5786,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1001418926
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7044,6 +7058,8 @@ MonoBehaviour:
   fencers:
   - {fileID: 1660035772}
   - {fileID: 1885095597}
+  scrollViewP1Nav: {fileID: 1534386956}
+  scrollViewP2Nav: {fileID: 131852318}
 --- !u!1 &1386984980
 GameObject:
   m_ObjectHideFlags: 0
@@ -7956,6 +7972,7 @@ GameObject:
   - component: {fileID: 1534386953}
   - component: {fileID: 1534386952}
   - component: {fileID: 1534386955}
+  - component: {fileID: 1534386956}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -8093,6 +8110,19 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1534386953}
+--- !u!114 &1534386956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534386950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780e9d2abe15ac44089aa1f431f9fe1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstItem: {fileID: 0}
 --- !u!1 &1541029590
 GameObject:
   m_ObjectHideFlags: 0
@@ -8820,7 +8850,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1651486897
 RectTransform:
   m_ObjectHideFlags: 0

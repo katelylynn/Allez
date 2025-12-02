@@ -24,6 +24,9 @@ public class BoutSetupManager : MonoBehaviour
     public List<GameObject> fencers;
     private bool isAI;
 
+    public ProfileSelection scrollViewP1Nav;
+    public ProfileSelection scrollViewP2Nav;
+
     // PlayerPrefs keys
     private const string KEY_OPPONENT_TYPE = "OpponentType";
     private const string KEY_GAME_MODE = "GameMode";
@@ -163,14 +166,14 @@ public class BoutSetupManager : MonoBehaviour
         List<string> playerNames = dM.GetAllPlayerNames();
         string tempP1 = null;
 
-        if(dM.p1 != null) //shitty hacky fix to prevent ready up bug when opponent type changes. part 1
+        if (dM.p1 != null) //shitty hacky fix to prevent ready up bug when opponent type changes. part 1
         {
             tempP1 = dM.p1;
         }
 
         dM.ClearSelectedPlayers();
 
-        if(tempP1 != null) //part 2 of shitty fix, should redo later. does reset clear selected player even need to be called above here?
+        if (tempP1 != null) //part 2 of shitty fix, should redo later. does reset clear selected player even need to be called above here?
         {
             dM.p1 = tempP1;
         }
@@ -180,10 +183,15 @@ public class BoutSetupManager : MonoBehaviour
 
         startMatchButton.GetComponent<Button>().interactable = false;
 
+        // Track the first buttons we create so we can give them to the scroll view nav scripts
+        Selectable firstP1 = null;
+        Selectable firstP2 = null;
+
         foreach (string playerName in playerNames)
         {
             MyButton buttonP1 = Instantiate(buttonPrefab, contentP1).GetComponent<MyButton>();
             buttonP1.playerId = 1;
+
             MyButton buttonP2 = Instantiate(buttonPrefab, contentP2).GetComponent<MyButton>();
             buttonP2.playerId = 2;
 
@@ -192,7 +200,24 @@ public class BoutSetupManager : MonoBehaviour
 
             buttonP1.callback = ButtonClicked;
             buttonP2.callback = ButtonClicked;
+
+            // Grab the Selectable on these (usually a Button component)
+            Selectable s1 = buttonP1.GetComponent<Selectable>();
+            Selectable s2 = buttonP2.GetComponent<Selectable>();
+
+            if (firstP1 == null && s1 != null)
+                firstP1 = s1;
+
+            if (firstP2 == null && s2 != null)
+                firstP2 = s2;
         }
+
+        // Tell the ScrollViewEnterNavigation scripts what their first child item is
+        if (scrollViewP1Nav != null)
+            scrollViewP1Nav.SetFirstItem(firstP1);
+
+        if (scrollViewP2Nav != null)
+            scrollViewP2Nav.SetFirstItem(firstP2);
     }
 
     private void Update()

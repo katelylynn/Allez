@@ -3656,6 +3656,7 @@ MonoBehaviour:
   leftTiltPos: -5
   rightTiltPos: 1.9
   unTiltPos: 0
+  tiltFramePercentage: 0.2
   foilAttackBox: {fileID: 7585652432276685990}
   attackConfig:
     animationName: Attack

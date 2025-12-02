@@ -280,4 +280,9 @@ public class Fencer : MonoBehaviour
         if (mover) mover.enabled = enabled;
         if (fighter) fighter.enabled = enabled;
     }
+
+    private void OnPause()
+    {
+        EventManager.TriggerPause();
+    }
 }

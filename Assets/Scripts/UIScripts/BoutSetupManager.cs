@@ -290,6 +290,8 @@ public class BoutSetupManager : MonoBehaviour
 
         PlayerPrefs.SetString(KEY_GAME_MODE, gameModeDropdown.options[index].text);
         PlayerPrefs.Save();
+
+        UpdateNavigation();
     }
 
     private void OnPointsToWinChanged(int index)
@@ -304,5 +306,26 @@ public class BoutSetupManager : MonoBehaviour
         int value = ExtractNumber(boutLengthDropdown.options[index].text);
         PlayerPrefs.SetInt(KEY_BOUT_LENGTH, value);
         PlayerPrefs.Save();
+    }
+
+    private void UpdateNavigation()
+    {
+        // Decide which field is the "middle" one based on game mode
+        bool isFirstToX = (gameModeDropdown.value == 0);
+        Selectable midSelectable = isFirstToX
+            ? (Selectable)pointsToWinDropdown
+            : (Selectable)boutLengthDropdown;
+
+        // --- GameModeDropdown: Down goes to midSelectable ---
+        Navigation gameModeNav = gameModeDropdown.navigation;
+        gameModeNav.mode = Navigation.Mode.Explicit;
+        gameModeNav.selectOnDown = midSelectable;
+        gameModeDropdown.navigation = gameModeNav;
+
+        // --- OpponentTypeDropdown: Up comes from midSelectable ---
+        Navigation opponentNav = opponentTypeDropdown.navigation;
+        opponentNav.mode = Navigation.Mode.Explicit;
+        opponentNav.selectOnUp = midSelectable;
+        opponentTypeDropdown.navigation = opponentNav;
     }
 }

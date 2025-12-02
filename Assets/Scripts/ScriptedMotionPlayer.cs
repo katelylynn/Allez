@@ -12,11 +12,14 @@ public class ScriptedMotionPlayer : MonoBehaviour
 
     Animator anim;
     Rigidbody rb;
+    CapsuleCollider capsule;
     Coroutine currentRoutine;
+
     void Awake()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        capsule = GetComponent<CapsuleCollider>();
     }
 
     void OnDisable()
@@ -294,6 +297,73 @@ public class ScriptedMotionPlayer : MonoBehaviour
 
     void MoveCharacter(Vector3 targetPos)
     {
+        Vector3 currentPos = (rb != null && rb.isKinematic == false) ? rb.position : transform.position;
+        Vector3 displacement = targetPos - currentPos;
+
+        if (displacement.sqrMagnitude < 0.000001f)
+        {
+            if (rb != null && rb.isKinematic == false)
+                rb.MovePosition(targetPos);
+            else
+                transform.position = targetPos;
+
+            return;
+        }
+
+        Vector3 dir = displacement.normalized;
+        float dist = displacement.magnitude;
+
+        float castRadius = 0.3f;
+        float castHeight = 1.8f;
+
+        if (capsule != null)
+        {
+            castRadius = capsule.radius;
+            castHeight = capsule.height;
+        }
+
+        float halfHeight = Mathf.Max(castHeight * 0.5f - castRadius, 0f);
+
+        Vector3 center = currentPos + transform.up * (castRadius + halfHeight);
+        Vector3 point1 = center + transform.up * halfHeight;
+        Vector3 point2 = center - transform.up * halfHeight;
+
+        RaycastHit hit;
+        float skin = 0.02f;
+        bool blocked;
+
+        if (capsule != null)
+        {
+            blocked = Physics.CapsuleCast(
+                point1,
+                point2,
+                castRadius,
+                dir,
+                out hit,
+                dist,
+                ~0,
+                QueryTriggerInteraction.Ignore
+            );
+        }
+        else
+        {
+            blocked = Physics.SphereCast(
+                currentPos,
+                castRadius,
+                dir,
+                out hit,
+                dist,
+                ~0,
+                QueryTriggerInteraction.Ignore
+            );
+        }
+
+        if (blocked && hit.distance > 0f)
+        {
+            float allowed = Mathf.Max(hit.distance - skin, 0f);
+            targetPos = currentPos + dir * allowed;
+        }
+
         if (rb != null && rb.isKinematic == false)
         {
             rb.MovePosition(targetPos);
@@ -310,8 +380,8 @@ public class ScriptedMotionPlayer : MonoBehaviour
         {
             Debug.Log("Stopping current routine");
             StopCoroutine(currentRoutine);
-            anim.speed = 1f;           
-            anim.CrossFade(ScriptedMotionConfig.interruptStateName, 0f, ScriptedMotionConfig.interruptLayerIndex, 0f);           
+            anim.speed = 1f;
+            anim.CrossFade(ScriptedMotionConfig.interruptStateName, 0f, ScriptedMotionConfig.interruptLayerIndex, 0f);
             anim.Update(0f);
             isPlaying = false;
             currentRoutine = null;

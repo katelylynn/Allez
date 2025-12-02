@@ -15,7 +15,7 @@ public class Fighter : MonoBehaviour
     private Animator anim;
     
     public float tiltSpeed = 5;
-    public float leftTiltPos = -5;
+    public float leftTiltPos = -10;
     public float rightTiltPos = 1.9f;
     public float unTiltPos = 0;
     public float tiltFramePercentage = 0.2f;
@@ -45,14 +45,14 @@ public class Fighter : MonoBehaviour
     
     public void Attack(float value)
     {
-        if (anim.GetBool("Parry"))
+        if (anim.GetBool("Parry") || motionPlayer.isPlaying)
             return;
 
         if (value == -1 && stamina.ConsumeStamina(attackConfig.staminaCost) && currentAttackLeftCoroutine == null)
         {
             OGStartupFrames = attackConfig.startupFrames;
             OGRecoveryFrames = attackConfig.recoveryFrames;
-            currentAttackLeftCoroutine = StartCoroutine(DoAttackLeft(value));
+            currentAttackLeftCoroutine = StartCoroutine(DoAttackLeft(leftTiltPos));
         }
         
         else if (value == 1 && stamina.ConsumeStamina(attackConfig.staminaCost))
@@ -82,6 +82,15 @@ public class Fighter : MonoBehaviour
             float t = (float)i / (frameCount - 1);  // normalized 0 → 1
             ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, t);
             yield return null;   // wait 1 frame
+            if (motionPlayer.isPlaying)
+            {
+                //reset parry tracker if another animation starts playing
+                ParryTracker.localPosition = new Vector3(unTiltPos, startPos.y, startPos.z);
+                attackConfig.startupFrames = OGStartupFrames;
+                attackConfig.recoveryFrames = OGRecoveryFrames;
+                currentAttackLeftCoroutine = null;
+                yield break;
+            }
         }
 
         ParryTracker.localPosition = targetPos; // Snap to final position

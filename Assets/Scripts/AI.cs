@@ -96,33 +96,22 @@ public class AI : MonoBehaviour
         switch (Random.Range(0, 8))
         {
             case 0:
-                fighter.Attack();
+                fighter.Attack(-1);
                 break;
             case 1:
-                Debug.Log("left parry");
-                fighter.Parry(-1);
+                fighter.Attack(1);
                 break;
             case 2:
-                Debug.Log("right parry");
-                fighter.Parry(1);
+                fighter.Parry(-1);
                 break;
             case 3:
-                mover.Lunge();
+                fighter.Parry(1);
                 break;
             case 4:
-                mover.Backdash();
+                mover.Lunge();
                 break;
             case 5:
-                Debug.Log("Tilt left");
-                fighter.Tilt(-1);
-                break;
-            case 6:
-                Debug.Log("Tilt right");
-                fighter.Tilt(1);
-                break;
-            case 7:
-                Debug.Log("un Tilt");
-                fighter.Tilt(0);
+                mover.Backdash();
                 break;
         }
     }

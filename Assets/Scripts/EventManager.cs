@@ -11,6 +11,8 @@ public static class EventManager
     public static event Action<bool> InputEnable;
     // COMBAT EVENTS
     public static event Action ParrySuccess;
+    // UI EVENTS
+    public static event Action Pause;
 
     // TRIGGERS
     public static void TriggerRoundStart() 
@@ -22,10 +24,12 @@ public static class EventManager
     {
         RoundEnd?.Invoke(winner);
     }
+
     public static void TriggerRoundReset()
     {
         RoundReset?.Invoke();
     }
+
     public static void TriggerInputEnable(bool enable)
     {
         InputEnable?.Invoke(enable);
@@ -34,5 +38,10 @@ public static class EventManager
     public static void TriggerParrySuccess()
     {
         ParrySuccess?.Invoke();
+    }
+
+    public static void TriggerPause()
+    {
+        Pause?.Invoke();
     }
 }

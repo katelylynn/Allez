@@ -152,6 +152,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8976367000580410152, guid: 93cb57d995e6c4b1abd8d5370ba16fcc, type: 3}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
+      propertyPath: pauseUIPrefab
+      value: 
+      objectReference: {fileID: 6237561504558928813, guid: f881435edac74af48a6213ae854b505a, type: 3}
+    - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: scoreUIPrefab
       value: 
       objectReference: {fileID: 289933549122863738, guid: 6e3ac025d6f5dc4479f84d637a5992e4, type: 3}

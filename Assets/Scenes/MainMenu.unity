@@ -2210,7 +2210,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3929831785902297349, guid: a73c2ba532d4aab45be14b6791409bb1, type: 3}
         m_TargetAssemblyTypeName: SceneSwapper, Assembly-CSharp
-        m_MethodName: ChangeScene
+        m_MethodName: ToggleAdditiveScene
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

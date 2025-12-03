@@ -57,9 +57,12 @@ public class StaminaBarManager : MonoBehaviour
     }
     private void Update()
     {
+        if(p1oldStamina + 20 <= p1_stamina.currentStamina || p2oldStamina + 20 <= p2_stamina.currentStamina)
+        {
+            BurstGreenBarFill();
+        }
         GreenBarSmoothFill();
-        //p1_green_bar.fillAmount = (float)p1_stamina.currentStamina / (float)p1_stamina.maxStamina;
-        //p2_green_bar.fillAmount = (float)p2_stamina.currentStamina / (float)p2_stamina.maxStamina;
+
         if (p1_stamina.currentStamina < p1oldStamina)
         {
             isP1YellowBehind = true;
@@ -161,7 +164,21 @@ public class StaminaBarManager : MonoBehaviour
             );
         }
     }
+    public void BurstGreenBarFill()
+    {
+        //Debug.Log("burst fill called");
+        float p1_targetFill = (float)p1_stamina.currentStamina / p1_stamina.maxStamina;
+        float p2_targetFill = (float)p2_stamina.currentStamina / p2_stamina.maxStamina;
 
+        if(p1oldStamina + 20 <= p1_stamina.currentStamina)
+        {
+            p1_green_bar.fillAmount = p1_targetFill;
+        }
+        if (p2oldStamina + 20 <= p2_stamina.currentStamina)
+        {
+            p2_green_bar.fillAmount = p2_targetFill;
+        }
+    }
     public void ResetStaminaBars()
     {
         if (p1Routine != null) StopCoroutine(p1Routine);

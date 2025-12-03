@@ -14,6 +14,8 @@ public class SceneInitializer : MonoBehaviour
     public GameObject scoreUIPrefab;
     public GameObject countdownUIPrefab;
     public GameObject staminaUIPrefab;
+    public GameObject pauseUIPrefab;
+    // public GameObject eventSystemPrefab;
 
     private GameObject g;
 
@@ -75,7 +77,6 @@ public class SceneInitializer : MonoBehaviour
         else if (gm == "Most Points in X Seconds")
             gameMode = GameMode.MostPointsInXTime;
 
-        g.GetComponent<GameManager>().Initialize(gameMode, PlayerPrefs.GetInt("PointsToWin", -1), PlayerPrefs.GetInt("BoutLength", -1));
 
         GameObject cm = Spawn(combatManagerPrefab);
         cm.GetComponent<CombatManager>().Initialize(f0.GetComponent<Fencer>(), f1.GetComponent<Fencer>());
@@ -94,6 +95,12 @@ public class SceneInitializer : MonoBehaviour
         // Setup both players UI managers
         UIScoreManager[] uiManagers = scoreUI.GetComponentsInChildren<UIScoreManager>(true);
 
+        GameObject pauseUI = Spawn(pauseUIPrefab);
+        pauseUI.active = false;
+        // Spawn(eventSystemPrefab);
+
+        // Initialize game manager
+        g.GetComponent<GameManager>().Initialize(gameMode, PlayerPrefs.GetInt("PointsToWin", -1), PlayerPrefs.GetInt("BoutLength", -1), pauseUI);
 
         foreach (var ui in uiManagers)
         {

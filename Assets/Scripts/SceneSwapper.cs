@@ -5,17 +5,55 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 #endif
 using System.Collections;
+using System.Collections.Generic;
 
 public class SceneSwapper : MonoBehaviour
 {
+    private static Stack<string> sceneHistory = new Stack<string>();
+
     public static void ChangeScene(string sceneName)
     {
+        Scene current = SceneManager.GetActiveScene();
+        if (current.IsValid())
+            sceneHistory.Push(current.name);
+
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 
-    public static void AdditiveChangeScene(string sceneName)
+    public static void ToggleAdditiveScene(string sceneName)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        Scene scene = SceneManager.GetSceneByName(sceneName);
+
+        // If scene is loaded → unload it
+        if (scene.isLoaded)
+        {
+            SceneManager.UnloadSceneAsync(sceneName);
+            return;
+        }
+
+        // Otherwise load additively & push history
+        Scene current = SceneManager.GetActiveScene();
+        if (current.IsValid())
+            sceneHistory.Push(current.name);
+
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+    }
+
+    public static void GoBack()
+    {
+        if (sceneHistory.Count == 0)
+        {
+            Debug.Log("No previous scene found in history.");
+            return;
+        }
+
+        string previousScene = sceneHistory.Pop();
+        SceneManager.LoadScene(previousScene);
+    }
+
+    public void GoBackInstance()
+    {
+        GoBack();
     }
 
     public static void QuitGame()

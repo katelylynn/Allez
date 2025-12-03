@@ -70,7 +70,9 @@ public class Mover : MonoBehaviour
             return;
         }
         if (anim.GetCurrentAnimatorStateInfo(1).IsName("Attack")) return;
-
+        
+        if (anim.GetBool("Parry")) return;
+        
         if(stamina.ConsumeStamina(lungeConfig.staminaCost))
             motionPlayer.PlayScriptedMotion(lungeConfig, transform.forward);
     }
@@ -87,6 +89,8 @@ public class Mover : MonoBehaviour
         if (motionPlayer == null) return;
 
         if (motionPlayer.isPlaying) return;
+
+        if (anim.GetBool("Parry")) return;
 
         if(stamina.ConsumeStamina(backdashConfig.staminaCost))
             motionPlayer.PlayScriptedMotion(backdashConfig, -transform.forward);

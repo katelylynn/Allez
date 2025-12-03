@@ -1,24 +1,28 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Fighter : MonoBehaviour
 {
     public Transform ParryTracker;
-    public float tiltSpeed = 5;
-    public float parryForce = 3;
 
     private Animator anim;
-
-    public float leftTiltPos = -5;
+    
+    public float tiltSpeed = 5;
+    public float leftTiltPos = -5f;
     public float rightTiltPos = 1.9f;
     public float unTiltPos = 0;
+    public float tiltFramePercentage = 0.2f;
+    private int OGStartupFrames = 0;
+    private int OGRecoveryFrames = 0;
 
-    private Coroutine currentTiltCoroutine;
+    private Coroutine currentAttackLeftCoroutine;
     private Coroutine currentParryCoroutine;
     public GameObject foilAttackBox;
     //public bool foilHitBoxEnabled = true;
@@ -27,7 +31,7 @@ public class Fighter : MonoBehaviour
     PlayerStamina stamina;
     [Header("Scripted Motion Configs")]
     public ScriptedMotionConfig attackConfig;
-    public ScriptedMotionConfig parryLeftConfig;
+    public ScriptedMotionConfig parryConfig;
 
     public void Start()
     {
@@ -36,106 +40,123 @@ public class Fighter : MonoBehaviour
         if (motionPlayer == null)
             motionPlayer = GetComponent<ScriptedMotionPlayer>();
     }
-    public void Attack()
+
+    public void OnAttack(InputValue value) => Attack(value.Get<float>());
+    
+    public void Attack(float value)
     {
-        if (stamina.ConsumeStamina(attackConfig.staminaCost))
+        if (anim.GetBool("Parry") || motionPlayer.isPlaying)
+            return;
+
+        if (value == -1 && stamina.ConsumeStamina(attackConfig.staminaCost) && currentAttackLeftCoroutine == null)
+        {
+            OGStartupFrames = attackConfig.startupFrames;
+            OGRecoveryFrames = attackConfig.recoveryFrames;
+            currentAttackLeftCoroutine = StartCoroutine(DoAttackLeft(leftTiltPos));
+        }
+        
+        else if (value == 1 && stamina.ConsumeStamina(attackConfig.staminaCost))
             motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
     }
 
-    public void OnAttack(InputValue value) => Attack();
-
-    public void TiltLeft()
+    private IEnumerator DoAttackLeft(float targetLocalX, bool finishedAttack = false)
     {
-        if (stamina.ConsumeStamina(parryLeftConfig.staminaCost))
-            motionPlayer.PlayScriptedMotion(parryLeftConfig, Vector3.zero);
-    }
-
-    public void TiltRight()
-    {
-        //if (motionPlayer != null)
-        //    motionPlayer.PlayScriptedMotion(parryRightConfig, Vector3.zero);
-    }
-
-    public void OnTilt(InputValue tiltDirection)
-    {
-        // need to check if any triggers are being set before doing this
-        // can only not do this if player is lunging
-        float tilt = tiltDirection.Get<float>();
-
-        if (currentTiltCoroutine != null)
-            StopCoroutine(currentTiltCoroutine);
-
-        if (tilt == -1)
-        {
-            currentTiltCoroutine = StartCoroutine(DoTilt(leftTiltPos));
-        }
-        else if (tilt == 1)
-        {
-            currentTiltCoroutine = StartCoroutine(DoTilt(rightTiltPos));
-        }
-        else
-        {
-            currentTiltCoroutine = StartCoroutine(DoTilt(unTiltPos));
-        }
-    }
-
-    public IEnumerator DoTilt(float targetLocalX)
-    {
-        float time = 0;
         Vector3 startPos = ParryTracker.localPosition;
         Vector3 targetPos = new Vector3(targetLocalX, startPos.y, startPos.z);
 
-        while (time < 1)
+        float frameCount = 0;
+        
+        // Ensures that the tilt motion is also part of the startup/recovery frames
+        if (!finishedAttack)
         {
-            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, time);
-            time += Time.deltaTime * tiltSpeed;
-            yield return null;
+            frameCount = Mathf.CeilToInt(attackConfig.startupFrames * tiltFramePercentage);
+            attackConfig.startupFrames = Mathf.FloorToInt(attackConfig.startupFrames * (1-tiltFramePercentage));
+        } else if(finishedAttack)
+        {
+            frameCount = Mathf.CeilToInt(attackConfig.recoveryFrames * tiltFramePercentage);
+            attackConfig.recoveryFrames = Mathf.FloorToInt(attackConfig.recoveryFrames * (1-tiltFramePercentage));
+        }
+        
+        for (int i = 0; i < frameCount; i++)
+        {
+            if (motionPlayer.isPlaying)
+            {
+                //reset parry tracker if another animation starts playing
+                ParryTracker.localPosition = new Vector3(unTiltPos, startPos.y, startPos.z);
+                attackConfig.startupFrames = OGStartupFrames;
+                attackConfig.recoveryFrames = OGRecoveryFrames;
+                currentAttackLeftCoroutine = null;
+                yield break;
+            }
+            float t = (float)i / (frameCount - 1);  // normalized 0 → 1
+            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, t);
+            yield return null;   // wait 1 frame
         }
 
         ParryTracker.localPosition = targetPos; // Snap to final position
+
+        if (!finishedAttack)
+            motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
+        
+        while(motionPlayer.isPlaying)
+            yield return null;
+
+        if(!finishedAttack)
+            currentAttackLeftCoroutine = StartCoroutine(DoAttackLeft(unTiltPos, true));
+
+        if (finishedAttack)
+        {
+            // Restore the frame amounts to their original level
+            attackConfig.startupFrames = OGStartupFrames;
+            attackConfig.recoveryFrames = OGRecoveryFrames;
+        }
+        currentAttackLeftCoroutine = null;
     }
 
-    public void OnParry(InputValue parryDirection)
-    {
-        float parryDir = parryDirection.Get<float>();
+    public void OnParry(InputValue parryDirection) => Parry(parryDirection.Get<float>());
 
+    public void Parry(float parryDir)
+    {
+        if (motionPlayer.isPlaying) return;
+        
         // can only do this if player is not attacking, lunging, or backdashing        
         if (currentParryCoroutine == null && ParryTracker.localPosition.x == 0 && parryDir != 0)
         {
             GameObject Rig1 = ParryTracker.parent.gameObject;
             Transform child = Rig1.transform.GetChild(0);
             MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
-            aimConstraint.weight = 0f;
 
-            if (parryDir == -1 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
+            if (parryDir == -1 && stamina.ConsumeStamina(parryConfig.staminaCost))
             {
                 //parry left
-                currentParryCoroutine = StartCoroutine(DoParry(-parryForce, true));
+                aimConstraint.weight = 0f;
+                currentParryCoroutine = StartCoroutine(DoParry(-parryConfig.distance, true));
                 GetComponent<PlayerAudioController>().PlaySwing();
             }
-            else if (parryDir == 1 && stamina.ConsumeStamina(parryLeftConfig.staminaCost))
+            else if (parryDir == 1 && stamina.ConsumeStamina(parryConfig.staminaCost))
             {
                 //parry right
-                currentParryCoroutine = StartCoroutine(DoParry(parryForce, true));
+                aimConstraint.weight = 0f;
+                currentParryCoroutine = StartCoroutine(DoParry(parryConfig.distance, true));
                 GetComponent<PlayerAudioController>().PlaySwing();
             }
         }
     }
 
-    public IEnumerator DoParry(float direction, bool isReversing = false)
+    private IEnumerator DoParry(float direction, bool isReversing = false)
     {
         anim.SetBool("Parry", true);
-        float time = 0;
         Vector3 startPos = ParryTracker.localPosition;
 
         // Instead of absolute position, use relative offset:
         Vector3 targetPos = startPos + new Vector3(direction, 0, 0);
 
-        while (time < 1)
+        float frameCount = isReversing ? parryConfig.activeFrames : parryConfig.recoveryFrames;
+        for (int i = 0; i < frameCount; i++)
         {
-            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, time);
-            time += Time.deltaTime * tiltSpeed;
-            yield return null;
+            float t = (float)i / (frameCount - 1);  // normalized 0 → 1
+            ParryTracker.localPosition = Vector3.Lerp(startPos, targetPos, t);
+            yield return null;   // wait 1 frame
         }
 
         ParryTracker.localPosition = targetPos;
@@ -143,9 +164,7 @@ public class Fighter : MonoBehaviour
 
         // Ensures that the sword goes back to its original position
         if (isReversing)
-        {
             currentParryCoroutine = StartCoroutine(DoParry(-direction));
-        }
 
         if (currentParryCoroutine == null)
         {
@@ -156,5 +175,20 @@ public class Fighter : MonoBehaviour
 
             anim.SetBool("Parry", false);
         }
+    }
+
+    public void ResetSword()
+    {
+        //Reset weight to disable wide wrist movement
+        GameObject Rig1 = ParryTracker.parent.gameObject;
+        Transform child = Rig1.transform.GetChild(0);
+        MultiAimConstraint aimConstraint = child.GetComponent<MultiAimConstraint>();
+        aimConstraint.weight = 1f;
+
+        //Reset the sphere game object to center, which resets sword to center
+        ParryTracker.localPosition = new Vector3(unTiltPos, ParryTracker.localPosition.y, ParryTracker.localPosition.z);
+
+        currentParryCoroutine = null;
+        currentAttackLeftCoroutine = null;
     }
 }

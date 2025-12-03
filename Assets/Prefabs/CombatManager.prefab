@@ -51,13 +51,16 @@ MonoBehaviour:
     layerIndex: 1
     distance: 2
     returnToStart: 1
-    startupFrames: 30
-    activeFrames: 30
-    recoveryFrames: 30
-    startupClipFrames: 20
-    activeClipFrames: 10
-    recoveryClipFrames: 30
+    startupFrames: 5
+    activeFrames: 5
+    recoveryFrames: 5
+    startupClipFrames: 5
+    activeClipFrames: 5
+    recoveryClipFrames: 5
     staminaCost: 0
+  parriedLungeStaminaCost: 50
+  parriedAttackStaminaCost: 25
+  succPStaminaGain: 20
 --- !u!82 &2401273750365362106
 AudioSource:
   m_ObjectHideFlags: 0

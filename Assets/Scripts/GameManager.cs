@@ -25,19 +25,20 @@ public class GameManager : MonoBehaviour
     // UI and data
     Canvas uiScore;
     Canvas staminaUI;
+    [SerializeField] private GameObject pauseUI;
     private RoundStartCountDown countdownTimer;
     public string resultsScene = "resultsScene";
     public float hitTimeScale = 0.01f;
     PlayerDataManager dM;
     private bool roundSequenceRunning;
 
-
-    public void Initialize(GameMode gm, int ptw, int bl)
+    public void Initialize(GameMode gm, int ptw, int bl, GameObject pui)
     {
         gameMode = gm;
         if (ptw != -1) pointsToWin = ptw;
         if (bl != -1) maxTime = (float) bl;
         if (gameMode == GameMode.MostPointsInXTime) pointsToWin = 0;
+        pauseUI = pui;
     }
 
     public void SetUIScore(Canvas ui)
@@ -63,12 +64,23 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1.0f;
         EventManager.RoundEnd += EndRound;
+        EventManager.Pause += Pause;
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 1.0f - Time.timeScale; 
+        Debug.Log("reached");
+        pauseUI.SetActive(!pauseUI.active); 
+        Debug.Log("reached2");
     }
 
     private void OnDestroy()
     {
         EventManager.RoundEnd -= EndRound;
+        EventManager.Pause -= Pause;
     }
 
     public void StartBout()

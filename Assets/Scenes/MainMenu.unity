@@ -556,7 +556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cancel: {fileID: 8300000, guid: e6725ca2471ac4a838da0f6d409ce771, type: 3}
-  confirm: {fileID: 8300000, guid: 41d17419927e9479e9165494cd8fe8c3, type: 3}
+  confirm: {fileID: 8300000, guid: c56d29863230b496c887f1fee7145677, type: 3}
   cursor: {fileID: 8300000, guid: bac45315fda7e4446ab44b945a8722d3, type: 3}
   volume: 1
   hoverCooldown: 0.04
@@ -2411,7 +2411,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 3449bdb65c31043558ce375434048667, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.128
+  m_Volume: 0.703
   m_Pitch: 1
   Loop: 1
   Mute: 0

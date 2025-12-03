@@ -368,8 +368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbf68d90f61a463d8bc98ceafd5bb50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p1PointSfx: {fileID: 8300000, guid: 3ef2280c8e97c48e99c638bbdb101499, type: 3}
-  p2PointSfx: {fileID: 8300000, guid: d887227a898f64b4480ad3a81adc7077, type: 3}
+  p1PointSfx: {fileID: 8300000, guid: 31dddbbf8380f4bbaae957e29ff392f6, type: 3}
+  p2PointSfx: {fileID: 8300000, guid: d5ddc4e9602ba4628825c778679e933a, type: 3}
   p1Ouch: {fileID: 8300000, guid: b4da45b8ebd7e48be8121068dd542dc4, type: 3}
   p2Ouch: {fileID: 8300000, guid: 969278e71188d48b696395cb0c09cb8c, type: 3}
   sfxVolume: 1

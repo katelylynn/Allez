@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8283718953539340735
+--- !u!1 &2610815235619589264
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5725234126434928235}
-  - component: {fileID: 7296043609486496743}
-  - component: {fileID: 1996389238451649302}
-  - component: {fileID: 5205477942037578985}
+  - component: {fileID: 2591867607420577932}
+  - component: {fileID: -7153881081130195116}
+  - component: {fileID: -382808319794648134}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: BGMController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5725234126434928235
+--- !u!4 &2591867607420577932
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8283718953539340735}
+  m_GameObject: {fileID: 2610815235619589264}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -34,32 +33,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7296043609486496743
+--- !u!114 &-7153881081130195116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8283718953539340735}
+  m_GameObject: {fileID: 2610815235619589264}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4842fdcb92fd3584992c85905117ee50, type: 3}
+  m_Script: {fileID: 11500000, guid: 4835e30e317a04d3a98b9237a5fa6e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMode: 0
-  pointsToWin: 3
-  maxTime: 20
-  elapsedTime: 0
-  countdownRunning: 0
-  resultsScene: resultsScene
-  hitTimeScale: 0.01
---- !u!82 &1996389238451649302
+  gameManager: {fileID: 7296043609486496743, guid: 06dcee9b4c91724438891ac1424bad46, type: 3}
+  TimerBGM: {fileID: 8300000, guid: 58114731596ec4504b705ca9d3fb6d2a, type: 3}
+--- !u!82 &-382808319794648134
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8283718953539340735}
+  m_GameObject: {fileID: 2610815235619589264}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -68,7 +62,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -150,17 +144,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5205477942037578985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8283718953539340735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4835e30e317a04d3a98b9237a5fa6e99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameManager: {fileID: 7296043609486496743}
-  TimerBGM: {fileID: 8300000, guid: 58114731596ec4504b705ca9d3fb6d2a, type: 3}

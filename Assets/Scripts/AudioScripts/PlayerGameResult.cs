@@ -4,8 +4,8 @@ using TMPro;
 public class PlayerGameResult : MonoBehaviour
 {
     [Header("Sound Clips")]
-    public AudioClip P1Win;
-    public AudioClip P2Win;
+    // public AudioClip P1Win;
+    // public AudioClip P2Win;
     public AudioClip backgroundMusic;
     private AudioSource source;
 
@@ -38,18 +38,18 @@ public class PlayerGameResult : MonoBehaviour
         // Start background music
         PlayBackgroundMusic();
 
-        // Get winner
-        string winner = PlayerPrefs.GetString("RoundWinner", "");
+        // // Get winner
+        // string winner = PlayerPrefs.GetString("RoundWinner", "");
 
-        // Play corresponding audio clip
-        if (winner == "Player One")
-        {
-            Play(P1Win);
-        }
-        else if (winner == "Player Two")
-        {
-            Play(P2Win);
-        }
+        // // Play corresponding audio clip
+        // if (winner == "Player One")
+        // {
+        //     Play(P1Win);
+        // }
+        // else if (winner == "Player Two")
+        // {
+        //     Play(P2Win);
+        // }
         // else → play nothing
     }
 }

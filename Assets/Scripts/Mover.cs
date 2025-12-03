@@ -25,7 +25,6 @@ public class Mover : MonoBehaviour
 
     public GameObject foilTipHitBox; //this can be used to disabled foiltip during startup and recovery, not used currently
 
-
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -127,6 +126,8 @@ public class Mover : MonoBehaviour
         else
             rb.AddForce(-rb.linearVelocity * deceleration, ForceMode.Acceleration);
     }
+
+
 
     public void SetForwardMovement(bool b)
     {

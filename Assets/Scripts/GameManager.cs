@@ -12,7 +12,7 @@ public enum GameMode
 
 public class GameManager : MonoBehaviour
 {
-    private GameMode gameMode;
+    public GameMode gameMode;
 
     // first to X mode
     public int pointsToWin = 3;

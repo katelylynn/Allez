@@ -173,20 +173,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "ca140ae1-9d0e-43a0-be9c-391d02b7c2d4",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardP1",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "positive",
                     "id": "e7d07c51-fbf8-44ab-8324-ae2d60b03d92",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardP1",
@@ -206,20 +195,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "5ea7073b-ba40-40ab-9674-1204298bd95c",
-                    "path": "<Keyboard>/u",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardP2",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "positive",
                     "id": "23b44ff9-fbed-45d6-8eb7-b64250c31e07",
-                    "path": "<Keyboard>/o",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardP2",
@@ -239,20 +217,9 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
-                    "id": "a4fc5c32-efca-4220-b573-80f8f81c8683",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "positive",
                     "id": "80360a78-f003-4d02-83fa-535e6d5237f9",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -283,17 +250,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "4438bffe-7203-4160-bac1-529fee4bbe81",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardP1",
-                    "action": "Parry",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "1D Axis",
                     "id": "ce784f1c-d321-4bea-8dec-bc8f5b01df58",
                     "path": "1DAxis",
@@ -316,17 +272,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "67f81622-61e8-45bc-9538-e7f15150b3ed",
-                    "path": "<Keyboard>/l",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";KeyboardP2",
-                    "action": "Parry",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "1D Axis",
                     "id": "e5a53521-c0f3-46d1-91d4-62fa37237573",
                     "path": "1DAxis",
@@ -341,17 +286,6 @@
                     "name": "negative",
                     "id": "bec355f2-f848-4a7a-be5c-2a93c44e5907",
                     "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Parry",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "78f17586-38b7-46d3-a140-52b8b63116dc",
-                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -461,7 +395,7 @@
                 {
                     "name": "",
                     "id": "27a986e2-393a-4f69-8b6c-339b3b18b17c",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -571,7 +505,7 @@
                 {
                     "name": "",
                     "id": "1e0db4e5-ad7c-4817-9a44-30058ee7c04d",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",

@@ -59,6 +59,7 @@ public class SceneSwapper : MonoBehaviour
     public static void QuitGame()
     {
         // Start the delay coroutine using any active MonoBehaviour
+        Time.timeScale = 1.0f;
         var instance = new GameObject("QuitHelper").AddComponent<SceneSwapper>();
         instance.StartCoroutine(instance.QuitAfterDelay());
     }

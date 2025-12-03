@@ -102,6 +102,7 @@ public class Fencer : MonoBehaviour
         EventManager.RoundStart -= OnRoundStart;
         EventManager.RoundReset -= OnRoundReset;
         EventManager.InputEnable -= OnInputEnable;
+        EventManager.Pause -= OnPauseToggled;
     }
 
     public void Initialize(FencerId fn, FencerType ft)
@@ -125,6 +126,7 @@ public class Fencer : MonoBehaviour
         EventManager.RoundStart += OnRoundStart;
         EventManager.RoundReset += OnRoundReset;
         EventManager.InputEnable += OnInputEnable;
+        EventManager.Pause += OnPauseToggled;
 
     }
 
@@ -284,5 +286,10 @@ public class Fencer : MonoBehaviour
     private void OnPause()
     {
         EventManager.TriggerPause();
+    }
+
+    private void OnPauseToggled()
+    {
+        playerInput.enabled = !playerInput.enabled;
     }
 }

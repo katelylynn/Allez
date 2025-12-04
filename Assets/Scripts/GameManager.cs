@@ -32,6 +32,13 @@ public class GameManager : MonoBehaviour
     PlayerDataManager dM;
     private bool roundSequenceRunning;
 
+    // sound
+    public bool IsRoundBusy => countdownRunning || roundSequenceRunning;
+    public static GameManager Instance { get; private set; }
+    public bool isGameActive = false;
+
+
+
     public void Initialize(GameMode gm, int ptw, int bl, GameObject pui)
     {
         gameMode = gm;
@@ -58,6 +65,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;        
         dM = PlayerDataManager.GetInstance();
         ResetGameState();
     }
@@ -145,12 +153,14 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundCountdown()
     {
         countdownRunning = true;
+        isGameActive = false;
         EventManager.TriggerInputEnable(false);
         yield return StartCoroutine(countdownTimer.Run());
         EventManager.TriggerInputEnable(true);
         countdownRunning = false;
-
         EventManager.TriggerRoundStart();
+        isGameActive = true;
+
     }
 
     private void EndRound(FencerId winner)
@@ -163,6 +173,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator EndRoundSequence(FencerId winner)
     {
+        isGameActive = false;
+
         roundSequenceRunning = true;
         Time.timeScale = hitTimeScale;
         EventManager.TriggerInputEnable(false);
@@ -223,6 +235,8 @@ public class GameManager : MonoBehaviour
 
     private void EndFight(FencerId winner)
     {
+        isGameActive = false;
+
         Debug.Log("GAME OVER!");
         Debug.Log("winner: fencer " + (int)winner);
 

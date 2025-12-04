@@ -4275,8 +4275,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetDistance: 4.6
   tolerance: 0.2
-  minThink: 0.2
-  maxThink: 1
+  isThinking: 0
+  thinkRange:
+  - 0.2
+  - 0.5
+  reactRange:
+  - 0
+  - 0.4
+  guessTolerance: 0.5
+  opponentActionHistory: 
 --- !u!114 &8466466553347403939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4290,6 +4297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetFPS: 60
+  _isPlaying: 0
 --- !u!114 &3662473575950823517
 MonoBehaviour:
   m_ObjectHideFlags: 0

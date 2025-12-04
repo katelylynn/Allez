@@ -27,9 +27,10 @@ public class AI : MonoBehaviour
     public float tolerance = 0.5f;
 
     // thinking
-    public float minThink = 0.2f;
-    public float maxThink = 1.0f;
     [SerializeField] private bool isThinking;
+    public float[] thinkRange = new float[] { 0.2f, 0.5f };
+    public float[] reactRange = new float[] { 0f, 0.3f };
+    public float guessTolerance = 0.4f;
 
     // opponent
     private Dictionary<OpponentMove, Action> actions;
@@ -51,6 +52,10 @@ public class AI : MonoBehaviour
             { OpponentMove.Backdash, mover.Backdash }
         };
         EventManager.ActionTaken += UpdateOpponentActionHistory;
+        EventManager.ActionTaken += (OpponentMove om) => {
+            if ((om == OpponentMove.Attack || om == OpponentMove.Lunge) && transform.position.z - opponent.transform.position.z <= targetDistance + tolerance)
+                StartCoroutine(ThinkRoutine(() => React(om), reactRange));
+        };
     }
 
     public void Initialize(GameObject o)
@@ -78,15 +83,28 @@ public class AI : MonoBehaviour
             && opponentActionHistory.Count != 0
             && (opponentActionHistory[opponentActionHistory.Count - 1] == OpponentMove.AIParried 
             || opponentActionHistory[opponentActionHistory.Count - 1] == OpponentMove.OpponentParried))
-        {
-            Debug.Log(om == OpponentMove.AIParried || om == OpponentMove.OpponentParried);
-            Debug.Log(opponentActionHistory.Count != 0);
-            Debug.Log(opponentActionHistory[opponentActionHistory.Count - 1] != OpponentMove.AIParried);
-            Debug.Log(opponentActionHistory[opponentActionHistory.Count - 1] != OpponentMove.OpponentParried);
             return;
-        }
 
         opponentActionHistory.Add(om);
+    }
+
+    private void React(OpponentMove om)
+    {
+        float guess = UnityEngine.Random.Range(0f, 1f);
+        Debug.Log("AI guessed: " + guess + ", " + (guess > guessTolerance ? "correctly!" : "incorrectly :("));
+
+        // if the AI successfully "guesses" the lunge...
+        if (om == OpponentMove.Lunge && guess > guessTolerance)
+            // backdash out of the way
+            mover.Backdash();
+
+        // or if the AI successfully "guesses" the attack...
+        else if (om == OpponentMove.Attack && guess > guessTolerance)
+            fighter.Parry(-1);
+
+        // or if the AI doesn't "guess" the attack...
+        else if (om == OpponentMove.Attack && guess <= guessTolerance)
+            mover.Backdash();
     }
 
     private void ControlDistance()
@@ -112,20 +130,20 @@ public class AI : MonoBehaviour
             mover.SetMoveAmount(0.0f);
 
             if (!isThinking)
-                StartCoroutine(ThinkRoutine());
+                StartCoroutine(ThinkRoutine(CalculateNextMove, thinkRange));
         }
     }
 
-    private IEnumerator ThinkRoutine()
+    private IEnumerator ThinkRoutine(Action onFinishThinking, float[] range)
     {
         isThinking = true;
 
         // wait a random amount of time before choosing next move
-        float waitTime = UnityEngine.Random.Range(minThink, maxThink);
+        float waitTime = UnityEngine.Random.Range(range[0], range[1]);
         yield return new WaitForSeconds(waitTime);
 
         isThinking = false;
-        CalculateNextMove();
+        onFinishThinking?.Invoke();
     }
 
     private void CalculateNextMove()

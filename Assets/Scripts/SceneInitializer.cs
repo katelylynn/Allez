@@ -96,7 +96,7 @@ public class SceneInitializer : MonoBehaviour
         UIScoreManager[] uiManagers = scoreUI.GetComponentsInChildren<UIScoreManager>(true);
 
         GameObject pauseUI = Spawn(pauseUIPrefab);
-        pauseUI.active = false;
+        pauseUI.SetActive(false);
         // Spawn(eventSystemPrefab);
 
         // Initialize game manager

@@ -60,7 +60,7 @@ public class CombatManager : MonoBehaviour
                 }
                 fencer1.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
                 motionPlayerP1.PlayScriptedMotion(parriedConfig, Vector3.zero);
-
+                EventManager.TriggerActionTaken(OpponentMove.AIParried);
             }
         }
         else if (f1IsParrying)
@@ -83,6 +83,7 @@ public class CombatManager : MonoBehaviour
 
                 fencer0.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
                 motionPlayerP0.PlayScriptedMotion(parriedConfig, Vector3.zero);
+            EventManager.TriggerActionTaken(OpponentMove.OpponentParried);
             }
         }
     }

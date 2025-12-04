@@ -11,6 +11,7 @@ public static class EventManager
     public static event Action<bool> InputEnable;
     // COMBAT EVENTS
     public static event Action ParrySuccess;
+    public static event Action<OpponentMove> ActionTaken;
     // UI EVENTS
     public static event Action Pause;
 
@@ -43,5 +44,10 @@ public static class EventManager
     public static void TriggerPause()
     {
         Pause?.Invoke();
+    }
+
+    public static void TriggerActionTaken(OpponentMove om)
+    {
+        ActionTaken?.Invoke(om);
     }
 }

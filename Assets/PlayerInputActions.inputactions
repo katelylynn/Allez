@@ -39,7 +39,7 @@
                     "id": "b8e33fd5-2357-4ab2-a9be-4fee764312f8",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
                 },
                 {
@@ -48,7 +48,7 @@
                     "id": "ea3cbc1b-7218-4ae3-873f-2753246be480",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": true
                 },
                 {

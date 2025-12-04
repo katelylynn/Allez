@@ -8,7 +8,14 @@ public class ScriptedMotionPlayer : MonoBehaviour
     [Tooltip("Used for debug timing (expected time per phase).")]
     public float targetFPS = 60f;
 
-    public bool isPlaying { get; private set; }
+    [SerializeField]      // shows in Inspector
+    private bool _isPlaying;
+
+    public bool isPlaying // code uses this
+    {
+        get => _isPlaying;
+        private set => _isPlaying = value;
+    }
 
     Animator anim;
     Rigidbody rb;

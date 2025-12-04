@@ -24,6 +24,7 @@ public class AI : MonoBehaviour
 
     // distance control
     public float lungeDistance = 4.6f;
+    public float attackDistance = 4.0f;
     public float tolerance = 0.5f;
 
     // thinking
@@ -32,6 +33,7 @@ public class AI : MonoBehaviour
     public float[] reactRange = new float[] { 0f, 0.3f };
     public float guessTolerance = 0.4f;
     public float lockedInNessTolerance = 0.4f;
+    [SerializeField] private bool isLockedIn = false;
 
     // opponent
     public List<OpponentMove> opponentActionHistory;
@@ -46,6 +48,9 @@ public class AI : MonoBehaviour
         stamina = GetComponent<PlayerStamina>();
 
         EventManager.ActionTaken += (OpponentMove om) => {
+            if (isLockedIn)
+                return;
+
             // if opponent is on the ofensive...
             if ((om == OpponentMove.Attack || om == OpponentMove.Lunge) 
                 && transform.position.z - opponent.transform.position.z <= lungeDistance + tolerance)
@@ -71,8 +76,8 @@ public class AI : MonoBehaviour
 
     private void Update()
     {
-        // wait until mover is active
-        if (mover.enabled)
+        // wait until mover is active and no animations are currently running
+        if (mover.enabled && !smp.isPlaying && !isLockedIn)
             ControlDistance();
     }
 
@@ -108,12 +113,6 @@ public class AI : MonoBehaviour
 
     private void ControlDistance()
     {
-        if (smp.isPlaying)
-        {
-            mover.SetMoveAmount(0f);
-            return;
-        }
-
         // if AI is not a good distance away from their opponent...
         if ((transform.position.z > opponent.transform.position.z + lungeDistance + tolerance || transform.position.z <= opponent.transform.position.z + lungeDistance) && !isThinking)
         {
@@ -150,6 +149,7 @@ public class AI : MonoBehaviour
         // If the AI isn't locked in, it will just choose something random to do
         if (lockedInNess <= lockedInNessTolerance)
         {
+            Debug.Log("Doing something random");
             ExecuteRandomMove();
             return;
         }
@@ -170,17 +170,35 @@ public class AI : MonoBehaviour
         switch (UnityEngine.Random.Range(0, 5))
         {
             case 0:
-                fighter.Attack(1);
+                // Need to get in range for attack
+                StartCoroutine(ApproachAndAct(() => fighter.Attack(1), attackDistance));
                 break;
             case 1:
                 fighter.Parry(-1);
                 break;
             case 2:
-                mover.Lunge();
+                StartCoroutine(ApproachAndAct(mover.Lunge, lungeDistance));
                 break;
             case 3:
                 mover.Backdash();
                 break;
         }
+    }
+
+    private IEnumerator ApproachAndAct(Action onFinishApproaching, float distance)
+    {
+        isLockedIn = true;
+
+        while (transform.position.z - opponent.transform.position.z > distance)
+        {
+            mover.SetMoveAmount(1.0f);
+            yield return null; // wait for next frame
+        }
+
+        // Stop & attack
+        mover.SetMoveAmount(0f);
+        onFinishApproaching?.Invoke();
+
+        isLockedIn = false;
     }
 }

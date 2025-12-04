@@ -85,7 +85,7 @@ public class AI : MonoBehaviour
     {
         // if opponent is on the ofensive...
         if (!isLockedIn
-            || (om == OpponentMove.Attack || om == OpponentMove.Lunge) 
+            || (om == OpponentMove.Attack || om == OpponentMove.Lunge || om == OpponentMove.AIParried || om == OpponentMove.OpponentParried) 
             && transform.position.z - opponent.transform.position.z <= lungeDistance + tolerance)
             // AI thinks and then reacts!
             StartCoroutine(ThinkRoutine(() => React(om), reactRange));
@@ -98,8 +98,18 @@ public class AI : MonoBehaviour
 
         // if the AI successfully "guesses" the lunge...
         if (om == OpponentMove.Lunge && guess > guessTolerance)
-            // backdash out of the way
-            mover.Backdash();
+        {
+            // backdash or parry
+            switch (UnityEngine.Random.Range(0, 2))
+            {
+                case 0:
+                    mover.Backdash();
+                    break;
+                case 1:
+                    fighter.Parry(-1);
+                    break;
+            }
+        }
 
         // or if the AI successfully "guesses" the attack...
         else if (om == OpponentMove.Attack && guess > guessTolerance)
@@ -108,6 +118,14 @@ public class AI : MonoBehaviour
         // or if the AI doesn't "guess" the attack...
         else if (om == OpponentMove.Attack && guess <= guessTolerance)
             mover.Backdash();
+
+        // if the AI can successfully react to getting parried...
+        else if (om == OpponentMove.AIParried && guess > guessTolerance)
+            mover.Backdash();
+
+        // if the AI can successfully react to parrying...
+        else if (om == OpponentMove.OpponentParried && guess > guessTolerance)
+            mover.Lunge();
     }
 
     private void ControlDistance()

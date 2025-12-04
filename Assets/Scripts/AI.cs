@@ -32,7 +32,6 @@ public class AI : MonoBehaviour
     public float[] thinkRange = new float[] { 0.2f, 0.5f };
     public float[] reactRange = new float[] { 0f, 0.3f };
     public float guessTolerance = 0.4f;
-    public float lockedInNessTolerance = 0.4f;
     [SerializeField] private bool isLockedIn = false;
 
     // opponent
@@ -47,17 +46,7 @@ public class AI : MonoBehaviour
         smp = GetComponent<ScriptedMotionPlayer>();
         stamina = GetComponent<PlayerStamina>();
 
-        EventManager.ActionTaken += (OpponentMove om) => {
-            if (isLockedIn)
-                return;
-
-            // if opponent is on the ofensive...
-            if ((om == OpponentMove.Attack || om == OpponentMove.Lunge) 
-                && transform.position.z - opponent.transform.position.z <= lungeDistance + tolerance)
-                // AI thinks and then reacts!
-                StartCoroutine(ThinkRoutine(() => React(om), reactRange));
-        };
-
+        EventManager.ActionTaken += ThinkAndReact;
         // not used (for now)
         EventManager.ActionTaken += UpdateOpponentActionHistory;
     }
@@ -90,6 +79,16 @@ public class AI : MonoBehaviour
             return;
 
         opponentActionHistory.Add(om);
+    }
+
+    private void ThinkAndReact(OpponentMove om)
+    {
+        // if opponent is on the ofensive...
+        if (!isLockedIn
+            || (om == OpponentMove.Attack || om == OpponentMove.Lunge) 
+            && transform.position.z - opponent.transform.position.z <= lungeDistance + tolerance)
+            // AI thinks and then reacts!
+            StartCoroutine(ThinkRoutine(() => React(om), reactRange));
     }
 
     private void React(OpponentMove om)
@@ -126,7 +125,7 @@ public class AI : MonoBehaviour
             mover.SetMoveAmount(0.0f);
 
             if (!isThinking)
-                StartCoroutine(ThinkRoutine(CalculateNextMove, thinkRange));
+                StartCoroutine(ThinkRoutine(DecideNextMove, thinkRange));
         }
     }
 
@@ -142,45 +141,15 @@ public class AI : MonoBehaviour
         onFinishThinking?.Invoke();
     }
 
-    private void CalculateNextMove()
+    private void DecideNextMove()
     {
-        float lockedInNess = UnityEngine.Random.Range(0f, 1f);
-
-        // If the AI isn't locked in, it will just choose something random to do
-        if (lockedInNess <= lockedInNessTolerance)
-        {
-            Debug.Log("Doing something random");
-            ExecuteRandomMove();
-            return;
-        }
-
-        /*
-        Possible moves:
-            fighter.Attack(1);
-            fighter.Parry(-1);
-            mover.Lunge();
-            mover.Backdash();
-        */
-
-        Debug.Log("calculating...");
-    }
-
-    private void ExecuteRandomMove()
-    {
-        switch (UnityEngine.Random.Range(0, 5))
+        switch (UnityEngine.Random.Range(0, 2))
         {
             case 0:
-                // Need to get in range for attack
                 StartCoroutine(ApproachAndAct(() => fighter.Attack(1), attackDistance));
                 break;
             case 1:
-                fighter.Parry(-1);
-                break;
-            case 2:
                 StartCoroutine(ApproachAndAct(mover.Lunge, lungeDistance));
-                break;
-            case 3:
-                mover.Backdash();
                 break;
         }
     }
@@ -200,5 +169,11 @@ public class AI : MonoBehaviour
         onFinishApproaching?.Invoke();
 
         isLockedIn = false;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.ActionTaken -= ThinkAndReact;
+        EventManager.ActionTaken -= UpdateOpponentActionHistory;
     }
 }

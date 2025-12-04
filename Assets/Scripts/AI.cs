@@ -7,6 +7,7 @@ public class AI : MonoBehaviour
     private Mover mover;
     private Fighter fighter;
     private GameObject opponent;
+    private ScriptedMotionPlayer smp;
 
     // distance control
     private float distance;
@@ -16,19 +17,26 @@ public class AI : MonoBehaviour
     // thinking
     public float minThink = 0.2f;
     public float maxThink = 1.0f;
-    private bool isThinking;
+    [SerializeField] private bool isThinking;
 
     private void Start()
     {
         // easy references to the AI's own scripts
         mover = GetComponent<Mover>();
         fighter = GetComponent<Fighter>();
+        smp = GetComponent<ScriptedMotionPlayer>();
     }
 
     public void Initialize(GameObject o)
     {
         // reference to the player (opponent)
         opponent = o;
+    }
+
+    public void OnRoundReset()
+    {
+        StopAllCoroutines();
+        isThinking = false;
     }
 
     private void Update()
@@ -40,24 +48,25 @@ public class AI : MonoBehaviour
 
     private void ControlDistance()
     {
+        if (smp.isPlaying)
+        {
+            Debug.Log("reached");
+            mover.SetMoveAmount(0f);
+            return;
+        }
+
         distance = transform.position.z - opponent.transform.position.z;
 
-        // if AI is not a good distance away from their opponent
-        if (Mathf.Abs(distance - targetDistance) > tolerance)
+        // if AI is not a good distance away from their opponent...
+        if (Mathf.Abs(distance - targetDistance) > tolerance && !isThinking)
         {
             // move toward target distance
             mover.SetMoveAmount((distance - targetDistance > 0) ? 1.0f : -1.0f);
-
-            // stop thinking loop if we leave the target range
-            if (isThinking)
-            {
-                StopAllCoroutines();
-                isThinking = false;
-            }
         }
+        // if AI is a good range from their opponent...
         else
         {
-            // we're in the target range — stop moving and start/continue thinking loop
+            // stop moving and start/continue thinking loop
             mover.SetMoveAmount(0.0f);
 
             if (!isThinking)
@@ -69,48 +78,28 @@ public class AI : MonoBehaviour
     {
         isThinking = true;
 
-        // Keep choosing actions while we remain in range
-        while (InGoodRange())
-        {
-            // wait a random amount of time before choosing next move
-            float waitTime = Random.Range(minThink, maxThink);
-            yield return new WaitForSeconds(waitTime);
-
-            // re-check before acting
-            if (!InGoodRange()) 
-                break;
-
-            CalculateNextMove();
-        }
+        // wait a random amount of time before choosing next move
+        float waitTime = Random.Range(minThink, maxThink);
+        yield return new WaitForSeconds(waitTime);
 
         isThinking = false;
-    }
-
-    private bool InGoodRange()
-    {
-        return Mathf.Abs(transform.position.z - opponent.transform.position.z - targetDistance) <= tolerance;
+        CalculateNextMove();
     }
 
     private void CalculateNextMove()
     {
-        switch (Random.Range(0, 8))
+        switch (Random.Range(0, 5))
         {
             case 0:
-                fighter.Attack(-1);
-                break;
-            case 1:
                 fighter.Attack(1);
                 break;
             case 2:
                 fighter.Parry(-1);
                 break;
             case 3:
-                fighter.Parry(1);
-                break;
-            case 4:
                 mover.Lunge();
                 break;
-            case 5:
+            case 4:
                 mover.Backdash();
                 break;
         }

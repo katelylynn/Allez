@@ -3871,13 +3871,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceleration: 5
   deceleration: 5
-  maxSpeed: 2
+  maxSpeed: 0.5
   allowForwardMovement: 1
   lungeConfig:
     animationName: LungeSmooth
     clip: {fileID: -623603649343465320, guid: f5ec9c6553b0c3349a6b60e29d52a1a5, type: 3}
     layerIndex: 0
-    distance: 2
+    distance: 3
     returnToStart: 1
     startupFrames: 24
     activeFrames: 5
@@ -3892,9 +3892,9 @@ MonoBehaviour:
     layerIndex: 0
     distance: 4
     returnToStart: 0
-    startupFrames: 6
-    activeFrames: 6
-    recoveryFrames: 6
+    startupFrames: 12
+    activeFrames: 12
+    recoveryFrames: 12
     startupClipFrames: 8
     activeClipFrames: 8
     recoveryClipFrames: 8
@@ -4273,7 +4273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc0f33353e4b534ab5828145c593ee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lungeDistance: 6
+  lungeDistance: 6.2
   attackDistance: 4.2
   tolerance: 0.6
   isThinking: 0

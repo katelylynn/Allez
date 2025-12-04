@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1.0f - Time.timeScale; 
         Debug.Log("reached");
-        pauseUI.SetActive(!pauseUI.active); 
+        pauseUI.SetActive(!pauseUI.activeSelf); 
         Debug.Log("reached2");
     }
 

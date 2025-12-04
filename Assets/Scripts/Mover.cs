@@ -76,14 +76,19 @@ public class Mover : MonoBehaviour
         if(stamina.ConsumeStamina(lungeConfig.staminaCost))
             motionPlayer.PlayScriptedMotion(lungeConfig, transform.forward);
     }
+
     public void OnLunge(InputValue value)
     {
         Lunge();
+        EventManager.TriggerActionTaken(OpponentMove.Lunge);
     }
+
     public void OnBackdash(InputValue value)
     {
         Backdash();
+        EventManager.TriggerActionTaken(OpponentMove.Backdash);
     }
+
     public void Backdash()
     {
         if (motionPlayer == null) return;

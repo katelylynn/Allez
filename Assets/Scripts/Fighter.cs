@@ -41,7 +41,13 @@ public class Fighter : MonoBehaviour
             motionPlayer = GetComponent<ScriptedMotionPlayer>();
     }
 
-    public void OnAttack(InputValue value) => Attack(value.Get<float>());
+    public void OnAttack(InputValue value) {
+        // Only react when the button is actually pressed
+        if (!value.isPressed)
+            return;
+        Attack(value.Get<float>());
+        EventManager.TriggerActionTaken(OpponentMove.Attack);
+    }
     
     public void Attack(float value)
     {
@@ -113,7 +119,13 @@ public class Fighter : MonoBehaviour
         currentAttackLeftCoroutine = null;
     }
 
-    public void OnParry(InputValue parryDirection) => Parry(parryDirection.Get<float>());
+    public void OnParry(InputValue parryDirection) {
+        // Only react when the button is actually pressed
+        if (parryDirection.Get<float>() == 0f)
+            return;
+        Parry(parryDirection.Get<float>());
+        EventManager.TriggerActionTaken(OpponentMove.Parry);
+    }
 
     public void Parry(float parryDir)
     {

@@ -4273,8 +4273,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc0f33353e4b534ab5828145c593ee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetDistance: 4.6
-  tolerance: 0.2
+  lungeDistance: 6
+  tolerance: 0.6
   isThinking: 0
   thinkRange:
   - 0.2
@@ -4283,6 +4283,7 @@ MonoBehaviour:
   - 0
   - 0.4
   guessTolerance: 0.5
+  lockedInNessTolerance: 0.4
   opponentActionHistory: 
 --- !u!114 &8466466553347403939
 MonoBehaviour:

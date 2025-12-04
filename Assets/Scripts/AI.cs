@@ -20,10 +20,10 @@ public class AI : MonoBehaviour
     private Fighter fighter;
     private GameObject opponent;
     private ScriptedMotionPlayer smp;
+    private PlayerStamina stamina;
 
     // distance control
-    private float distance;
-    public float targetDistance = 4.6f;
+    public float lungeDistance = 4.6f;
     public float tolerance = 0.5f;
 
     // thinking
@@ -31,10 +31,11 @@ public class AI : MonoBehaviour
     public float[] thinkRange = new float[] { 0.2f, 0.5f };
     public float[] reactRange = new float[] { 0f, 0.3f };
     public float guessTolerance = 0.4f;
+    public float lockedInNessTolerance = 0.4f;
 
     // opponent
-    private Dictionary<OpponentMove, Action> actions;
     public List<OpponentMove> opponentActionHistory;
+    private Dictionary<OpponentMove, Action> actions;
 
     private void Start()
     {
@@ -42,20 +43,18 @@ public class AI : MonoBehaviour
         mover = GetComponent<Mover>();
         fighter = GetComponent<Fighter>();
         smp = GetComponent<ScriptedMotionPlayer>();
+        stamina = GetComponent<PlayerStamina>();
 
-        // setup possible actions
-        actions = new Dictionary<OpponentMove, Action>
-        {
-            { OpponentMove.Attack,   () => fighter.Attack(1) },
-            { OpponentMove.Parry,    () => fighter.Parry(-1) },
-            { OpponentMove.Lunge,    mover.Lunge },
-            { OpponentMove.Backdash, mover.Backdash }
-        };
-        EventManager.ActionTaken += UpdateOpponentActionHistory;
         EventManager.ActionTaken += (OpponentMove om) => {
-            if ((om == OpponentMove.Attack || om == OpponentMove.Lunge) && transform.position.z - opponent.transform.position.z <= targetDistance + tolerance)
+            // if opponent is on the ofensive...
+            if ((om == OpponentMove.Attack || om == OpponentMove.Lunge) 
+                && transform.position.z - opponent.transform.position.z <= lungeDistance + tolerance)
+                // AI thinks and then reacts!
                 StartCoroutine(ThinkRoutine(() => React(om), reactRange));
         };
+
+        // not used (for now)
+        EventManager.ActionTaken += UpdateOpponentActionHistory;
     }
 
     public void Initialize(GameObject o)
@@ -115,13 +114,11 @@ public class AI : MonoBehaviour
             return;
         }
 
-        distance = transform.position.z - opponent.transform.position.z;
-
         // if AI is not a good distance away from their opponent...
-        if (Mathf.Abs(distance - targetDistance) > tolerance && !isThinking)
+        if ((transform.position.z > opponent.transform.position.z + lungeDistance + tolerance || transform.position.z <= opponent.transform.position.z + lungeDistance) && !isThinking)
         {
             // move toward target distance
-            mover.SetMoveAmount((distance - targetDistance > 0) ? 1.0f : -1.0f);
+            mover.SetMoveAmount((transform.position.z > opponent.transform.position.z + lungeDistance + tolerance) ? 1.0f : -1.0f);
         }
         // if AI is a good range from their opponent...
         else
@@ -148,6 +145,15 @@ public class AI : MonoBehaviour
 
     private void CalculateNextMove()
     {
+        float lockedInNess = UnityEngine.Random.Range(0f, 1f);
+
+        // If the AI isn't locked in, it will just choose something random to do
+        if (lockedInNess <= lockedInNessTolerance)
+        {
+            ExecuteRandomMove();
+            return;
+        }
+
         /*
         Possible moves:
             fighter.Attack(1);
@@ -155,5 +161,26 @@ public class AI : MonoBehaviour
             mover.Lunge();
             mover.Backdash();
         */
+
+        Debug.Log("calculating...");
+    }
+
+    private void ExecuteRandomMove()
+    {
+        switch (UnityEngine.Random.Range(0, 5))
+        {
+            case 0:
+                fighter.Attack(1);
+                break;
+            case 1:
+                fighter.Parry(-1);
+                break;
+            case 2:
+                mover.Lunge();
+                break;
+            case 3:
+                mover.Backdash();
+                break;
+        }
     }
 }

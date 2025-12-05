@@ -51,8 +51,10 @@ MonoBehaviour:
   maxTime: 20
   elapsedTime: 0
   countdownRunning: 0
+  pauseUI: {fileID: 0}
   resultsScene: resultsScene
   hitTimeScale: 0.01
+  isGameActive: 0
 --- !u!82 &1996389238451649302
 AudioSource:
   m_ObjectHideFlags: 0
@@ -110,7 +112,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

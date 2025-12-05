@@ -9,6 +9,7 @@ public class PlayerScore : MonoBehaviour
     public AudioClip p2PointSfx;
     public AudioClip p1Ouch;
     public AudioClip p2Ouch;
+    public AudioClip cheers;
 
     [Range(0f, 1f)] public float sfxVolume = 1f;
 
@@ -40,6 +41,7 @@ public class PlayerScore : MonoBehaviour
         if (p1 > prevP1) {             
             Play(p1Ouch);
             Play(p2PointSfx); 
+            Play(cheers);
         }
 
 
@@ -47,6 +49,7 @@ public class PlayerScore : MonoBehaviour
         {
             Play(p2Ouch);
             Play(p1PointSfx);
+            Play(cheers);
         }
 
         // update previous after checks

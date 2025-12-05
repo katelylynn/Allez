@@ -5,8 +5,6 @@ public class PlayerScore : MonoBehaviour
 {
 
     [Header("SFX")]
-    public AudioClip p1PointSfx;
-    public AudioClip p2PointSfx;
     public AudioClip p1Ouch;
     public AudioClip p2Ouch;
     public AudioClip cheers;
@@ -40,7 +38,6 @@ public class PlayerScore : MonoBehaviour
         // point SFX (only when score increases)
         if (p1 > prevP1) {             
             Play(p1Ouch);
-            Play(p2PointSfx); 
             Play(cheers);
         }
 
@@ -48,7 +45,6 @@ public class PlayerScore : MonoBehaviour
         if (p2 > prevP2)
         {
             Play(p2Ouch);
-            Play(p1PointSfx);
             Play(cheers);
         }
 

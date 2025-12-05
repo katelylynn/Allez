@@ -448,6 +448,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1605920010257461277, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 7296043609486496743, guid: 06dcee9b4c91724438891ac1424bad46, type: 3}
     - target: {fileID: 766808488448608841, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       propertyPath: m_Camera
       value: 
@@ -556,7 +560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cancel: {fileID: 8300000, guid: e6725ca2471ac4a838da0f6d409ce771, type: 3}
-  confirm: {fileID: 8300000, guid: c56d29863230b496c887f1fee7145677, type: 3}
+  confirm: {fileID: 8300000, guid: 71c9b5c7ec6ec423d8a2af25b17dd08d, type: 3}
   cursor: {fileID: 8300000, guid: bac45315fda7e4446ab44b945a8722d3, type: 3}
   volume: 1
   hoverCooldown: 0.04
@@ -867,6 +871,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1605920010257461277, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 7296043609486496743, guid: 06dcee9b4c91724438891ac1424bad46, type: 3}
+    - target: {fileID: 766808488448608841, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8636116927687823762, guid: a8eb06b6d0a854942b7939af3ffd8ced, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.56

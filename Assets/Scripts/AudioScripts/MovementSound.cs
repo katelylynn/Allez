@@ -39,7 +39,14 @@ public class MovementSound : MonoBehaviour
     }
 
     private void Update()
-    {
+    { 
+        if (GameManager.Instance == null)
+            return;
+
+        // Block sounds during countdown / round transitions / outside gameplay
+        if (!GameManager.Instance.isGameActive || GameManager.Instance.IsRoundBusy)
+            return;
+
         // Steps (moveAxis)
         if (moveAxis == null) return;
 
@@ -68,4 +75,5 @@ public class MovementSound : MonoBehaviour
             }
         }
     }
+
 }

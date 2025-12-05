@@ -368,10 +368,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbf68d90f61a463d8bc98ceafd5bb50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p1PointSfx: {fileID: 8300000, guid: 31dddbbf8380f4bbaae957e29ff392f6, type: 3}
-  p2PointSfx: {fileID: 8300000, guid: d5ddc4e9602ba4628825c778679e933a, type: 3}
   p1Ouch: {fileID: 8300000, guid: b4da45b8ebd7e48be8121068dd542dc4, type: 3}
   p2Ouch: {fileID: 8300000, guid: 969278e71188d48b696395cb0c09cb8c, type: 3}
+  cheers: {fileID: 8300000, guid: aff1e7a72aa9c44a283f7e3f03e9d155, type: 3}
   sfxVolume: 1
 --- !u!1 &423756035442274527
 GameObject:

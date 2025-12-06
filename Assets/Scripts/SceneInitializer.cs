@@ -20,8 +20,9 @@ public class SceneInitializer : MonoBehaviour
     private GameObject g;
 
     public FencerType fencer0Type; 
-    public FencerType fencer1Type; 
+    public FencerType fencer1Type;
 
+    public float skyboxRotation = 0;
     void Awake()
     {
         QualitySettings.vSyncCount = 0;
@@ -82,11 +83,12 @@ public class SceneInitializer : MonoBehaviour
         cm.GetComponent<CombatManager>().Initialize(f0.GetComponent<Fencer>(), f1.GetComponent<Fencer>());
 
         /* UI */
+        GameObject countdownUI = Spawn(countdownUIPrefab);
+        g.GetComponent<GameManager>().SetCountdownTimer(countdownUI.GetComponentInChildren<RoundStartCountDown>());
+
         GameObject scoreUI = Spawn(scoreUIPrefab);
         g.GetComponent<GameManager>().SetUIScore(scoreUI.GetComponent<Canvas>());
 
-        GameObject countdownUI = Spawn(countdownUIPrefab);
-        g.GetComponent<GameManager>().SetCountdownTimer(countdownUI.GetComponentInChildren<RoundStartCountDown>());
 
         GameObject staminaUI = Spawn(staminaUIPrefab);
         staminaUI.GetComponent<StaminaBarManager>().Initialize(f0, f1);
@@ -110,6 +112,13 @@ public class SceneInitializer : MonoBehaviour
 
         /* ENVIRONMENT */
         Spawn(environmentPrefab);
+
+        
+    }
+
+    private void Update()
+    {
+        RenderSettings.skybox.SetFloat("_Rotation", skyboxRotation);
     }
 
     private GameObject Spawn(GameObject prefab)

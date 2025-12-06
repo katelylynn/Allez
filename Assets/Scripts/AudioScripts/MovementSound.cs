@@ -6,19 +6,19 @@ public class MovementSound : MonoBehaviour
 {
     [Header("Input")]
     public InputActionReference moveAxis;
-    public InputActionReference tiltAxis;
+    public InputActionReference move2Axis;
 
     [Header("Step Sound")]
     public AudioClip moveStep;      
     public float stepInterval = 0.3f;
 
-    [Header("Tilt Sound")]
-    public AudioClip tiltSound;
-    public float tiltInterval = 0.2f;
+    [Header("move2 Sound")]
+    public AudioClip move2Sound;
+    public float move2Interval = 0.3f;
 
     private AudioSource source;
     private float lastStepTime;
-    private float lastTiltTime;
+    private float lastmove2Time;
 
     private void Awake()
     {
@@ -29,13 +29,13 @@ public class MovementSound : MonoBehaviour
     private void OnEnable()
     {
         if (moveAxis != null) moveAxis.action.Enable();
-        if (tiltAxis != null) tiltAxis.action.Enable();
+        if (move2Axis != null) move2Axis.action.Enable();
     }
 
     private void OnDisable()
     {
         if (moveAxis != null) moveAxis.action.Disable();
-        if (tiltAxis != null) tiltAxis.action.Disable();
+        if (move2Axis != null) move2Axis.action.Disable();
     }
 
     private void Update()
@@ -51,6 +51,7 @@ public class MovementSound : MonoBehaviour
         if (moveAxis == null) return;
 
         float value = moveAxis.action.ReadValue<float>();
+        // Debug.Log($"input value {value}");
 
         if (Mathf.Abs(value) > 0.1f && Time.time - lastStepTime > stepInterval)
         {
@@ -60,18 +61,17 @@ public class MovementSound : MonoBehaviour
             lastStepTime = Time.time;
         }
 
-        // Tilts
-        if (tiltAxis != null)
+        // move2s
+        if (move2Axis != null)
         {
-            float tiltValue = tiltAxis.action.ReadValue<float>();
+            float move2Value = move2Axis.action.ReadValue<float>();
 
-            if (Mathf.Abs(tiltValue) > 0.1f &&
-                Time.time - lastTiltTime > tiltInterval)
+            if (Mathf.Abs(move2Value) > 0.1f && Time.time - lastmove2Time > move2Interval)
             {
-                if (tiltSound != null)
-                    source.PlayOneShot(tiltSound);
+                if (move2Sound != null)
+                    source.PlayOneShot(move2Sound);
 
-                lastTiltTime = Time.time;
+                lastmove2Time = Time.time;
             }
         }
     }

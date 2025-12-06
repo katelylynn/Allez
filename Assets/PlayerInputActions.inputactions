@@ -59,6 +59,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "P2Sound",
+                    "type": "Button",
+                    "id": "a969bd2a-fb17-4f24-9f21-5b7595ad2056",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -534,6 +543,39 @@
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "c4d9dca5-1755-4a68-bed1-aa44830155f3",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "P2Sound",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "3fbb21b1-0f24-4957-8537-8cd3d67d0fe2",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardP1",
+                    "action": "P2Sound",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "ac81c1b9-cd47-4bd4-8c6e-bbe79216764f",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardP1",
+                    "action": "P2Sound",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

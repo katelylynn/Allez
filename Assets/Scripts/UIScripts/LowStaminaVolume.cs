@@ -22,7 +22,6 @@ public class LowStaminaVolume : MonoBehaviour
     private void Awake()
     {
         lowStaminaVolume = GetComponent<Volume>();
-        lowStaminaVolume.profile = Instantiate(lowStaminaVolume.profile);
         stamina = GetComponentInParent<PlayerStamina>();
         if (lowStaminaVolume.profile.TryGet(out vignette)) ;
         target = highVignetteVal;

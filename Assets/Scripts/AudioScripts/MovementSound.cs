@@ -56,7 +56,7 @@ public class MovementSound : MonoBehaviour
         if (Mathf.Abs(value) > 0.1f && Time.time - lastStepTime > stepInterval)
         {
             if (moveStep != null)
-                source.PlayOneShot(moveStep);
+                source.PlayOneShot(moveStep, 0.4f);
 
             lastStepTime = Time.time;
         }
@@ -69,7 +69,7 @@ public class MovementSound : MonoBehaviour
             if (Mathf.Abs(move2Value) > 0.1f && Time.time - lastmove2Time > move2Interval)
             {
                 if (move2Sound != null)
-                    source.PlayOneShot(move2Sound);
+                    source.PlayOneShot(move2Sound, 0.4f);
 
                 lastmove2Time = Time.time;
             }

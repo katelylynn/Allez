@@ -262,10 +262,10 @@ public class Fencer : MonoBehaviour
     private void OnRoundReset()
     {
         gameObject.GetComponent<Mover>().SetForwardMovement(true);
-        gameObject.SetActive(false);
+        ToggleComponentsAndChildren(gameObject, false);
         gameObject.transform.position = startingPos[(int)fencerId];
         gameObject.transform.rotation = startingRot[(int)fencerId];
-        gameObject.SetActive(true);
+        ToggleComponentsAndChildren(gameObject, true);
         gameObject.GetComponent<Mover>().ZeroVelocity();
         gameObject.GetComponent<Fighter>().ResetSword();
         if (fencerType == FencerType.AI)
@@ -288,6 +288,35 @@ public class Fencer : MonoBehaviour
     private void OnPause()
     {
         EventManager.TriggerPause();
+    }
+
+    private void ToggleComponentsAndChildren(GameObject go, bool toggle)
+    {
+        // Disable all components except Transform
+        foreach (Component comp in go.GetComponents<Component>())
+        {
+            if (comp is Transform || comp is AI) continue;
+
+            if ((comp is Mover || comp is Fighter || comp is PlayerInput) && toggle == true) continue;
+
+            if (comp is Behaviour b)
+                b.enabled = toggle;
+
+            if (comp is Renderer r)
+                r.enabled = toggle;
+
+            if (comp is Collider c)
+                c.enabled = toggle;
+
+            if (comp is Rigidbody rb)
+                rb.isKinematic = !toggle;
+        }
+        // Ensures volume stays on bc toggling it on/off breaks its functionality
+        foreach (Transform child in go.transform)
+        {
+            if (child.name == "LowStaminaVolume") continue;
+            child.gameObject.SetActive(toggle);
+        }
     }
 
     private void OnPauseToggled()

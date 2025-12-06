@@ -160,7 +160,7 @@ public class GameManager : MonoBehaviour
         countdownRunning = false;
         EventManager.TriggerRoundStart();
         isGameActive = true;
-
+        FoilAttack.ResetHit();
     }
 
     private void EndRound(FencerId winner)

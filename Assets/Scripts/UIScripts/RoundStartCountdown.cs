@@ -64,12 +64,9 @@ public class RoundStartCountDown : MonoBehaviour
 
     public void DisplayWinner(int winner)
     {
-
-
-
         if (roundWinner != null)
         {
-            roundWinner.color = (winner == 0) ? Color.blue : Color.red;
+            roundWinner.color = (winner == 0) ? GlobalColours.Blue : GlobalColours.Red;
             roundWinner.text = (winner == 0 ? dM.p1 : dM.p2) + " scores a touch!";
             //roundWinner.gameObject.SetActive(true);
             panel.gameObject.SetActive(true);

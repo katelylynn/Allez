@@ -10,8 +10,8 @@ public class UIScoreManager : MonoBehaviour
     public TMP_Text playerName;
     private Transform scoreUI;
     public bool isP1 = true;
-    private bool p1Scored;
-    private bool p2Scored;
+    //private bool p1Scored;
+    //private bool p2Scored;
     private int[] oldScore = {0,0};
     PlayerDataManager dm;
     public TMP_Text countdownText;
@@ -35,8 +35,8 @@ public class UIScoreManager : MonoBehaviour
 
         RemoveAllChildrenUI();
 
-        p1Scored = oldScore[0] != PlayerPrefs.GetInt("P1Score");
-        p2Scored = oldScore[1] != PlayerPrefs.GetInt("P2Score");
+        //p1Scored = oldScore[0] != PlayerPrefs.GetInt("P1Score");
+        //p2Scored = oldScore[1] != PlayerPrefs.GetInt("P2Score");
         oldScore[0] = PlayerPrefs.GetInt("P1Score");
         oldScore[1] = PlayerPrefs.GetInt("P2Score");
         playerName.text = isP1 ? dm.p1 : dm.p2;
@@ -46,11 +46,9 @@ public class UIScoreManager : MonoBehaviour
             //have to do this because you cant use prefabs directly as child objects
             GameObject prefab;
             GameObject newPip;
-            //when a player scores, the most recent point will be highlighted in green, while previous points will be yellow
             if (playerScore > i){
                 prefab = winPip;
-                newPip = Instantiate(prefab);
-                //if (i == playerScore-1 && ((isP1 && p1Scored) || (!isP1 && p2Scored))) newPip.GetComponent<Image>().color = Color.green;
+                newPip = Instantiate(prefab);       
             }
             else
             {

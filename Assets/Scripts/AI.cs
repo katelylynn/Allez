@@ -13,8 +13,17 @@ public enum OpponentMove
     OpponentParried,
 }
 
+public enum AIDifficulty
+{
+    Easy = 0,
+    Normal = 1,
+    Hard = 2,
+}
+
 public class AI : MonoBehaviour
 {
+    private AIDifficulty aiDifficulty;
+
     // references
     private Mover mover;
     private Fighter fighter;
@@ -29,10 +38,25 @@ public class AI : MonoBehaviour
 
     // thinking
     [SerializeField] private bool isThinking;
-    public float[] thinkRange = new float[] { 0.2f, 0.5f };
-    public float[] reactRange = new float[] { 0f, 0.3f };
-    public float guessTolerance = 0.4f;
     [SerializeField] private bool isLockedIn = false;
+    public float[] guessTolerance = new float[] {
+        0.7f, // easy
+        0.4f, // normal
+        0f, // hard
+    };
+    public Vector2[] thinkRanges = new Vector2[]
+    {
+        new Vector2(0.2f, 0.6f), // easy
+        new Vector2(0.2f, 0.4f), // normal
+        new Vector2(0f, 0.2f), // hard
+    };
+
+    public Vector2[] reactRanges = new Vector2[]
+    {
+        new Vector2(0.1f, 0.5f), // easy
+        new Vector2(0f, 0.3f), // normal
+        new Vector2(0f, 0.1f), // hard
+    };
 
     // opponent
     public List<OpponentMove> opponentActionHistory;
@@ -49,18 +73,26 @@ public class AI : MonoBehaviour
         EventManager.ActionTaken += ThinkAndReact;
         // not used (for now)
         EventManager.ActionTaken += UpdateOpponentActionHistory;
+
+        Debug.Log(
+            "AI difficulty: " + aiDifficulty +
+            ", think range: " + thinkRanges[(int)aiDifficulty].x + "–" + thinkRanges[(int)aiDifficulty].y +
+            ", react range: " + reactRanges[(int)aiDifficulty].x + "–" + reactRanges[(int)aiDifficulty].y
+        );
     }
 
-    public void Initialize(GameObject o)
+    public void Initialize(GameObject o, AIDifficulty aid)
     {
         // reference to the player (opponent)
         opponent = o;
+        aiDifficulty = aid;
     }
 
     public void OnRoundReset()
     {
         StopAllCoroutines();
         isThinking = false;
+        isLockedIn = false;
     }
 
     private void Update()
@@ -88,16 +120,16 @@ public class AI : MonoBehaviour
             || (om == OpponentMove.Attack || om == OpponentMove.Lunge || om == OpponentMove.AIParried || om == OpponentMove.OpponentParried) 
             && transform.position.z - opponent.transform.position.z <= lungeDistance + tolerance)
             // AI thinks and then reacts!
-            StartCoroutine(ThinkRoutine(() => React(om), reactRange));
+            StartCoroutine(ThinkRoutine(() => React(om), reactRanges[(int)aiDifficulty]));
     }
 
     private void React(OpponentMove om)
     {
         float guess = UnityEngine.Random.Range(0f, 1f);
-        Debug.Log("AI guessed: " + guess + ", " + (guess > guessTolerance ? "correctly!" : "incorrectly :("));
+        Debug.Log("AI guessed: " + guess + ", " + (guess > guessTolerance[(int)aiDifficulty] ? "correctly!" : "incorrectly :( -> (threhold is " + guessTolerance[(int)aiDifficulty] + ")"));
 
         // if the AI successfully "guesses" the lunge...
-        if (om == OpponentMove.Lunge && guess > guessTolerance)
+        if (om == OpponentMove.Lunge && guess > guessTolerance[(int)aiDifficulty])
         {
             // backdash or parry
             switch (UnityEngine.Random.Range(0, 2))
@@ -112,19 +144,26 @@ public class AI : MonoBehaviour
         }
 
         // or if the AI successfully "guesses" the attack...
-        else if (om == OpponentMove.Attack && guess > guessTolerance)
+        else if (om == OpponentMove.Attack && guess > guessTolerance[(int)aiDifficulty])
             fighter.Parry(-1);
 
         // or if the AI doesn't "guess" the attack...
-        else if (om == OpponentMove.Attack && guess <= guessTolerance)
-            mover.Backdash();
+        else if (om == OpponentMove.Attack && guess <= guessTolerance[(int)aiDifficulty])
+        {
+            // backdash (overreact) or do nothing (underreact)
+            if (UnityEngine.Random.Range(0, 2) == 0)
+                mover.Backdash();
+        }
 
         // if the AI can successfully react to getting parried...
-        else if (om == OpponentMove.AIParried && guess > guessTolerance)
+        else if (om == OpponentMove.AIParried && guess > guessTolerance[(int)aiDifficulty])
+        {
+            // retreat!
             mover.Backdash();
+        }
 
         // if the AI can successfully react to parrying...
-        else if (om == OpponentMove.OpponentParried && guess > guessTolerance)
+        else if (om == OpponentMove.OpponentParried && guess > guessTolerance[(int)aiDifficulty])
             mover.Lunge();
     }
 
@@ -143,16 +182,16 @@ public class AI : MonoBehaviour
             mover.SetMoveAmount(0.0f);
 
             if (!isThinking)
-                StartCoroutine(ThinkRoutine(DecideNextMove, thinkRange));
+                StartCoroutine(ThinkRoutine(DecideNextMove, thinkRanges[(int)aiDifficulty]));
         }
     }
 
-    private IEnumerator ThinkRoutine(Action onFinishThinking, float[] range)
+    private IEnumerator ThinkRoutine(Action onFinishThinking, Vector2 range)
     {
         isThinking = true;
 
         // wait a random amount of time before choosing next move
-        float waitTime = UnityEngine.Random.Range(range[0], range[1]);
+        float waitTime = UnityEngine.Random.Range(range.x, range.y);
         yield return new WaitForSeconds(waitTime);
 
         isThinking = false;

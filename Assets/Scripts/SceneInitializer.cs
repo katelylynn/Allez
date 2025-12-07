@@ -22,6 +22,8 @@ public class SceneInitializer : MonoBehaviour
     public FencerType fencer0Type; 
     public FencerType fencer1Type;
 
+    public AIDifficulty aiDifficulty;
+
     public float skyboxRotation = 0;
     void Awake()
     {
@@ -53,7 +55,7 @@ public class SceneInitializer : MonoBehaviour
         // If the opponent is AI
         if (fencer1Type == FencerType.AI) {
             f1.GetComponent<AI>().enabled = true;
-            f1.GetComponent<AI>().Initialize(f0);
+            f1.GetComponent<AI>().Initialize(f0, aiDifficulty);
         }
 
         // Set up 2 different audios

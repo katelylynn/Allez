@@ -261,6 +261,7 @@ public class Fencer : MonoBehaviour
 
     private void OnRoundReset()
     {
+        gameObject.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
         gameObject.GetComponent<Mover>().SetForwardMovement(true);
         ToggleComponentsAndChildren(gameObject, false);
         gameObject.transform.position = startingPos[(int)fencerId];

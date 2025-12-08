@@ -284,7 +284,7 @@ BlendTree:
   m_Name: Walk
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 2676021315434199055, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
+    m_Motion: {fileID: -623603649343465320, guid: 154c3a62618088045ac0a3246d3e1030, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1

@@ -118,9 +118,14 @@ public class AI : MonoBehaviour
         // if opponent is on the ofensive...
         if (!isLockedIn
             || (om == OpponentMove.Attack || om == OpponentMove.Lunge || om == OpponentMove.AIParried || om == OpponentMove.OpponentParried) 
+            && (opponentActionHistory[opponentActionHistory.Count - 1] != OpponentMove.AIParried
+            && opponentActionHistory[opponentActionHistory.Count - 1] != OpponentMove.OpponentParried)
             && transform.position.z - opponent.transform.position.z <= lungeDistance + tolerance)
+        {
+            Debug.Log("think and react");
             // AI thinks and then reacts!
             StartCoroutine(ThinkRoutine(() => React(om), reactRanges[(int)aiDifficulty]));
+        }
     }
 
     private void React(OpponentMove om)
@@ -159,6 +164,9 @@ public class AI : MonoBehaviour
         else if (om == OpponentMove.AIParried && guess > guessTolerance[(int)aiDifficulty])
         {
             // retreat!
+            isLockedIn = false;
+            StopAllCoroutines();
+            Debug.Log("Backdash!");
             mover.Backdash();
         }
 
@@ -169,6 +177,7 @@ public class AI : MonoBehaviour
 
     private void ControlDistance()
     {
+        Debug.Log("controlling distance");
         // if AI is not a good distance away from their opponent...
         if ((transform.position.z > opponent.transform.position.z + lungeDistance + tolerance || transform.position.z <= opponent.transform.position.z + lungeDistance) && !isThinking)
         {
@@ -188,6 +197,7 @@ public class AI : MonoBehaviour
 
     private IEnumerator ThinkRoutine(Action onFinishThinking, Vector2 range)
     {
+        Debug.Log("Starting think routine");
         isThinking = true;
 
         // wait a random amount of time before choosing next move
@@ -213,10 +223,14 @@ public class AI : MonoBehaviour
 
     private IEnumerator ApproachAndAct(Action onFinishApproaching, float distance)
     {
+        Debug.Log("approaching");
         isLockedIn = true;
 
         while (transform.position.z - opponent.transform.position.z > distance)
         {
+            if (opponentActionHistory.Count != 0 && opponentActionHistory[opponentActionHistory.Count-1] != OpponentMove.AIParried)
+                yield break;
+            Debug.Log("in here");
             mover.SetMoveAmount(1.0f);
             yield return null; // wait for next frame
         }
@@ -226,6 +240,7 @@ public class AI : MonoBehaviour
         onFinishApproaching?.Invoke();
 
         isLockedIn = false;
+        Debug.Log("done approaching");
     }
 
     private void OnDestroy()

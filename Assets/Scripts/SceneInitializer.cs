@@ -55,7 +55,7 @@ public class SceneInitializer : MonoBehaviour
         // If the opponent is AI
         if (fencer1Type == FencerType.AI) {
             f1.GetComponent<AI>().enabled = true;
-            f1.GetComponent<AI>().Initialize(f0, aiDifficulty);
+            f1.GetComponent<AI>().Initialize(f0, (AIDifficulty)PlayerPrefs.GetInt("AIDifficulty", (int)aiDifficulty));
         }
 
         // Set up 2 different audios

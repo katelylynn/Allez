@@ -122,7 +122,7 @@ public class AI : MonoBehaviour
             && opponentActionHistory[opponentActionHistory.Count - 1] != OpponentMove.OpponentParried)
             && transform.position.z - opponent.transform.position.z <= lungeDistance + tolerance)
         {
-            Debug.Log("think and react");
+            // Debug.Log("think and react");
             // AI thinks and then reacts!
             StartCoroutine(ThinkRoutine(() => React(om), reactRanges[(int)aiDifficulty]));
         }
@@ -131,7 +131,7 @@ public class AI : MonoBehaviour
     private void React(OpponentMove om)
     {
         float guess = UnityEngine.Random.Range(0f, 1f);
-        Debug.Log("AI guessed: " + guess + ", " + (guess > guessTolerance[(int)aiDifficulty] ? "correctly!" : "incorrectly :( -> (threhold is " + guessTolerance[(int)aiDifficulty] + ")"));
+        // Debug.Log("AI guessed: " + guess + ", " + (guess > guessTolerance[(int)aiDifficulty] ? "correctly!" : "incorrectly :( -> (threhold is " + guessTolerance[(int)aiDifficulty] + ")"));
 
         // if the AI successfully "guesses" the lunge...
         if (om == OpponentMove.Lunge && guess > guessTolerance[(int)aiDifficulty])
@@ -177,7 +177,7 @@ public class AI : MonoBehaviour
 
     private void ControlDistance()
     {
-        Debug.Log("controlling distance");
+        // Debug.Log("controlling distance");
         // if AI is not a good distance away from their opponent...
         if ((transform.position.z > opponent.transform.position.z + lungeDistance + tolerance || transform.position.z <= opponent.transform.position.z + lungeDistance) && !isThinking)
         {
@@ -197,7 +197,7 @@ public class AI : MonoBehaviour
 
     private IEnumerator ThinkRoutine(Action onFinishThinking, Vector2 range)
     {
-        Debug.Log("Starting think routine");
+        // Debug.Log("Starting think routine");
         isThinking = true;
 
         // wait a random amount of time before choosing next move
@@ -223,14 +223,14 @@ public class AI : MonoBehaviour
 
     private IEnumerator ApproachAndAct(Action onFinishApproaching, float distance)
     {
-        Debug.Log("approaching");
+        // Debug.Log("approaching");
         isLockedIn = true;
 
         while (transform.position.z - opponent.transform.position.z > distance)
         {
             if (opponentActionHistory.Count != 0 && opponentActionHistory[opponentActionHistory.Count-1] != OpponentMove.AIParried)
                 yield break;
-            Debug.Log("in here");
+            // Debug.Log("in here");
             mover.SetMoveAmount(1.0f);
             yield return null; // wait for next frame
         }
@@ -240,7 +240,7 @@ public class AI : MonoBehaviour
         onFinishApproaching?.Invoke();
 
         isLockedIn = false;
-        Debug.Log("done approaching");
+        // Debug.Log("done approaching");
     }
 
     private void OnDestroy()

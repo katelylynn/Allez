@@ -858,7 +858,7 @@ MonoBehaviour:
     m_SelectOnUp: {fileID: 399016015}
     m_SelectOnDown: {fileID: 1048131801}
     m_SelectOnLeft: {fileID: 1534386955}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1015694602}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2775,9 +2775,9 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 1534386955}
+    m_SelectOnDown: {fileID: 131852317}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1015694602}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -3503,7 +3503,7 @@ MonoBehaviour:
     m_SelectOnUp: {fileID: 730750612}
     m_SelectOnDown: {fileID: 399016015}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1015694602}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -3646,7 +3646,7 @@ MonoBehaviour:
     m_SelectOnUp: {fileID: 730750612}
     m_SelectOnDown: {fileID: 399016015}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1015694602}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -5276,7 +5276,7 @@ MonoBehaviour:
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1015694602}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -6180,7 +6180,7 @@ MonoBehaviour:
     m_SelectOnUp: {fileID: 131852317}
     m_SelectOnDown: {fileID: 456947695}
     m_SelectOnLeft: {fileID: 1073168073}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1015694602}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -7324,6 +7324,8 @@ MonoBehaviour:
   - {fileID: 1885095597}
   scrollViewP1Nav: {fileID: 1534386956}
   scrollViewP2Nav: {fileID: 131852318}
+  p2NewProfileInput: {fileID: 1048131798}
+  p2NewProfileButton: {fileID: 456947692}
 --- !u!1 &1386984980
 GameObject:
   m_ObjectHideFlags: 0

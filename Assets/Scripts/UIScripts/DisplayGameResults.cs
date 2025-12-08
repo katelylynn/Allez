@@ -183,16 +183,6 @@ public class DisplayGameResults : MonoBehaviour
         {
             PlayerDataManager.PlayerData playerData;
 
-            if (winner == 0 || vsAI && winner == 1)
-            {
-                playerData = dM.gameData.data[dM.p1];
-            }
-            else
-            {
-                playerData = dM.gameData.data[dM.p2];
-            }
-
-            winnerName.text = playerData.name;
             if (winner == 0 || winner == -1)
             {
                 winnerName.color = GlobalColours.Blue;
@@ -204,6 +194,17 @@ public class DisplayGameResults : MonoBehaviour
                 loserName.color = GlobalColours.Blue;
             }
 
+            if (winner == 0 || vsAI && winner == 1)
+            {
+                playerData = dM.gameData.data[dM.p1];
+                winnerName.color = GlobalColours.Blue;
+            }
+            else
+            {
+                playerData = dM.gameData.data[dM.p2];
+            }
+
+            winnerName.text = playerData.name;
             winnerStats.text = $"Rounds won {playerData.roundsWon}\n" +
                         $"Rounds played {playerData.roundsPlayed}\n" +
                         $"Games won {playerData.gamesWon}\n" +

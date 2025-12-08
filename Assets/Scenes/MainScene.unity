@@ -165,7 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 289933549122863738, guid: 6e3ac025d6f5dc4479f84d637a5992e4, type: 3}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: skyboxRotation
-      value: 90
+      value: 6.18
       objectReference: {fileID: 0}
     - target: {fileID: 5558770789066848592, guid: dd6ff43197ccd9745a2bba0a66734ce1, type: 3}
       propertyPath: staminaUIPrefab

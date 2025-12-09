@@ -133,8 +133,11 @@ public class AI : MonoBehaviour
         )
         {
             // AI stops what it's currently doing
-            if (currentRoutine != null) 
+            if (currentRoutine != null)
+            {
                 StopCoroutine(currentRoutine);
+                currentRoutine = null;
+            }
 
             // AI thinks and reacts
             if (aiDifficulty == AIDifficulty.Easy || aiDifficulty == AIDifficulty.Normal)

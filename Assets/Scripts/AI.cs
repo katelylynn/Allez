@@ -38,8 +38,8 @@ public class AI : MonoBehaviour
     private Dictionary<OpponentMove, Action> actions;
 
     // distance control
-    public float lungeDistance = 4.6f;
-    public float attackDistance = 4.0f;
+    public float lungeDistance = 7f;
+    public float attackDistance = 3.96f;
     public float tolerance = 0.5f;
 
     // intervals
@@ -70,6 +70,7 @@ public class AI : MonoBehaviour
         stamina = GetComponent<PlayerStamina>();
 
         // subscribe to events
+        EventManager.RoundReset += OnRoundReset;
         EventManager.ActionTaken += UpdateOpponentActionHistory;
         EventManager.ActionTaken += ThinkAndReact;
 
@@ -82,6 +83,7 @@ public class AI : MonoBehaviour
 
     private void OnDestroy()
     {
+        EventManager.RoundReset -= OnRoundReset;
         EventManager.ActionTaken -= UpdateOpponentActionHistory;
         EventManager.ActionTaken -= ThinkAndReact;
     }
@@ -90,6 +92,17 @@ public class AI : MonoBehaviour
     {
         opponent = o;
         aiDifficulty = aid;
+    }
+
+    public void OnRoundReset()
+    {
+        mover.SetMoveAmount(0f);
+        if (currentRoutine != null)
+        {
+            Debug.Log("AI: shutting down current routine");
+            StopCoroutine(currentRoutine);
+            currentRoutine = null;
+        }
     }
 
     private void UpdateOpponentActionHistory(OpponentMove om)
@@ -234,13 +247,14 @@ public class AI : MonoBehaviour
         while (transform.position.z - opponent.transform.position.z > distance)
         {
             // approach
-            Debug.Log("AI: approaching opponent to attack!");
+            Debug.Log("AI: approaching opponent to attack");
             mover.SetMoveAmount(1.0f);
             yield return null; // wait for next frame
         }
 
         // stop and attack
         mover.SetMoveAmount(0f);
+        Debug.Log("AI: attack!");
         onFinishApproaching?.Invoke();
 
         // mark this routine as complete

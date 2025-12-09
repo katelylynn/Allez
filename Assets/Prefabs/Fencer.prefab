@@ -4360,12 +4360,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc0f33353e4b534ab5828145c593ee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lungeDistance: 6.2
-  attackDistance: 4.2
+  opponentActionHistory: 
+  lungeDistance: 7
+  attackDistance: 3.95
   tolerance: 0.6
-  isThinking: 0
-  isLockedIn: 0
-  guessTolerance:
+  reactionThresholds:
   - 0.7
   - 0.4
   - 0
@@ -4377,7 +4376,6 @@ MonoBehaviour:
   - {x: 0.1, y: 0.5}
   - {x: 0, y: 0.3}
   - {x: 0, y: 0}
-  opponentActionHistory: 
 --- !u!114 &8466466553347403939
 MonoBehaviour:
   m_ObjectHideFlags: 0

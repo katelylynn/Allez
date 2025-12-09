@@ -4362,7 +4362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   opponentActionHistory: 
   lungeDistance: 7
-  attackDistance: 3.95
+  attackDistance: 4
   tolerance: 0.6
   reactionThresholds:
   - 0.7

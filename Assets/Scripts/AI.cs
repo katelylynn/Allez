@@ -39,7 +39,7 @@ public class AI : MonoBehaviour
 
     // distance control
     public float lungeDistance = 7f;
-    public float attackDistance = 3.96f;
+    public float attackDistance = 4f;
     public float tolerance = 0.5f;
 
     // intervals
@@ -133,10 +133,14 @@ public class AI : MonoBehaviour
         )
         {
             // AI stops what it's currently doing
-            StopCoroutine(currentRoutine);
+            if (currentRoutine != null) 
+                StopCoroutine(currentRoutine);
 
-            // AI starts thinks and reacts
-            currentRoutine = StartCoroutine(ThinkRoutine(() => React(om), reactRanges[(int)aiDifficulty]));
+            // AI thinks and reacts
+            if (aiDifficulty == AIDifficulty.Easy || aiDifficulty == AIDifficulty.Normal)
+                currentRoutine = StartCoroutine(ThinkRoutine(() => React(om), reactRanges[(int)aiDifficulty]));
+            else
+                React(om);
         }
     }
 
@@ -226,7 +230,10 @@ public class AI : MonoBehaviour
             mover.SetMoveAmount(0.0f);
 
             // think and execute offensive attack!
-            currentRoutine = StartCoroutine(ThinkRoutine(DecideNextMove, thinkRanges[(int)aiDifficulty]));
+            if (aiDifficulty == AIDifficulty.Easy || aiDifficulty == AIDifficulty.Normal)
+                currentRoutine = StartCoroutine(ThinkRoutine(DecideNextMove, thinkRanges[(int)aiDifficulty]));
+            else
+                DecideNextMove();
         }
     }
 
@@ -253,7 +260,6 @@ public class AI : MonoBehaviour
         }
 
         // stop and attack
-        mover.SetMoveAmount(0f);
         Debug.Log("AI: attack!");
         onFinishApproaching?.Invoke();
 

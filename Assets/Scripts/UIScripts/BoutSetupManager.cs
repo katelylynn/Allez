@@ -73,7 +73,7 @@ public class BoutSetupManager : MonoBehaviour
         if (isAI)
         {
             SetupAI();
-            dM.p2 = "AI";
+            dM.p2 = GetAIPlayer2Name();  // "Easy AI" / "Normal AI" / "Hard AI"
         }
         else
         {
@@ -156,6 +156,12 @@ public class BoutSetupManager : MonoBehaviour
         return AI_DIFFICULTIES[index];
     }
 
+    private string GetAIPlayer2Name()
+    {
+        // e.g. "Easy AI", "Normal AI", "Hard AI"
+        return $"{GetDifficultyLabel(dM.aiDifficultyIndex)} AI";
+    }
+
     private void OnOpponentTypeChanged(int index)
     {
         string selected = opponentTypeDropdown.options[index].text;
@@ -168,8 +174,9 @@ public class BoutSetupManager : MonoBehaviour
         if (isAI)
         {
             SetupAI();
-            dM.p2 = "AI";
-            buttonList[1].GetComponent<ReadyButton>().isReady = false;
+            dM.p2 = GetAIPlayer2Name();   // ensure p2 gets "X AI"
+            if (buttonList.Count > 1 && buttonList[1] != null)
+                buttonList[1].GetComponent<ReadyButton>().isReady = false;
         }
         else
         {
@@ -199,7 +206,7 @@ public class BoutSetupManager : MonoBehaviour
         }
 
         if (isAI)
-            dM.p2 = "AI";
+            dM.p2 = GetAIPlayer2Name();   // keep P2 as "<Difficulty> AI"
 
         startMatchButton.GetComponent<Button>().interactable = false;
 
@@ -366,7 +373,10 @@ public class BoutSetupManager : MonoBehaviour
                 if (diffIndex < 0) diffIndex = 1; // default Normal
 
                 dM.aiDifficultyIndex = diffIndex;
-                p2HeaderText.text = $"{buttonText} AI";
+
+                string fullName = GetAIPlayer2Name(); // "<Difficulty> AI"
+                dM.p2 = fullName;
+                p2HeaderText.text = fullName;
 
                 PlayerPrefs.SetInt(KEY_AI_DIFFICULTY, diffIndex);
                 PlayerPrefs.Save();

@@ -222,7 +222,7 @@ public class AI : MonoBehaviour
 
     private void ControlDistance()
     {
-        Debug.Log("AI: controlling distance");
+        // Debug.Log("AI: controlling distance");
 
         if (
             // if AI is too far from opponent...
@@ -232,7 +232,7 @@ public class AI : MonoBehaviour
         )
         {
             // move toward target distance
-            Debug.Log("AI: moving toward target distance");
+            // Debug.Log("AI: moving toward target distance");
             mover.SetMoveAmount((transform.position.z > opponent.transform.position.z + lungeDistance + tolerance) ? 1.0f : -1.0f);
         }
         // if AI is a good range from their opponent...
@@ -267,7 +267,7 @@ public class AI : MonoBehaviour
         while (transform.position.z - opponent.transform.position.z > distance)
         {
             // approach
-            Debug.Log("AI: approaching opponent to attack");
+            // Debug.Log("AI: approaching opponent to attack");
             mover.SetMoveAmount(1.0f);
             yield return null; // wait for next frame
         }

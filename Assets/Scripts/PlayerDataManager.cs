@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
+
 public class PlayerDataManager : MonoBehaviour
 {
     public static PlayerDataManager dM;
     private const string filePath = "/playerRecords.dat";
+    private const string KEY_AI_DIFFICULTY = "AIDifficulty"; // 0=Easy,1=Normal,2=Hard
+
     public GameData gameData;
     public string p1;
     public string p2;
+
+    // Selected AI difficulty index (0 = Easy, 1 = Normal, 2 = Hard)
+    public int aiDifficultyIndex = 1; // default Normal
+
     public void Awake()
     {
         if (dM != null && dM != this)
@@ -27,6 +34,10 @@ public class PlayerDataManager : MonoBehaviour
             CreateFakeData();
             PrintAllPlayerData();
         }
+
+        // Load persisted AI difficulty index (default Normal = 1)
+        aiDifficultyIndex = PlayerPrefs.GetInt(KEY_AI_DIFFICULTY, 1);
+        aiDifficultyIndex = Mathf.Clamp(aiDifficultyIndex, 0, 2);
     }
 
     public static PlayerDataManager GetInstance()

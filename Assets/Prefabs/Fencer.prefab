@@ -4364,14 +4364,19 @@ MonoBehaviour:
   attackDistance: 4.2
   tolerance: 0.6
   isThinking: 0
-  thinkRange:
-  - 0.2
-  - 0.4
-  reactRange:
-  - 0
-  - 0.3
-  guessTolerance: 0.4
   isLockedIn: 0
+  guessTolerance:
+  - 0.7
+  - 0.4
+  - 0
+  thinkRanges:
+  - {x: 0.2, y: 0.6}
+  - {x: 0.2, y: 0.4}
+  - {x: 0, y: 0}
+  reactRanges:
+  - {x: 0.1, y: 0.5}
+  - {x: 0, y: 0.3}
+  - {x: 0, y: 0}
   opponentActionHistory: 
 --- !u!114 &8466466553347403939
 MonoBehaviour:

@@ -33,11 +33,16 @@ public class GameManager : MonoBehaviour
     private bool roundSequenceRunning;
 
     // sound
+    [Header("Time Milestone SFX")]
+    public AudioSource sfxSource;      
+    public AudioClip TimerWhistle;
+    private bool played30;
+    private bool played60;
+    private bool played90;
+    
     public bool IsRoundBusy => countdownRunning || roundSequenceRunning;
     public static GameManager Instance { get; private set; }
     public bool isGameActive = false;
-
-
 
     public void Initialize(GameMode gm, int ptw, int bl, GameObject pui)
     {
@@ -68,6 +73,9 @@ public class GameManager : MonoBehaviour
         Instance = this;        
         dM = PlayerDataManager.GetInstance();
         ResetGameState();
+
+        if (sfxSource == null)
+        sfxSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -93,10 +101,14 @@ public class GameManager : MonoBehaviour
 
     public void StartBout()
     {
+        elapsedTime = 0;
+        played30 = played60 = played90 = false;
+
         StartRound();
         if (gameMode == GameMode.MostPointsInXTime) 
         {
-            uiScore.transform.Find("CountdownText").GetComponent<TMP_Text>().text = (maxTime - elapsedTime) + "s";
+            uiScore.transform.Find("CountdownText").GetComponent<TMP_Text>().text =
+                (maxTime - elapsedTime) + "s";
             StartCoroutine(BoutCountdown());
         }
         else if (gameMode == GameMode.FirstToX)
@@ -125,6 +137,7 @@ public class GameManager : MonoBehaviour
                     secondAccumulator -= 1f;
                     elapsedTime++;
                     Debug.Log("Tick: " + elapsedTime);
+                    CheckTimeMilestones();
                 }
             }
 
@@ -133,6 +146,35 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Time is up! " + maxTime + " seconds have passed.");
         EndFight(DetermineWinner());
+    }
+
+        private void CheckTimeMilestones()
+    {
+        if (!played30 && elapsedTime >= 30)
+        {
+            PlayMilestoneSFX();
+            played30 = true;
+        }
+
+        if (!played60 && elapsedTime >= 60)
+        {
+            PlayMilestoneSFX();
+            played60 = true;
+        }
+
+        if (!played90 && elapsedTime >= 90)
+        {
+            PlayMilestoneSFX();
+            played90 = true;
+        }
+    }
+
+    private void PlayMilestoneSFX()
+    {
+        if (TimerWhistle == null) return;
+        if (sfxSource == null) return;
+
+        sfxSource.PlayOneShot(TimerWhistle);
     }
 
     private FencerId DetermineWinner()
@@ -269,5 +311,4 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("P2Score", 0);
         PlayerPrefs.SetInt("CurrentRound", 1);
     }
-
 }

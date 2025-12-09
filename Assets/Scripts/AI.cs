@@ -126,8 +126,8 @@ public class AI : MonoBehaviour
     private void ThinkAndReact(OpponentMove om)
     {
         if (
-            // if the opponent attacks/lunges...
-            (om == OpponentMove.Attack || om == OpponentMove.Lunge)
+            // if the opponent attacks/lunges or a "parried" occurs...
+            (om == OpponentMove.Attack || om == OpponentMove.Lunge || om == OpponentMove.AIParried || om == OpponentMove.OpponentParried)
             // and the AI is in striking range...
             && transform.position.z - opponent.transform.position.z <= lungeDistance + tolerance
         )
@@ -165,7 +165,7 @@ public class AI : MonoBehaviour
     private void React(OpponentMove opponentMove)
     {
         float reaction = UnityEngine.Random.Range(0f, 1f);
-        Debug.Log("AI " + (reaction > reactionThresholds[(int)aiDifficulty] ? "reacts in time :)" : "doesn't react in time :("));
+        Debug.Log("AI reacts " + (reaction > reactionThresholds[(int)aiDifficulty] ? "successfully :)" : "unsuccessfully :("));
 
         // if AI reacts in time...
         if (reaction > reactionThresholds[(int)aiDifficulty])
@@ -182,6 +182,16 @@ public class AI : MonoBehaviour
                 case OpponentMove.Attack:
                     // parry!
                     fighter.Parry(-1);
+                    break;
+                // and opponent successfully parries AI...
+                case OpponentMove.AIParried:
+                    // run!
+                    mover.Backdash();
+                    break;
+                // and AI successfully parries opponent...
+                case OpponentMove.OpponentParried:
+                    // go in for the kill
+                    DecideNextMove();
                     break;
             }
         }

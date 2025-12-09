@@ -23,7 +23,7 @@ public class LowStaminaVolume : MonoBehaviour
     {
         lowStaminaVolume = GetComponent<Volume>();
         stamina = GetComponentInParent<PlayerStamina>();
-        if (lowStaminaVolume.profile.TryGet(out vignette)) ;
+        lowStaminaVolume.profile.TryGet(out vignette);
         target = highVignetteVal;
     }
 

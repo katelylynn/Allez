@@ -269,8 +269,6 @@ public class Fencer : MonoBehaviour
         ToggleComponentsAndChildren(gameObject, true);
         gameObject.GetComponent<Mover>().ZeroVelocity();
         gameObject.GetComponent<Fighter>().ResetSword();
-        if (fencerType == FencerType.AI)
-            gameObject.GetComponent<AI>().OnRoundReset();
         //foilHitbox.GetComponentInChildren<MeshRenderer>().enabled = false;
     }
 

@@ -20,8 +20,6 @@ public class TimerModeBGMController : MonoBehaviour
         source.clip = TimerBGM;
 
         source.Play();
-
-        Debug.Log(gameManager.pointsToWin);
     }
 
     void Update()

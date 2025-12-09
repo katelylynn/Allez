@@ -54,6 +54,8 @@ MonoBehaviour:
   pauseUI: {fileID: 0}
   resultsScene: resultsScene
   hitTimeScale: 0.01
+  sfxSource: {fileID: 0}
+  TimerWhistle: {fileID: 8300000, guid: 3362799a9b9da432da41d455192f82ea, type: 3}
   isGameActive: 0
 --- !u!82 &1996389238451649302
 AudioSource:

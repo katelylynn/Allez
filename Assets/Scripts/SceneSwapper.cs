@@ -1,30 +1,39 @@
-﻿// using UnityEditor;
+﻿/*
+    Scene Swapper
+    While this script lives on many UI gameobjects, it is the standard hub
+    for scene related alls.
+*/
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using System.Collections;
 using System.Collections.Generic;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class SceneSwapper : MonoBehaviour
 {
+    // lets the player go "back" to the previous screen
     private static Stack<string> sceneHistory = new Stack<string>();
 
     public static void ChangeScene(string sceneName)
     {
         Scene current = SceneManager.GetActiveScene();
+
         if (current.IsValid())
             sceneHistory.Push(current.name);
 
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 
+    // displays an additive scene or hides additive scene if it's already shown
     public static void ToggleAdditiveScene(string sceneName)
     {
         Scene scene = SceneManager.GetSceneByName(sceneName);
 
-        // If scene is loaded → unload it
+        // If scene is loaded, unload it
         if (scene.isLoaded)
         {
             SceneManager.UnloadSceneAsync(sceneName);
@@ -49,11 +58,6 @@ public class SceneSwapper : MonoBehaviour
 
         string previousScene = sceneHistory.Pop();
         SceneManager.LoadScene(previousScene);
-    }
-
-    public void GoBackInstance()
-    {
-        GoBack();
     }
 
     public static void QuitGame()

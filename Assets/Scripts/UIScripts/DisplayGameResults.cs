@@ -123,20 +123,20 @@ public class DisplayGameResults : MonoBehaviour
             fencerComponent2.SetActive(false);
             defeatedFencer1.SetActive(true);
             defeatedFencer2.SetActive(true);
-            defeatedFencer2.GetComponent<S_A_SkinnedOutfitColorChange>()
+            defeatedFencer2.GetComponent<Fencer>()
                 .ChangeOutfitColor(0, GlobalColours.FencerBlue);
         }
         else if (winner == 0)
         {
-            fencerPrefab.GetComponent<S_A_SkinnedOutfitColorChange>()
+            fencerPrefab.GetComponent<Fencer>()
                 .ChangeOutfitColor(0, GlobalColours.FencerBlue);
-            defeatedFencer1.GetComponent<S_A_SkinnedOutfitColorChange>()
+            defeatedFencer1.GetComponent<Fencer>()
                 .ChangeOutfitColor(0, GlobalColours.FencerRed);
         }
         else
         {
             winText.text = dM.p2 + " wins in " + rounds + " rounds!";
-            defeatedFencer1.GetComponent<S_A_SkinnedOutfitColorChange>()
+            defeatedFencer1.GetComponent<Fencer>()
                 .ChangeOutfitColor(0, GlobalColours.FencerBlue);
         }
     }

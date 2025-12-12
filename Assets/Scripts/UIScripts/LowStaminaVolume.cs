@@ -8,7 +8,7 @@ using UnityEngine.SocialPlatforms;
 
 public class LowStaminaVolume : MonoBehaviour
 {
-    private PlayerStamina stamina;
+    private StaminaController stamina;
     private Volume lowStaminaVolume;
     private Vignette vignette;
     private float lowVignetteVal = 0.3f;
@@ -22,7 +22,7 @@ public class LowStaminaVolume : MonoBehaviour
     private void Awake()
     {
         lowStaminaVolume = GetComponent<Volume>();
-        stamina = GetComponentInParent<PlayerStamina>();
+        stamina = GetComponentInParent<StaminaController>();
         lowStaminaVolume.profile.TryGet(out vignette);
         target = highVignetteVal;
     }

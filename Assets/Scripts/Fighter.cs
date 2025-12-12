@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*
+    Fighter
+    Handles the attacking behavior for the fencer. Listens to key inputs for attack and lunge and
+    carries out behavior accordingly.
+*/
+
+using System.Collections;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,41 +16,57 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class Fighter : MonoBehaviour
 {
-    public Transform ParryTracker;
-
+    // references
     private Animator anim;
+    public GameObject foilAttackBox;
+    public StaminaController stamina;
+
+    // foil
+    private Rig foilRig;
+    private int foilLayerIndex = 1;
     
+    // tilt / parry (same thing)
+    public Transform ParryTracker;
     public float tiltSpeed = 5;
     public float leftTiltPos = -5f;
     public float rightTiltPos = 1.9f;
     public float unTiltPos = 0;
+
+    // frame params
+    ScriptedMotionPlayer motionPlayer;
+    public ScriptedMotionConfig attackConfig;
+    public ScriptedMotionConfig parryConfig;
     public float tiltFramePercentage = 0.2f;
     private int OGStartupFrames = 0;
     private int OGRecoveryFrames = 0;
 
+    // coroutines
     private Coroutine currentAttackLeftCoroutine;
     private Coroutine currentParryCoroutine;
-    public GameObject foilAttackBox;
-    //public bool foilHitBoxEnabled = true;
-
-    ScriptedMotionPlayer motionPlayer;
-    PlayerStamina stamina;
-    [Header("Scripted Motion Configs")]
-    public ScriptedMotionConfig attackConfig;
-    public ScriptedMotionConfig parryConfig;
 
     public void Start()
     {
-        stamina = GetComponent<PlayerStamina>();
+        stamina = GetComponent<StaminaController>();
         anim = GetComponent<Animator>();
+        foilRig = transform.GetComponentInChildren<Rig>(true);
+
         if (motionPlayer == null)
             motionPlayer = GetComponent<ScriptedMotionPlayer>();
+    }
+
+    public void Update()
+    {
+        if ( anim.GetCurrentAnimatorStateInfo( foilLayerIndex ).IsName( "ParryLeft" ) || anim.GetCurrentAnimatorStateInfo( foilLayerIndex ).IsName( "Parried" ) )
+            foilRig.weight = 0f;
+        else
+            foilRig.weight = 1f;
     }
 
     public void OnAttack(InputValue value) {
         // Only react when the button is actually pressed
         if (!value.isPressed)
             return;
+
         Attack(value.Get<float>());
         EventManager.TriggerActionTaken(OpponentMove.Attack);
     }
@@ -77,7 +99,8 @@ public class Fighter : MonoBehaviour
         {
             frameCount = Mathf.CeilToInt(attackConfig.startupFrames * tiltFramePercentage);
             attackConfig.startupFrames = Mathf.FloorToInt(attackConfig.startupFrames * (1-tiltFramePercentage));
-        } else if(finishedAttack)
+        } 
+        else if (finishedAttack)
         {
             frameCount = Mathf.CeilToInt(attackConfig.recoveryFrames * tiltFramePercentage);
             attackConfig.recoveryFrames = Mathf.FloorToInt(attackConfig.recoveryFrames * (1-tiltFramePercentage));
@@ -104,10 +127,10 @@ public class Fighter : MonoBehaviour
         if (!finishedAttack)
             motionPlayer.PlayScriptedMotion(attackConfig, Vector3.zero);
         
-        while(motionPlayer.isPlaying)
+        while (motionPlayer.isPlaying)
             yield return null;
 
-        if(!finishedAttack)
+        if (!finishedAttack)
             currentAttackLeftCoroutine = StartCoroutine(DoAttackLeft(unTiltPos, true));
 
         if (finishedAttack)
@@ -123,6 +146,7 @@ public class Fighter : MonoBehaviour
         // Only react when the button is actually pressed
         if (parryDirection.Get<float>() == 0f)
             return;
+            
         Parry(parryDirection.Get<float>());
         EventManager.TriggerActionTaken(OpponentMove.Parry);
     }

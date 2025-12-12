@@ -1,3 +1,8 @@
+/*
+    Scripted Motion Config
+    Provides a standard interface for configuring a scripted motion.
+*/
+
 using UnityEngine;
 
 [System.Serializable]
@@ -9,7 +14,6 @@ public class ScriptedMotionConfig
     [Header("Animation")]
     public AnimationClip clip;
     public int layerIndex = 0;
-
    
     public const string interruptStateName = "Walk";
     public const int interruptLayerIndex = 0;

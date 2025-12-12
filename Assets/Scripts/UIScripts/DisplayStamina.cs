@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class DisplayStamina : MonoBehaviour
 {
-    public PlayerStamina stamina;
+    public StaminaController stamina;
     public TMP_Text tmp_text;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        stamina = GetComponentInParent<PlayerStamina>();
+        stamina = GetComponentInParent<StaminaController>();
         tmp_text = GetComponentInChildren<TMP_Text>();
     }
 

@@ -1,3 +1,8 @@
+/*
+    Results Camera Movement
+    Pans around the winner fencer in the middle of the scene.
+*/
+
 using UnityEngine;
 
 public class ResultsCameraMovement : MonoBehaviour

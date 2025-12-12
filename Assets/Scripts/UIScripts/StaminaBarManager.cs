@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class StaminaBarManager : MonoBehaviour
 {
-    PlayerStamina p1_stamina;
-    PlayerStamina p2_stamina;
+    StaminaController p1_stamina;
+    StaminaController p2_stamina;
 
     public Image p1_green_bar;
     public Image p1_yellow_bar;
@@ -31,8 +31,8 @@ public class StaminaBarManager : MonoBehaviour
     private float p2MarkerWidth;
     public void Initialize(GameObject p1, GameObject p2)
     {
-        p1_stamina = p1.GetComponent<PlayerStamina>();
-        p2_stamina = p2.GetComponent<PlayerStamina>();
+        p1_stamina = p1.GetComponent<StaminaController>();
+        p2_stamina = p2.GetComponent<StaminaController>();
         p1oldStamina = p1_stamina.currentStamina;
         p2oldStamina = p2_stamina.currentStamina;
     }

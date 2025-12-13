@@ -69,8 +69,8 @@ public class SceneInitializer : MonoBehaviour
         }
 
         // Set up 2 different audios
-        f0.GetComponent<PlayerAudioController>().SetGenderAudios(FencerId.Fencer0);
-        f0.GetComponent<PlayerAudioController>().SetGenderAudios(FencerId.Fencer1);
+        f0.GetComponent<FencerAudioController>().SetGenderAudios(FencerId.Fencer0);
+        f0.GetComponent<FencerAudioController>().SetGenderAudios(FencerId.Fencer1);
 
         // Set opponent's torso as the aim target for both players
         f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().aimTarget);

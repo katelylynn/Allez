@@ -1,6 +1,6 @@
 /*
-    Player Stamina
-    Controls a player's stamina's consumption and recharge.
+    Stamina Controller
+    Controls a fencer's stamina's consumption and recharge.
 */
 
 using System.Collections;

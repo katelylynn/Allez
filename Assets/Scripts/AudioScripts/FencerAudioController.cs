@@ -1,15 +1,38 @@
+/*
+    Fencer Audio Controller
+    Controls the sound effects for a fencer's actions.
+*/
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(AudioSource))]
-public class MovementSound : MonoBehaviour
+public class FencerAudioController : MonoBehaviour
 {
+    [Header("Sound Clips")]
+    public AudioClip Hit;
+    public AudioClip Lunge;
+    public AudioClip Parry;
+    public AudioClip Swing;
+    public AudioClip BackDash;
+    public AudioClip Ouch;
+
+    [Header("Female Sound Clips")]
+    public AudioClip LungeFemale;
+    public AudioClip OuchFemale;
+    public AudioClip BackDashFemale;
+
+    [Header("Male Sound Clips")]
+    public AudioClip LungeMale;
+    public AudioClip OuchMale;
+    public AudioClip BackDashMale;
+
     [Header("Input")]
     public InputActionReference moveAxis;
     public InputActionReference move2Axis;
 
     [Header("Step Sound")]
-    public AudioClip moveStep;      
+    public AudioClip moveStep;
     public float stepInterval = 0.3f;
 
     [Header("move2 Sound")]
@@ -20,7 +43,7 @@ public class MovementSound : MonoBehaviour
     private float lastStepTime;
     private float lastmove2Time;
 
-    private void Awake()
+    public void Awake()
     {
         source = GetComponent<AudioSource>();
         source.playOnAwake = false;
@@ -39,7 +62,7 @@ public class MovementSound : MonoBehaviour
     }
 
     private void Update()
-    { 
+    {
         if (GameManager.Instance == null)
             return;
 
@@ -51,7 +74,6 @@ public class MovementSound : MonoBehaviour
         if (moveAxis == null) return;
 
         float value = moveAxis.action.ReadValue<float>();
-        // Debug.Log($"input value {value}");
 
         if (Mathf.Abs(value) > 0.1f && Time.time - lastStepTime > stepInterval)
         {
@@ -76,4 +98,33 @@ public class MovementSound : MonoBehaviour
         }
     }
 
+    public void SetGenderAudios(FencerId id)
+    {
+        // Female
+        if (id == FencerId.Fencer0)
+        {
+            Lunge = LungeFemale;
+            Ouch = OuchFemale;
+            BackDash = BackDashFemale;
+        }
+        // Male
+        else if (id == FencerId.Fencer1)
+        {
+            Lunge = LungeMale;
+            Ouch = OuchMale;
+            BackDash = BackDashMale;
+        }
+    }
+
+    public void PlayAttack() => Play(Hit);
+    public void PlayLunge() => Play(Lunge);
+    public void PlayParry() => Play(Parry);
+    public void PlaySwing() => Play(Swing);
+    public void PlayBackDash() => Play(BackDash);
+    public void PlayOuch() => Play(Ouch);
+
+    private void Play(AudioClip clip, float volume = 1f)
+    {
+        if (clip != null) source.PlayOneShot(clip, volume);
+    }
 }

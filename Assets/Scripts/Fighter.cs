@@ -167,14 +167,14 @@ public class Fighter : MonoBehaviour
                 //parry left
                 aimConstraint.weight = 0f;
                 currentParryCoroutine = StartCoroutine(DoParry(-parryConfig.distance, true));
-                GetComponent<PlayerAudioController>().PlaySwing();
+                GetComponent<FencerAudioController>().PlaySwing();
             }
             else if (parryDir == 1 && stamina.ConsumeStamina(parryConfig.staminaCost))
             {
                 //parry right
                 aimConstraint.weight = 0f;
                 currentParryCoroutine = StartCoroutine(DoParry(parryConfig.distance, true));
-                GetComponent<PlayerAudioController>().PlaySwing();
+                GetComponent<FencerAudioController>().PlaySwing();
             }
         }
     }

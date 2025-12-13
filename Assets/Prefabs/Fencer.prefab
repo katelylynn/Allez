@@ -4320,7 +4320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStamina: 100
   maxStamina: 100
-  staminaRegenRate: 1
+  staminaRegenRate: 4
   staminaRegenDelay: 2
 --- !u!114 &4221248949463052257
 MonoBehaviour:

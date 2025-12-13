@@ -414,7 +414,7 @@ MonoBehaviour:
   fencerComponent1: {fileID: 169850792}
   fencerComponent2: {fileID: 169850791}
   defeatedFencer1: {fileID: 2061156517}
-  defeatedFencer2: {fileID: 0}
+  defeatedFencer2: {fileID: 2011117659}
   winText: {fileID: 1445032952}
   winnerName: {fileID: 213597852}
   winnerStats: {fileID: 1523042450}

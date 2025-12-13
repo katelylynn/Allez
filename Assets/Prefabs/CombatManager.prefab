@@ -51,13 +51,16 @@ MonoBehaviour:
     layerIndex: 1
     distance: 2
     returnToStart: 1
-    startupFrames: 30
-    activeFrames: 30
-    recoveryFrames: 30
-    startupClipFrames: 20
-    activeClipFrames: 10
-    recoveryClipFrames: 30
+    startupFrames: 5
+    activeFrames: 5
+    recoveryFrames: 5
+    startupClipFrames: 5
+    activeClipFrames: 5
+    recoveryClipFrames: 5
     staminaCost: 0
+  parriedLungeStaminaCost: 50
+  parriedAttackStaminaCost: 25
+  succPStaminaGain: 20
 --- !u!82 &2401273750365362106
 AudioSource:
   m_ObjectHideFlags: 0
@@ -69,10 +72,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: 74bc0bc120f934916bb455a7140428aa, type: 3}
-  m_PlayOnAwake: 1
+  m_Resource: {fileID: 8300000, guid: 58114731596ec4504b705ca9d3fb6d2a, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.02
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -115,7 +118,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

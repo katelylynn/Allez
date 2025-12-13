@@ -1,132 +1,280 @@
+/*
+    AI.cs
+    Handles the behavior of the fencer AI. Disabled if second player is not an AI.
+*/
+
 using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+
+public enum OpponentMove
+{
+    Attack,
+    Parry,
+    Lunge,
+    Backdash,
+    AIParried, // opponent parries the AI
+    OpponentParried, // AI parries the opponent
+}
+
+public enum AIDifficulty
+{
+    Easy = 0,
+    Normal = 1,
+    Hard = 2,
+}
 
 public class AI : MonoBehaviour
 {
+    // AI params
+    private AIDifficulty aiDifficulty;
+    [SerializeField] private Coroutine currentRoutine;
+
     // references
     private Mover mover;
     private Fighter fighter;
     private GameObject opponent;
+    private ScriptedMotionPlayer smp;
+    private StaminaController stamina;
+
+    // opponent
+    public List<OpponentMove> opponentActionHistory;
+    private Dictionary<OpponentMove, Action> actions;
 
     // distance control
-    private float distance;
-    public float targetDistance = 4.6f;
+    public float lungeDistance = 7f;
+    public float attackDistance = 4f;
     public float tolerance = 0.5f;
 
-    // thinking
-    public float minThink = 0.2f;
-    public float maxThink = 1.0f;
-    private bool isThinking;
-
-    // other
-    private Coroutine currentTiltCoroutine;
+    // intervals
+    public float[] reactionThresholds = new float[] {
+        0.7f, // easy
+        0.4f, // normal
+        0f, // hard
+    };
+    public Vector2[] thinkRanges = new Vector2[]
+    {
+        new Vector2(0.2f, 0.6f), // easy
+        new Vector2(0.2f, 0.4f), // normal
+        new Vector2(0f, 0.2f), // hard
+    };
+    public Vector2[] reactRanges = new Vector2[]
+    {
+        new Vector2(0.1f, 0.5f), // easy
+        new Vector2(0f, 0.3f), // normal
+        new Vector2(0f, 0.1f), // hard
+    };
 
     private void Start()
     {
         // easy references to the AI's own scripts
         mover = GetComponent<Mover>();
         fighter = GetComponent<Fighter>();
+        smp = GetComponent<ScriptedMotionPlayer>();
+        stamina = GetComponent<StaminaController>();
+
+        // subscribe to events
+        EventManager.RoundReset += OnRoundReset;
+        EventManager.ActionTaken += UpdateOpponentActionHistory;
+        EventManager.ActionTaken += ThinkAndReact;
+
+        /*
+        Debug.Log(
+            "AI difficulty: " + aiDifficulty +
+            ", think range: " + thinkRanges[(int)aiDifficulty].x + "–" + thinkRanges[(int)aiDifficulty].y +
+            ", react range: " + reactRanges[(int)aiDifficulty].x + "–" + reactRanges[(int)aiDifficulty].y
+        );
+        */
     }
 
-    public void Initialize(GameObject o)
+    private void OnDestroy()
     {
-        // reference to the player (opponent)
+        EventManager.RoundReset -= OnRoundReset;
+        EventManager.ActionTaken -= UpdateOpponentActionHistory;
+        EventManager.ActionTaken -= ThinkAndReact;
+    }
+
+    public void Initialize(GameObject o, AIDifficulty aid)
+    {
         opponent = o;
+        aiDifficulty = aid;
+    }
+
+    public void OnRoundReset()
+    {
+        mover.SetMoveAmount(0f);
+        if (currentRoutine != null)
+        {
+            StopCoroutine(currentRoutine);
+            currentRoutine = null;
+        }
+    }
+
+    private void UpdateOpponentActionHistory(OpponentMove om)
+    {
+        if (
+            // if history is not empty...
+            opponentActionHistory.Count != 0
+            && (
+                // check whether this is the duplicated "parried" move (parried fires twice)
+                (om == OpponentMove.AIParried && opponentActionHistory[opponentActionHistory.Count - 1] == OpponentMove.AIParried)
+                || (om == OpponentMove.AIParried && opponentActionHistory[opponentActionHistory.Count - 1] == OpponentMove.AIParried)
+            )
+        )
+            // ignore this duplicated move
+            return;
+
+        // otherwise, add to history
+        opponentActionHistory.Add(om);
+    }
+
+    private void ThinkAndReact(OpponentMove om)
+    {
+        if (
+            // if the opponent attacks/lunges or a "parried" occurs...
+            (om == OpponentMove.Attack || om == OpponentMove.Lunge || om == OpponentMove.AIParried || om == OpponentMove.OpponentParried)
+            // and the AI is in striking range...
+            && transform.position.z - opponent.transform.position.z <= lungeDistance + tolerance
+        )
+        {
+            // AI stops what it's currently doing
+            if (currentRoutine != null)
+            {
+                StopCoroutine(currentRoutine);
+                currentRoutine = null;
+            }
+
+            // AI thinks and reacts
+            if (aiDifficulty == AIDifficulty.Easy || aiDifficulty == AIDifficulty.Normal)
+                currentRoutine = StartCoroutine(ThinkRoutine(() => React(om), reactRanges[(int)aiDifficulty]));
+            else
+                React(om);
+        }
+    }
+
+    private IEnumerator ThinkRoutine(Action onFinishThinking, Vector2 range)
+    {
+        // wait a random amount of time to simulate thinking
+        float waitTime = UnityEngine.Random.Range(range.x, range.y);
+        yield return new WaitForSeconds(waitTime);
+
+        // mark this routine as complete
+        currentRoutine = null;
+
+        // act
+        onFinishThinking?.Invoke();
+    }
+
+    private void React(OpponentMove opponentMove)
+    {
+        float reaction = UnityEngine.Random.Range(0f, 1f);
+        // Debug.Log("AI reacts " + (reaction > reactionThresholds[(int)aiDifficulty] ? "successfully :)" : "unsuccessfully :("));
+
+        // if AI reacts in time...
+        if (reaction > reactionThresholds[(int)aiDifficulty])
+        {
+            switch (opponentMove)
+            {
+                // and opponent is lunging...
+                case OpponentMove.Lunge:
+                    // backdash or parry!
+                    if (UnityEngine.Random.Range(0, 2) == 0) mover.Backdash();
+                    else fighter.Parry(-1);
+                    break;
+                // and opponent is attacking...
+                case OpponentMove.Attack:
+                    // parry!
+                    fighter.Parry(-1);
+                    break;
+                // and opponent successfully parries AI...
+                case OpponentMove.AIParried:
+                    // run!
+                    mover.Backdash();
+                    break;
+                // and AI successfully parries opponent...
+                case OpponentMove.OpponentParried:
+                    // go in for the kill
+                    DecideNextMove();
+                    break;
+            }
+        }
+        // if the AI doesn't react in time...
+        else
+        {
+            switch (opponentMove)
+            {
+                // and opponent is attacking...
+                case OpponentMove.Attack:
+                    // backdash (overreact) or do nothing (underreact)
+                    if (UnityEngine.Random.Range(0, 2) == 0) mover.Backdash();
+                    break;
+            }
+        }
     }
 
     private void Update()
     {
-        // wait until mover is active
-        if (mover.enabled)
+        if (
+            // if moving is allowed...
+            mover.enabled
+            // and the AI isn't currently doing anything...
+            && currentRoutine == null
+        )
             ControlDistance();
     }
 
     private void ControlDistance()
     {
-        distance = transform.position.z - opponent.transform.position.z;
-
-        // if AI is not a good distance away from their opponent
-        if (Mathf.Abs(distance - targetDistance) > tolerance)
+        if (
+            // if AI is too far from opponent...
+            transform.position.z > opponent.transform.position.z + lungeDistance + tolerance 
+            // or too close too opponent...
+            || transform.position.z <= opponent.transform.position.z + lungeDistance
+        )
         {
             // move toward target distance
-            mover.SetMoveAmount((distance - targetDistance > 0) ? 1.0f : -1.0f);
-
-            // stop thinking loop if we leave the target range
-            if (isThinking)
-            {
-                StopAllCoroutines();
-                isThinking = false;
-            }
+            mover.SetMoveAmount((transform.position.z > opponent.transform.position.z + lungeDistance + tolerance) ? 1.0f : -1.0f);
         }
+        // if AI is a good range from their opponent...
         else
         {
-            // we're in the target range — stop moving and start/continue thinking loop
+            // stop moving
             mover.SetMoveAmount(0.0f);
 
-            if (!isThinking)
-                StartCoroutine(ThinkRoutine());
+            // think and execute offensive attack!
+            if (aiDifficulty == AIDifficulty.Easy || aiDifficulty == AIDifficulty.Normal)
+                currentRoutine = StartCoroutine(ThinkRoutine(DecideNextMove, thinkRanges[(int)aiDifficulty]));
+            else
+                DecideNextMove();
         }
     }
 
-    private IEnumerator ThinkRoutine()
+    private void DecideNextMove()
     {
-        isThinking = true;
+        // either...
+        if (UnityEngine.Random.Range(0, 2) == 0)
+            // attack
+            currentRoutine = StartCoroutine(ApproachAndAct(() => fighter.Attack(1), attackDistance));
+        else
+            // lunge
+            currentRoutine = StartCoroutine(ApproachAndAct(mover.Lunge, lungeDistance));
+    }
 
-        // Keep choosing actions while we remain in range
-        while (InGoodRange())
+    private IEnumerator ApproachAndAct(Action onFinishApproaching, float distance)
+    {
+        // while out of range for the desired attack... 
+        while (transform.position.z - opponent.transform.position.z > distance)
         {
-            // wait a random amount of time before choosing next move
-            float waitTime = Random.Range(minThink, maxThink);
-            yield return new WaitForSeconds(waitTime);
-
-            // re-check before acting
-            if (!InGoodRange()) 
-                break;
-
-            CalculateNextMove();
+            // approach
+            mover.SetMoveAmount(1.0f);
+            yield return null; // wait for next frame
         }
 
-        isThinking = false;
-    }
+        // stop and attack
+        onFinishApproaching?.Invoke();
 
-    private bool InGoodRange()
-    {
-        return Mathf.Abs(transform.position.z - opponent.transform.position.z - targetDistance) <= tolerance;
-    }
-
-    private void CalculateNextMove()
-    {
-        if (currentTiltCoroutine != null)
-            StopCoroutine(currentTiltCoroutine);
-
-        switch (Random.Range(0, 8))
-        {
-            case 0:
-                fighter.Attack();
-                break;
-            case 1:
-                Debug.Log("left parry");
-                fighter.DoParry(-1);
-                break;
-            case 2:
-                Debug.Log("right parry");
-                fighter.DoParry(1);
-                break;
-            case 3:
-                mover.Lunge();
-                break;
-            case 4:
-                mover.Backdash();
-                break;
-            case 5:
-                currentTiltCoroutine = StartCoroutine(fighter.DoTilt(fighter.leftTiltPos));
-                break;
-            case 6:
-                currentTiltCoroutine = StartCoroutine(fighter.DoTilt(fighter.rightTiltPos));
-                break;
-            case 7:
-                currentTiltCoroutine = StartCoroutine(fighter.DoTilt(fighter.unTiltPos));
-                break;
-        }
+        // mark this routine as complete
+        currentRoutine = null;
     }
 }

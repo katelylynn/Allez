@@ -1,3 +1,8 @@
+/*
+    Foil
+    Handles behavior for collision with the edge of the blade, not the tip.
+*/
+
 using UnityEngine;
 
 public class Foil : MonoBehaviour

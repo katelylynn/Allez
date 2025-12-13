@@ -4,17 +4,19 @@ using UnityEngine.UI;
 
 public class StaminaBarManager : MonoBehaviour
 {
-    PlayerStamina p1_stamina;
-    PlayerStamina p2_stamina;
+    StaminaController p1_stamina;
+    StaminaController p2_stamina;
 
     public Image p1_green_bar;
     public Image p1_yellow_bar;
     public Image p2_green_bar;
     public Image p2_yellow_bar;
+    public RectTransform p1_marker;
+    public RectTransform p2_marker;
 
     float smoothGreenFillSpeed = 0.1f;
     public float yellowBarShrinkDelay = 1.0f;
-    public float yellowShrinkRate = 1f;
+    public float yellowShrinkRate = 13f;
 
     float currentP1ShrinkTime;
     float currentP2ShrinkTime;
@@ -24,10 +26,14 @@ public class StaminaBarManager : MonoBehaviour
     int p2oldStamina;
     Coroutine p1Routine;
     Coroutine p2Routine;
+
+    private float p1MarkerWidth;
+    private float p2MarkerWidth;
+
     public void Initialize(GameObject p1, GameObject p2)
     {
-        p1_stamina = p1.GetComponent<PlayerStamina>();
-        p2_stamina = p2.GetComponent<PlayerStamina>();
+        p1_stamina = p1.GetComponent<StaminaController>();
+        p2_stamina = p2.GetComponent<StaminaController>();
         p1oldStamina = p1_stamina.currentStamina;
         p2oldStamina = p2_stamina.currentStamina;
     }
@@ -35,6 +41,8 @@ public class StaminaBarManager : MonoBehaviour
     {
         currentP1ShrinkTime = yellowBarShrinkDelay;
         currentP2ShrinkTime = yellowBarShrinkDelay;
+        p1MarkerWidth = p1_marker.rect.width;
+        p2MarkerWidth = p2_marker.rect.width;
     }
     private void OnDisable()
     {
@@ -57,9 +65,12 @@ public class StaminaBarManager : MonoBehaviour
     }
     private void Update()
     {
+        if(p1oldStamina + 20 <= p1_stamina.currentStamina || p2oldStamina + 20 <= p2_stamina.currentStamina)
+        {
+            BurstGreenBarFill();
+        }
         GreenBarSmoothFill();
-        //p1_green_bar.fillAmount = (float)p1_stamina.currentStamina / (float)p1_stamina.maxStamina;
-        //p2_green_bar.fillAmount = (float)p2_stamina.currentStamina / (float)p2_stamina.maxStamina;
+
         if (p1_stamina.currentStamina < p1oldStamina)
         {
             isP1YellowBehind = true;
@@ -83,6 +94,18 @@ public class StaminaBarManager : MonoBehaviour
         }
         p1oldStamina = p1_stamina.currentStamina;
         p2oldStamina = p2_stamina.currentStamina;
+
+        float p1_fill = p1_green_bar.fillAmount;
+        float p2_fill = p2_green_bar.fillAmount;
+        float p1_offset = 2 * -p1MarkerWidth * (p1_fill - 0.5f);
+        float p2_offset = 2 * p2MarkerWidth * (p2_fill - 0.5f);
+        p1_marker.anchorMin = new Vector2(p1_fill, 0.5f);
+        p1_marker.anchorMax = new Vector2(p1_fill, 0.5f);
+        p1_marker.anchoredPosition = new Vector2(p1_offset, 0);
+        
+        p2_marker.anchorMin = new Vector2(1f - p2_fill, 0.5f);
+        p2_marker.anchorMax = new Vector2(1f - p2_fill, 0.5f);
+        p2_marker.anchoredPosition = new Vector2(p2_offset, 0);
     }
 
     IEnumerator P1YellowBarShrinkRoutine()
@@ -161,7 +184,20 @@ public class StaminaBarManager : MonoBehaviour
             );
         }
     }
+    public void BurstGreenBarFill()
+    {
+        float p1_targetFill = (float)p1_stamina.currentStamina / p1_stamina.maxStamina;
+        float p2_targetFill = (float)p2_stamina.currentStamina / p2_stamina.maxStamina;
 
+        if(p1oldStamina + 20 <= p1_stamina.currentStamina)
+        {
+            p1_green_bar.fillAmount = p1_targetFill;
+        }
+        if (p2oldStamina + 20 <= p2_stamina.currentStamina)
+        {
+            p2_green_bar.fillAmount = p2_targetFill;
+        }
+    }
     public void ResetStaminaBars()
     {
         if (p1Routine != null) StopCoroutine(p1Routine);

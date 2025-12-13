@@ -1,3 +1,8 @@
+/*
+    UI Audio Controller
+    Handles sound effects related to the UI.
+*/
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 

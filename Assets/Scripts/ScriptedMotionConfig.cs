@@ -1,3 +1,8 @@
+/*
+    Scripted Motion Config
+    Provides a standard interface for configuring a scripted motion.
+*/
+
 using UnityEngine;
 
 [System.Serializable]
@@ -9,6 +14,9 @@ public class ScriptedMotionConfig
     [Header("Animation")]
     public AnimationClip clip;
     public int layerIndex = 0;
+   
+    public const string interruptStateName = "Walk";
+    public const int interruptLayerIndex = 0;
 
     [Tooltip("How far along the motion direction this move travels.")]
     public float distance = 2f;
@@ -21,7 +29,7 @@ public class ScriptedMotionConfig
     public int activeFrames = 5;
     public int recoveryFrames = 40;
 
-    [Header("Animation clip frame counts\n!!!Make sure these add up to the total frame count of the original animation!!!")]
+    [Header("Animation clip frame counts")]
     public int startupClipFrames = 20;
     public int activeClipFrames = 10;
     public int recoveryClipFrames = 30;

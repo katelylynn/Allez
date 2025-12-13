@@ -1,3 +1,10 @@
+/*
+    Scene Initializer
+    The only game object in the scene, and instantiates the prefabs that make up the game.
+    Implemented to reduce the number of merge conflicts in the scene, and ensure consistency
+    across both Fencers.
+*/
+
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,7 +13,9 @@ using UnityEngine.InputSystem;
 public class SceneInitializer : MonoBehaviour
 {
     public GameMode gameMode;
+    public AIDifficulty aiDifficulty;
 
+    // prefabs
     public GameObject gameManagerPrefab;
     public GameObject fencerPrefab; 
     public GameObject combatManagerPrefab;
@@ -14,17 +23,22 @@ public class SceneInitializer : MonoBehaviour
     public GameObject scoreUIPrefab;
     public GameObject countdownUIPrefab;
     public GameObject staminaUIPrefab;
+    public GameObject pauseUIPrefab;
 
     private GameObject g;
 
     public FencerType fencer0Type; 
-    public FencerType fencer1Type; 
+    public FencerType fencer1Type;
+
+    public float skyboxRotation = 0;
 
     void Awake()
     {
+        // fixes the game's frame rate
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
         Time.fixedDeltaTime = 1f / 60f;
+
         SpawnPrefabs();
         g.GetComponent<GameManager>().StartBout();
     }
@@ -34,6 +48,7 @@ public class SceneInitializer : MonoBehaviour
         /* FENCERS */
         GameObject f0 = Spawn(fencerPrefab); // FEMALE
         f0.GetComponent<Fencer>().Initialize(FencerId.Fencer0, fencer0Type);
+        f0.GetComponent<Fencer>().ChangeOutfitColor(0, GlobalColours.FencerBlue);
 
         GameObject f1 = Spawn(fencerPrefab); // MALE
 
@@ -50,20 +65,16 @@ public class SceneInitializer : MonoBehaviour
         // If the opponent is AI
         if (fencer1Type == FencerType.AI) {
             f1.GetComponent<AI>().enabled = true;
-            f1.GetComponent<AI>().Initialize(f0);
+            f1.GetComponent<AI>().Initialize(f0, (AIDifficulty)PlayerPrefs.GetInt("AIDifficulty", (int)aiDifficulty));
         }
 
         // Set up 2 different audios
-        f0.GetComponent<PlayerAudioController>().SetGenderAudios(FencerId.Fencer0);
-        f0.GetComponent<PlayerAudioController>().SetGenderAudios(FencerId.Fencer1);
-
+        f0.GetComponent<FencerAudioController>().SetGenderAudios(FencerId.Fencer0);
+        f0.GetComponent<FencerAudioController>().SetGenderAudios(FencerId.Fencer1);
 
         // Set opponent's torso as the aim target for both players
         f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().aimTarget);
         f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().aimTarget);
-
-        // Change fencer 2's outfit color
-        f0.GetComponent<S_A_SkinnedOutfitColorChange>().ChangeOutfitColor(0, new Color(0.15f, 0.24f, 0.67f));
 
         /* MANAGERS */
         g = Spawn(gameManagerPrefab);
@@ -75,17 +86,15 @@ public class SceneInitializer : MonoBehaviour
         else if (gm == "Most Points in X Seconds")
             gameMode = GameMode.MostPointsInXTime;
 
-        g.GetComponent<GameManager>().Initialize(gameMode, PlayerPrefs.GetInt("PointsToWin", -1), PlayerPrefs.GetInt("BoutLength", -1));
-
         GameObject cm = Spawn(combatManagerPrefab);
         cm.GetComponent<CombatManager>().Initialize(f0.GetComponent<Fencer>(), f1.GetComponent<Fencer>());
 
         /* UI */
-        GameObject scoreUI = Spawn(scoreUIPrefab);
-        g.GetComponent<GameManager>().SetUIScore(scoreUI.GetComponent<Canvas>());
-
         GameObject countdownUI = Spawn(countdownUIPrefab);
         g.GetComponent<GameManager>().SetCountdownTimer(countdownUI.GetComponentInChildren<RoundStartCountDown>());
+
+        GameObject scoreUI = Spawn(scoreUIPrefab);
+        g.GetComponent<GameManager>().SetUIScore(scoreUI.GetComponent<Canvas>());
 
         GameObject staminaUI = Spawn(staminaUIPrefab);
         staminaUI.GetComponent<StaminaBarManager>().Initialize(f0, f1);
@@ -94,6 +103,11 @@ public class SceneInitializer : MonoBehaviour
         // Setup both players UI managers
         UIScoreManager[] uiManagers = scoreUI.GetComponentsInChildren<UIScoreManager>(true);
 
+        GameObject pauseUI = Spawn(pauseUIPrefab);
+        pauseUI.SetActive(false);
+
+        // Initialize game manager
+        g.GetComponent<GameManager>().Initialize(gameMode, PlayerPrefs.GetInt("PointsToWin", -1), PlayerPrefs.GetInt("BoutLength", -1), pauseUI);
 
         foreach (var ui in uiManagers)
         {
@@ -103,6 +117,11 @@ public class SceneInitializer : MonoBehaviour
 
         /* ENVIRONMENT */
         Spawn(environmentPrefab);
+    }
+
+    private void Update()
+    {
+        RenderSettings.skybox.SetFloat("_Rotation", skyboxRotation);
     }
 
     private GameObject Spawn(GameObject prefab)

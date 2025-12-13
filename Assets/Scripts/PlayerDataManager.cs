@@ -1,15 +1,25 @@
-﻿using UnityEngine;
+﻿/*
+    Player Data Manager
+    Handles any player data that should persist between scenes.
+*/
+
+using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
+
 public class PlayerDataManager : MonoBehaviour
 {
     public static PlayerDataManager dM;
     private const string filePath = "/playerRecords.dat";
+
     public GameData gameData;
     public string p1;
     public string p2;
+
+    public int aiDifficultyIndex = 1; // default Normal
+
     public void Awake()
     {
         if (dM != null && dM != this)
@@ -27,6 +37,10 @@ public class PlayerDataManager : MonoBehaviour
             CreateFakeData();
             PrintAllPlayerData();
         }
+
+        // Load persisted AI difficulty index (default Normal = 1)
+        aiDifficultyIndex = PlayerPrefs.GetInt("AIDifficulty", 1);
+        aiDifficultyIndex = Mathf.Clamp(aiDifficultyIndex, 0, 2);
     }
 
     public static PlayerDataManager GetInstance()
@@ -43,11 +57,13 @@ public class PlayerDataManager : MonoBehaviour
         }
         return dM;
     }
+
     [Serializable]
     public class GameData
     {
         public Dictionary<string, PlayerData> data;
     }
+
     [Serializable]
     public class PlayerData
     {
@@ -67,8 +83,6 @@ public class PlayerDataManager : MonoBehaviour
             GameData data = (GameData)bf.Deserialize(fs);
             fs.Close();
             dM.gameData = data;
-            //Debug.Log("LoadData done");
-            //PrintAllPlayerData();
         }
         else
         {
@@ -82,11 +96,12 @@ public class PlayerDataManager : MonoBehaviour
         FileStream fs = File.Open(Application.persistentDataPath + filePath, FileMode.OpenOrCreate);
         GameData gd = new GameData();
         gd.data = new Dictionary<string, PlayerData>();
+
         foreach (KeyValuePair<string, PlayerData> pair in gameData.data)
         {
             gd.data.Add(pair.Key, pair.Value);
         }
-        //data = gameData;
+
         bf.Serialize(fs, gd);
         fs.Close();
     }
@@ -137,13 +152,11 @@ public class PlayerDataManager : MonoBehaviour
     private void CreateFakeData()
     {
         if (gameData == null)
-        {
             gameData = new GameData();
-        }
+
         if (gameData.data == null)
-        {
             gameData.data = new Dictionary<string, PlayerData>();
-        }
+
         ClearPlayerData();
         PlayerData data1 = new PlayerData();
         string[] fakeNames = new string[]

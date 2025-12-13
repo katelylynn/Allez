@@ -24,7 +24,6 @@ public class ReadyButton : MonoBehaviour
     }
     public void OnClick()
     {
-        //Debug.Log("clicked");
         isReady = !isReady;
     }
 }

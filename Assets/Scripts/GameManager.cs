@@ -1,3 +1,8 @@
+/*
+    Game Manager
+    Handles the core gameloop, such as point and time tracking.
+*/
+
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -40,43 +45,36 @@ public class GameManager : MonoBehaviour
     private bool played60;
     private bool played90;
     
+    // game management
     public bool IsRoundBusy => countdownRunning || roundSequenceRunning;
     public static GameManager Instance { get; private set; }
     public bool isGameActive = false;
 
-    public void Initialize(GameMode gm, int ptw, int bl, GameObject pui)
-    {
-        gameMode = gm;
-        if (ptw != -1) pointsToWin = ptw;
-        if (bl != -1) maxTime = (float) bl;
-        if (gameMode == GameMode.MostPointsInXTime) pointsToWin = 0;
-        pauseUI = pui;
-    }
-
-    public void SetUIScore(Canvas ui)
-    {
-        uiScore = ui;
-    }
-
-    public void SetStaminaUI(Canvas ui)
-    {
-        staminaUI = ui;
-    }
-
-    public void SetCountdownTimer(RoundStartCountDown timer)
-    {
-        countdownTimer = timer;
-    }
-
     private void Awake()
     {
+        // game singleton
         Instance = this;        
         dM = PlayerDataManager.GetInstance();
         ResetGameState();
 
-        if (sfxSource == null)
-        sfxSource = GetComponent<AudioSource>();
+        if (sfxSource == null) sfxSource = GetComponent<AudioSource>();
     }
+
+    public void Initialize(GameMode gm, int ptw, int bl, GameObject pui)
+    {
+        gameMode = gm;
+        pauseUI = pui;
+
+        // manages points/time based on which game mode was chosen
+        if (ptw != -1) pointsToWin = ptw;
+        if (bl != -1) maxTime = (float) bl;
+        if (gameMode == GameMode.MostPointsInXTime) pointsToWin = 0;
+    }
+
+    // setters for UI variables
+    public void SetUIScore(Canvas ui) => uiScore = ui;
+    public void SetStaminaUI(Canvas ui) => staminaUI = ui;
+    public void SetCountdownTimer(RoundStartCountDown timer) => countdownTimer = timer;
 
     private void Start()
     {
@@ -85,24 +83,13 @@ public class GameManager : MonoBehaviour
         EventManager.Pause += Pause;
     }
 
-    public void Pause()
-    {
-        Time.timeScale = 1.0f - Time.timeScale; 
-        pauseUI.SetActive(!pauseUI.activeSelf); 
-    }
-
-    private void OnDestroy()
-    {
-        EventManager.RoundEnd -= EndRound;
-        EventManager.Pause -= Pause;
-    }
-
     public void StartBout()
     {
         elapsedTime = 0;
         played30 = played60 = played90 = false;
 
         StartRound();
+
         if (gameMode == GameMode.MostPointsInXTime) 
         {
             uiScore.transform.Find("CountdownText").GetComponent<TMP_Text>().text =
@@ -115,9 +102,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // countdown for the "most points in X seconds" mode
     private IEnumerator BoutCountdown()
     {
-        Debug.Log("Bout timer started!");
+        // Debug.Log("Bout timer started!");
         float secondAccumulator = 0f;
 
         while (elapsedTime < maxTime)
@@ -134,7 +122,7 @@ public class GameManager : MonoBehaviour
                 {
                     secondAccumulator -= 1f;
                     elapsedTime++;
-                    Debug.Log("Tick: " + elapsedTime);
+                    // Debug.Log("Tick: " + elapsedTime);
                     CheckTimeMilestones();
                 }
             }
@@ -142,11 +130,11 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Time is up! " + maxTime + " seconds have passed.");
+        // Debug.Log("Time is up! " + maxTime + " seconds have passed.");
         EndFight(DetermineWinner());
     }
 
-        private void CheckTimeMilestones()
+    private void CheckTimeMilestones()
     {
         if (!played30 && elapsedTime >= 30)
         {
@@ -167,12 +155,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // plays audio queue on certain time milestones
     private void PlayMilestoneSFX()
     {
         if (TimerWhistle == null) return;
         if (sfxSource == null) return;
 
         sfxSource.PlayOneShot(TimerWhistle);
+    }
+
+    public void StartRound() => StartCoroutine(RoundCountdown());
+
+    public void Pause()
+    {
+        Time.timeScale = 1.0f - Time.timeScale; 
+        pauseUI.SetActive(!pauseUI.activeSelf); 
     }
 
     private FencerId DetermineWinner()
@@ -185,10 +182,6 @@ public class GameManager : MonoBehaviour
         return FencerId.None;
     }
 
-    public void StartRound()
-    {
-        StartCoroutine(RoundCountdown());
-    }
 
     private IEnumerator RoundCountdown()
     {
@@ -206,9 +199,7 @@ public class GameManager : MonoBehaviour
     private void EndRound(FencerId winner)
     {
         if (!roundSequenceRunning)
-        {
             StartCoroutine(EndRoundSequence(winner));
-        }
     }
 
     private IEnumerator EndRoundSequence(FencerId winner)
@@ -219,7 +210,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = hitTimeScale;
         EventManager.TriggerInputEnable(false);
 
-        /* Update score */
+        // update score
         int[] s = LoadScore();
         s[(int)winner]++;
         SetCurrentScore(winner, s[(int)winner]);
@@ -227,7 +218,7 @@ public class GameManager : MonoBehaviour
         //Debug.Log("hit scored! winner: fencer " + winner);
         //Debug.Log("round: " + PlayerPrefs.GetInt("CurrentRound") + ", score: " + s[0] + ", " + s[1]);
 
-        /* Update UI */
+        // update UI for each player
         countdownTimer.DisplayWinner((int)winner);
         foreach (var ui in uiScore.GetComponentsInChildren<UIScoreManager>(true))
         {
@@ -240,6 +231,7 @@ public class GameManager : MonoBehaviour
         EventManager.TriggerRoundReset();
         yield return new WaitForEndOfFrame();
 
+        // check for game over for game mode "Most points in X time"
         if (gameMode == GameMode.MostPointsInXTime) 
         {
             int[] score = LoadScore();
@@ -250,7 +242,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        /* Check for game over */
+        // check for game over for game mode "First to X"
         if (gameMode == GameMode.FirstToX && (s[0] == pointsToWin || s[1] == pointsToWin))
         {
             dM.UpdatePlayerDataAfterGame(dM.p1, (int)winner == 0, s[0], PlayerPrefs.GetInt("CurrentRound"));
@@ -277,10 +269,10 @@ public class GameManager : MonoBehaviour
     {
         isGameActive = false;
 
-        Debug.Log("GAME OVER!");
-        Debug.Log("winner: fencer " + (int)winner);
+        // Debug.Log("GAME OVER!");
+        // Debug.Log("winner: fencer " + (int)winner);
 
-        /* Change to results scene */
+        // change to results scene
         PlayerPrefs.SetInt("RoundWinner", (int)winner);
         SceneSwapper.ChangeScene(resultsScene);
     }
@@ -308,5 +300,11 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("P1Score", 0);
         PlayerPrefs.SetInt("P2Score", 0);
         PlayerPrefs.SetInt("CurrentRound", 1);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.RoundEnd -= EndRound;
+        EventManager.Pause -= Pause;
     }
 }

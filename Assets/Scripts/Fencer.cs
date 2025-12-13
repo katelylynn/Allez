@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*
+    Fencer
+    The generic class for a fencer. Handles setup, game loop, and input.
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,9 +37,9 @@ public class Fencer : MonoBehaviour
     // input variables
     private PlayerInput playerInput;
     public InputActionAsset p0ActionAsset;
-    //public InputActionAsset p1ActionAsset;
-    private string kbGroup;
     private Gamepad myPad;
+    private string kbGroup;
+    private bool initialized = false;
 
     // scene variables
     private Camera cam;
@@ -47,21 +52,103 @@ public class Fencer : MonoBehaviour
         Quaternion.Euler(0f, 180f, 0f)
     };
 
-    // scripts
+    // other fencer scripts
     public Mover mover;
     public Fighter fighter;
 
-    private bool initialized = false;
+    // outfit
+    public SkinnedMeshRenderer outfitRenderer;
+    public int materialIndex = 0;
+    public Color newColor = Color.red;
+    private Material[] mats;
+
+    private void Awake() {
+        mats = outfitRenderer.materials;
+        ChangeOutfitColor(materialIndex, newColor);
+    }
 
     private void OnEnable()
     {
-        InputSystem.onDeviceChange += HandleDeviceChange; //allows for hot swapping gamepads
+        InputSystem.onDeviceChange += HandleDeviceChange; // allows for hot swapping gamepads
     }
 
     private void OnDisable()
     {
         if (playerInput != null) playerInput.onControlsChanged -= OnControlsChanged;
         InputSystem.onDeviceChange -= HandleDeviceChange;
+    }
+
+    public void Initialize(FencerId fn, FencerType ft)
+    {
+        // set instance variables
+        fencerId = fn;
+        fencerType = ft;
+        anim = GetComponent<Animator>();
+
+        // setup player input
+        SetupPlayerInput();
+
+        // set camera position
+        cam = GetComponentInChildren<Camera>();
+        Rect r = cam.rect;
+        r.x = (fencerId == FencerId.Fencer0 ? 0f : 0.5f);
+        cam.rect = r;
+
+        OnRoundReset();
+
+        // set event callbacks
+        EventManager.RoundStart += OnRoundStart;
+        EventManager.RoundReset += OnRoundReset;
+        EventManager.InputEnable += OnInputEnable;
+        EventManager.Pause += OnPauseToggled;
+    }
+
+    private void OnDestroy()
+    {
+        // unlink event callbacks
+        EventManager.RoundStart -= OnRoundStart;
+        EventManager.RoundReset -= OnRoundReset;
+        EventManager.InputEnable -= OnInputEnable;
+        EventManager.Pause -= OnPauseToggled;
+    }
+
+    private void OnRoundStart()
+    {
+        // bound to the round start event
+        if (playerInput != null)
+            playerInput.enabled = true;
+    }
+
+    private void SetupPlayerInput()
+    {
+        playerInput = GetComponent<PlayerInput>();
+
+        if (fencerType != FencerType.Player) 
+        { 
+            playerInput.enabled = false; 
+            return; 
+        }
+
+        playerInput.actions = p0ActionAsset;
+        playerInput.defaultActionMap = "Player";
+        playerInput.neverAutoSwitchControlSchemes = true;
+        playerInput.defaultControlScheme = ""; // don't let control schemes overwrite bindingMask
+        playerInput.notificationBehavior = PlayerNotifications.SendMessages; // so it works with player input behavior
+
+        kbGroup = (fencerId == FencerId.Fencer0) ? "KeyboardP1" : "KeyboardP2";
+
+        myPad = PickPadForFencer(fencerId);
+        SetActionsDeviceFilter();
+
+        ApplyMask();
+
+        playerInput.actions.Enable();
+        playerInput.SwitchCurrentActionMap("Player");
+
+        // subscribe to changes late to avoid timing issues
+        initialized = true;
+        playerInput.onControlsChanged -= OnControlsChanged;
+        playerInput.onControlsChanged += OnControlsChanged;
     }
 
     private void HandleDeviceChange(InputDevice device, InputDeviceChange change)
@@ -90,89 +177,10 @@ public class Fencer : MonoBehaviour
             default: break;
         }
     }
-    
-    private void OnRoundStart()
-    {
-        if (playerInput != null)
-            playerInput.enabled = true;
-    }
-
-    private void OnDestroy()
-    {
-        EventManager.RoundStart -= OnRoundStart;
-        EventManager.RoundReset -= OnRoundReset;
-        EventManager.InputEnable -= OnInputEnable;
-        EventManager.Pause -= OnPauseToggled;
-    }
-
-    public void Initialize(FencerId fn, FencerType ft)
-    {
-        // set instance variables
-        fencerId = fn;
-        fencerType = ft;
-        anim = GetComponent<Animator>();
-
-        // setup player input
-        SetupPlayerInput();
-
-        // set camera position
-        cam = GetComponentInChildren<Camera>();
-        Rect r = cam.rect;
-        r.x = (fencerId == FencerId.Fencer0 ? 0f : 0.5f);
-        cam.rect = r;
-
-        OnRoundReset();
-        // set event callbacks
-        EventManager.RoundStart += OnRoundStart;
-        EventManager.RoundReset += OnRoundReset;
-        EventManager.InputEnable += OnInputEnable;
-        EventManager.Pause += OnPauseToggled;
-
-    }
-
-    private void SetupPlayerInput()
-    {
-        playerInput = GetComponent<PlayerInput>();
-
-        if (fencerType != FencerType.Player) { playerInput.enabled = false; return; }
-
-        playerInput.actions = p0ActionAsset;
-        playerInput.defaultActionMap = "Player";
-        playerInput.neverAutoSwitchControlSchemes = true;
-        playerInput.defaultControlScheme = "";                    // don't let control schemes overwrite bindingMask
-        playerInput.notificationBehavior = PlayerNotifications.SendMessages; // so it works with player input behavior
-
-        kbGroup = (fencerId == FencerId.Fencer0) ? "KeyboardP1" : "KeyboardP2";
-
-        PairDevicesOptional();
-
-        ApplyMask();
-
-        playerInput.actions.Enable();
-        playerInput.SwitchCurrentActionMap("Player");
-
-        // subscribe to changes late to avoid timing issues
-        initialized = true;
-        playerInput.onControlsChanged -= OnControlsChanged;
-        playerInput.onControlsChanged += OnControlsChanged;
-
-        //Debug.Log($"[{name}] Map: {playerInput.currentActionMap?.name}, Enabled: {playerInput.currentActionMap?.enabled}");
-        //Debug.Log($"[{name}] Mask: {playerInput.actions.bindingMask}");
-    }
-
-    //
-    private void PairDevicesOptional()
-    {
-        myPad = PickPadForFencer(fencerId);
-        SetActionsDeviceFilter();
-        //Debug.Log($"[{name}] No gamepad available? {(myPad == null ? "Yes" : "No")}");
-        //Debug.Log($"[{name}] Filtered devices: {string.Join(", ", playerInput.actions.devices)}");
-    }
 
     private void SetActionsDeviceFilter()
     {
-        
-        if (myPad == null) //allows for the case where 0 pads are plugged in
+        if (myPad == null) // allows for the case where 0 pads are plugged in
         {
             playerInput.actions.devices = default; // clears filter => all devices
         }
@@ -189,7 +197,7 @@ public class Fencer : MonoBehaviour
         if (map.enabled) { map.Disable(); map.Enable(); } // this forces bindings to reset
     }
    
-    //for hot swapping controllers
+    // for hot swapping controllers
     private void OnControlsChanged(PlayerInput pi)
     {
         if (!initialized) return;
@@ -216,7 +224,7 @@ public class Fencer : MonoBehaviour
             actions.bindingMask = InputBinding.MaskByGroups(kbGroup, "Gamepad");
     }
 
-    //gets gamepad device for fencer based on their fencerid
+    // gets gamepad device for fencer based on their fencerid
     private static Gamepad PickPadForFencer(FencerId id)
     {
         var ordered = Gamepad.all.OrderBy(g => g.deviceId).ToList();
@@ -225,6 +233,7 @@ public class Fencer : MonoBehaviour
         return ordered[idx];
     }
 
+    // sets this fencer's rigs to aim at the other fencer
     public void SetAimTarget(Transform target)
     {
         var headAim = transform.Find("Rig 1/HeadAimRig");
@@ -259,22 +268,19 @@ public class Fencer : MonoBehaviour
         }
     }
 
+    // called whenever an event is invoked that signals the end of the round
     private void OnRoundReset()
     {
         gameObject.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
         gameObject.GetComponent<Mover>().SetForwardMovement(true);
+
         ToggleComponentsAndChildren(gameObject, false);
         gameObject.transform.position = startingPos[(int)fencerId];
         gameObject.transform.rotation = startingRot[(int)fencerId];
         ToggleComponentsAndChildren(gameObject, true);
+
         gameObject.GetComponent<Mover>().ZeroVelocity();
         gameObject.GetComponent<Fighter>().ResetSword();
-        //foilHitbox.GetComponentInChildren<MeshRenderer>().enabled = false;
-    }
-
-    public AnimatorStateInfo GetStateSnapshot(int layer)
-    {
-        return anim.GetCurrentAnimatorStateInfo(layer);
     }
 
     private void OnInputEnable(bool enabled)
@@ -282,11 +288,6 @@ public class Fencer : MonoBehaviour
         if (playerInput) playerInput.enabled = enabled && (fencerType == FencerType.Player);
         if (mover) mover.enabled = enabled;
         if (fighter) fighter.enabled = enabled;
-    }
-
-    private void OnPause()
-    {
-        EventManager.TriggerPause();
     }
 
     private void ToggleComponentsAndChildren(GameObject go, bool toggle)
@@ -318,8 +319,35 @@ public class Fencer : MonoBehaviour
         }
     }
 
+    private void OnPause()
+    {
+        // set so that if either player clicks the pause button, it will let the system know
+        EventManager.TriggerPause();
+    }
+
+    // disables the player on pause toggled
     private void OnPauseToggled()
     {
         playerInput.enabled = !playerInput.enabled;
+    }
+
+    public void ChangeOutfitColor(int matIndex, Color color) {
+        newColor = color;
+        materialIndex = matIndex;
+
+        Material mat = mats[materialIndex];
+
+        // Try to find a color property the shader supports
+        if (mat.HasProperty("_BaseColor"))
+            mat.SetColor("_BaseColor", newColor);
+        else if (mat.HasProperty("_Color"))
+            mat.SetColor("_Color", newColor);
+        else if (mat.HasProperty("_Tint"))
+            mat.SetColor("_Tint", newColor);
+        else
+            Debug.LogWarning($"{mat.name} shader has no recognized color property (_BaseColor/_Color/_Tint).");
+
+        // Reassign materials array to apply changes
+        outfitRenderer.materials = mats;
     }
 }

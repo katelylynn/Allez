@@ -1,3 +1,8 @@
+/*
+    Round Start Countdown
+    Controls the starting "En Garde, Pret, Allez" text
+*/
+
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -68,10 +73,8 @@ public class RoundStartCountDown : MonoBehaviour
         {
             roundWinner.color = (winner == 0) ? GlobalColours.Blue : GlobalColours.Red;
             roundWinner.text = (winner == 0 ? dM.p1 : dM.p2) + " scores a touch!";
-            //roundWinner.gameObject.SetActive(true);
             panel.gameObject.SetActive(true);
         }
     }
     public void HideWinner() => panel?.gameObject.SetActive(false);
-    //public void HideWinner() => roundWinner?.gameObject.SetActive(false);
 }

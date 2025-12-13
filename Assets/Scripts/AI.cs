@@ -1,3 +1,8 @@
+/*
+    AI.cs
+    Handles the behavior of the fencer AI. Disabled if second player is not an AI.
+*/
+
 using UnityEngine;
 using System;
 using System.Collections;
@@ -31,7 +36,7 @@ public class AI : MonoBehaviour
     private Fighter fighter;
     private GameObject opponent;
     private ScriptedMotionPlayer smp;
-    private PlayerStamina stamina;
+    private StaminaController stamina;
 
     // opponent
     public List<OpponentMove> opponentActionHistory;
@@ -67,18 +72,20 @@ public class AI : MonoBehaviour
         mover = GetComponent<Mover>();
         fighter = GetComponent<Fighter>();
         smp = GetComponent<ScriptedMotionPlayer>();
-        stamina = GetComponent<PlayerStamina>();
+        stamina = GetComponent<StaminaController>();
 
         // subscribe to events
         EventManager.RoundReset += OnRoundReset;
         EventManager.ActionTaken += UpdateOpponentActionHistory;
         EventManager.ActionTaken += ThinkAndReact;
 
+        /*
         Debug.Log(
             "AI difficulty: " + aiDifficulty +
             ", think range: " + thinkRanges[(int)aiDifficulty].x + "–" + thinkRanges[(int)aiDifficulty].y +
             ", react range: " + reactRanges[(int)aiDifficulty].x + "–" + reactRanges[(int)aiDifficulty].y
         );
+        */
     }
 
     private void OnDestroy()
@@ -99,7 +106,6 @@ public class AI : MonoBehaviour
         mover.SetMoveAmount(0f);
         if (currentRoutine != null)
         {
-            Debug.Log("AI: shutting down current routine");
             StopCoroutine(currentRoutine);
             currentRoutine = null;
         }
@@ -149,8 +155,6 @@ public class AI : MonoBehaviour
 
     private IEnumerator ThinkRoutine(Action onFinishThinking, Vector2 range)
     {
-        Debug.Log("AI: thinking...");
-
         // wait a random amount of time to simulate thinking
         float waitTime = UnityEngine.Random.Range(range.x, range.y);
         yield return new WaitForSeconds(waitTime);
@@ -165,7 +169,7 @@ public class AI : MonoBehaviour
     private void React(OpponentMove opponentMove)
     {
         float reaction = UnityEngine.Random.Range(0f, 1f);
-        Debug.Log("AI reacts " + (reaction > reactionThresholds[(int)aiDifficulty] ? "successfully :)" : "unsuccessfully :("));
+        // Debug.Log("AI reacts " + (reaction > reactionThresholds[(int)aiDifficulty] ? "successfully :)" : "unsuccessfully :("));
 
         // if AI reacts in time...
         if (reaction > reactionThresholds[(int)aiDifficulty])
@@ -222,8 +226,6 @@ public class AI : MonoBehaviour
 
     private void ControlDistance()
     {
-        // Debug.Log("AI: controlling distance");
-
         if (
             // if AI is too far from opponent...
             transform.position.z > opponent.transform.position.z + lungeDistance + tolerance 
@@ -232,14 +234,12 @@ public class AI : MonoBehaviour
         )
         {
             // move toward target distance
-            // Debug.Log("AI: moving toward target distance");
             mover.SetMoveAmount((transform.position.z > opponent.transform.position.z + lungeDistance + tolerance) ? 1.0f : -1.0f);
         }
         // if AI is a good range from their opponent...
         else
         {
             // stop moving
-            Debug.Log("AI: at target distance");
             mover.SetMoveAmount(0.0f);
 
             // think and execute offensive attack!
@@ -267,13 +267,11 @@ public class AI : MonoBehaviour
         while (transform.position.z - opponent.transform.position.z > distance)
         {
             // approach
-            // Debug.Log("AI: approaching opponent to attack");
             mover.SetMoveAmount(1.0f);
             yield return null; // wait for next frame
         }
 
         // stop and attack
-        Debug.Log("AI: attack!");
         onFinishApproaching?.Invoke();
 
         // mark this routine as complete

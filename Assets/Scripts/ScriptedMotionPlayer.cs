@@ -1,3 +1,9 @@
+/*
+    Scripted Motion Player
+    Enables developers to play and control animations using startup, active, and recovery
+    frames instead of animation speed.
+*/
+
 using System;
 using System.Collections;
 using UnityEngine;
@@ -5,13 +11,11 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class ScriptedMotionPlayer : MonoBehaviour
 {
-    [Tooltip("Used for debug timing (expected time per phase).")]
     public float targetFPS = 60f;
 
-    [SerializeField]      // shows in Inspector
-    private bool _isPlaying;
+    [SerializeField] private bool _isPlaying;
 
-    public bool isPlaying // code uses this
+    public bool isPlaying
     {
         get => _isPlaying;
         private set => _isPlaying = value;
@@ -45,10 +49,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
         isPlaying = false;
     }
 
-    /// <summary>
-    /// Starts a scripted motion with animation-frame syncing.
-    /// direction: world direction of travel (pass Vector3.zero for no movement).
-    /// </summary>
+    // Starts a scripted motion with animation-frame syncing
     public void PlayScriptedMotion(ScriptedMotionConfig cfg, Vector3 direction)
     {
         if (cfg == null)
@@ -58,9 +59,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
         }
 
         if (isPlaying)
-        {
             return;
-        }
 
         currentRoutine = StartCoroutine(ScriptedMotionRoutine(cfg, direction));
     }
@@ -114,12 +113,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
         float originalAnimSpeed = anim.speed;
 
         if (clip != null) 
-        {
-            //anim.Update(0f);
-            //anim.CrossFade(cfg.animationName, 0f, cfg.layerIndex, 0f);
-            //yield return null;
-            anim.speed = 0f; //must be zero initially so we can control animation times
-        }
+            anim.speed = 0f; // must be zero initially so we can control animation times
 
         //Debug.Log($"[ScriptedMotion] BEGIN {cfg.animationName ?? "(no clip)"} at t={Time.time:F4}, totalFrames={totalFrames}");
 
@@ -242,9 +236,7 @@ public class ScriptedMotionPlayer : MonoBehaviour
             if (clip != null)
             {
                 normalizedTimeForThisFrame = Mathf.Clamp01(normalizedTimeForThisFrame);
-                //anim.Update(0f);
                 anim.CrossFade(cfg.animationName, 0f, cfg.layerIndex, normalizedTimeForThisFrame);
-                //yield return null;
             }
 
             // apparently works better than yield return null??
@@ -259,42 +251,6 @@ public class ScriptedMotionPlayer : MonoBehaviour
 
         float endTime = Time.time;
         //Debug.Log($"[ScriptedMotion] END {clip?.name ?? "(no clip)"} at t={endTime:F4}");
-
-        // debugging
-        //float targetFPSLocal = targetFPS <= 0 ? 60f : targetFPS;
-
-        //if (startupStartTime >= 0f && startupEndTime >= 0f)
-        //{
-        //    float elapsed = startupEndTime - startupStartTime;
-        //    float expected = startupFrames / targetFPSLocal;
-        //    float avgFps = startupCount / Mathf.Max(elapsed, 0.0001f);
-
-        //    Debug.Log($"[ScriptedMotion][Startup] Frames={startupCount}/{startupFrames}, " +
-        //              $"Elapsed={elapsed:F4}s, AvgFPS={avgFps:F2}, " +
-        //              $"ExpectedTime@{targetFPSLocal}FPS={expected:F4}s");
-        //}
-
-        //if (activeStartTime >= 0f && activeEndTime >= 0f)
-        //{
-        //    float elapsed = activeEndTime - activeStartTime;
-        //    float expected = activeFrames / targetFPSLocal;
-        //    float avgFps = activeCount / Mathf.Max(elapsed, 0.0001f);
-
-        //    Debug.Log($"[ScriptedMotion][Active] Frames={activeCount}/{activeFrames}, " +
-        //              $"Elapsed={elapsed:F4}s, AvgFPS={avgFps:F2}, " +
-        //              $"ExpectedTime@{targetFPSLocal}FPS={expected:F4}s");
-        //}
-
-        //if (recoveryStartTime >= 0f && recoveryEndTime >= 0f)
-        //{
-        //    float elapsed = recoveryEndTime - recoveryStartTime;
-        //    float expected = recoveryFrames / targetFPSLocal;
-        //    float avgFps = recoveryCount / Mathf.Max(elapsed, 0.0001f);
-
-        //    Debug.Log($"[ScriptedMotion][Recovery] Frames={recoveryCount}/{recoveryFrames}, " +
-        //              $"Elapsed={elapsed:F4}s, AvgFPS={avgFps:F2}, " +
-        //              $"ExpectedTime@{targetFPSLocal}FPS={expected:F4}s");
-        //}
 
         // restore animator speed & clear flags
         anim.speed = originalAnimSpeed;
@@ -372,20 +328,16 @@ public class ScriptedMotionPlayer : MonoBehaviour
         }
 
         if (rb != null && rb.isKinematic == false)
-        {
             rb.MovePosition(targetPos);
-        }
         else
-        {
             transform.position = targetPos;
         }
-    }
 
     public void StopCurrentMotion()
     {
         if (currentRoutine != null)
         {
-            Debug.Log("Stopping current routine");
+            // Debug.Log("Stopping current routine");
             StopCoroutine(currentRoutine);
             anim.speed = 1f;
             anim.CrossFade(ScriptedMotionConfig.interruptStateName, 0f, ScriptedMotionConfig.interruptLayerIndex, 0f);

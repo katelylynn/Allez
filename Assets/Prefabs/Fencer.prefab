@@ -1534,7 +1534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4efc1dcf265c8004c84247d1b99e4625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stamina: {fileID: 0}
+  stamina: {fileID: 2372850795048596472}
   tmp_text: {fileID: 9076757677126980085}
 --- !u!1 &8815230606899579167
 GameObject:
@@ -1548,7 +1548,6 @@ GameObject:
   - component: {fileID: 6191470315770462369}
   - component: {fileID: 1700930029490588612}
   - component: {fileID: 2513584534638697956}
-  - component: {fileID: 427072209514434593}
   m_Layer: 0
   m_Name: DistanceCollider
   m_TagString: FencerCollider
@@ -1645,19 +1644,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &427072209514434593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8815230606899579167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47d18fbafc89dd64bba772234e08cca3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mv: {fileID: -7059090869714041470}
 --- !u!1 &8966764309902510023
 GameObject:
   m_ObjectHideFlags: 0
@@ -3534,22 +3520,10 @@ PrefabInstance:
       addedObject: {fileID: 8150270768662949414}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8338878719882289297}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -2036224041661208815}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 5155360022473432977}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5993047135107429514}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1640650689443052321}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2469231228946004892}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8244651965755501240}
@@ -3558,10 +3532,10 @@ PrefabInstance:
       addedObject: {fileID: 8466466553347403939}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3662473575950823517}
+      addedObject: {fileID: 2372850795048596472}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -1605920010257461277}
+      addedObject: {fileID: 4221248949463052257}
   m_SourcePrefab: {fileID: 100100000, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
 --- !u!4 &485442293731937927 stripped
 Transform:
@@ -3944,6 +3918,9 @@ MonoBehaviour:
   p0ActionAsset: {fileID: -944628639613478452, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
   mover: {fileID: -7059090869714041470}
   fighter: {fileID: 2385721647267272142}
+  outfitRenderer: {fileID: 2350261485211656794}
+  materialIndex: 0
+  newColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &-7059090869714041470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3956,6 +3933,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a97769544d24584788683a33703d249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stamina: {fileID: 0}
+  foilTipHitBox: {fileID: 7585652432276685990}
   acceleration: 5
   deceleration: 5
   maxSpeed: 0.5
@@ -3986,7 +3965,6 @@ MonoBehaviour:
     activeClipFrames: 8
     recoveryClipFrames: 8
     staminaCost: 15
-  foilTipHitBox: {fileID: 7585652432276685990}
 --- !u!114 &2385721647267272142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3999,13 +3977,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d068b70bfbc89746af15693a6efa88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foilAttackBox: {fileID: 7585652432276685990}
+  stamina: {fileID: 0}
   ParryTracker: {fileID: 7503634212462944958}
   tiltSpeed: 5
   leftTiltPos: -5
   rightTiltPos: 1.9
   unTiltPos: 0
-  tiltFramePercentage: 0.2
-  foilAttackBox: {fileID: 7585652432276685990}
   attackConfig:
     animationName: Attack
     clip: {fileID: 3427247649299217752, guid: 91d0a0bbe97b94a4cb61d05396397506, type: 3}
@@ -4032,6 +4010,7 @@ MonoBehaviour:
     activeClipFrames: 6
     recoveryClipFrames: 6
     staminaCost: 20
+  tiltFramePercentage: 0.2
 --- !u!114 &4924054493378190649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4166,30 +4145,6 @@ MonoBehaviour:
   - {fileID: 3707085903209117496}
   - {fileID: 5151498689026667243}
   - {fileID: 1194564164424594234}
---- !u!114 &8338878719882289297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8976367000580410152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05e0ada9c59566d4392a6094fedfa552, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-2036224041661208815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8976367000580410152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1a96f61286f3c2429af0001d0b16183, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &5155360022473432977
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4287,30 +4242,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5993047135107429514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8976367000580410152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1200fa143885147fb8491ca92fa179b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hit: {fileID: 8300000, guid: 0c1e9a71c944549429e0e676c6c59caf, type: 3}
-  Lunge: {fileID: 8300000, guid: 48c07ad26ecac4b0ebd37cd337e77e42, type: 3}
-  Parry: {fileID: 8300000, guid: 2532fa8bc0c9a4920b1670957e1dfae4, type: 3}
-  Swing: {fileID: 8300000, guid: efd9efdf637f0442eb6d95e9ec4718a1, type: 3}
-  BackDash: {fileID: 8300000, guid: 88c877dd9825944fd8c9a59a864087b9, type: 3}
-  Ouch: {fileID: 8300000, guid: b4da45b8ebd7e48be8121068dd542dc4, type: 3}
-  LungeFemale: {fileID: 8300000, guid: 48c07ad26ecac4b0ebd37cd337e77e42, type: 3}
-  OuchFemale: {fileID: 8300000, guid: b4da45b8ebd7e48be8121068dd542dc4, type: 3}
-  BackDashFemale: {fileID: 8300000, guid: 88c877dd9825944fd8c9a59a864087b9, type: 3}
-  LungeMale: {fileID: 8300000, guid: d090c7bb0851b4c71bd17557b22a06cc, type: 3}
-  OuchMale: {fileID: 8300000, guid: 969278e71188d48b696395cb0c09cb8c, type: 3}
-  BackDashMale: {fileID: 8300000, guid: 52c32bb84910b4fb6a39aa9741ebb38b, type: 3}
 --- !u!95 &1640650689443052321
 Animator:
   serializedVersion: 7
@@ -4333,21 +4264,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2469231228946004892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8976367000580410152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94e8dc0ee0072e244884da0866d77609, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outfitRenderer: {fileID: 2350261485211656794}
-  materialIndex: 0
-  newColor: {r: 0.6698113, g: 0.10426309, b: 0.10426309, a: 1}
 --- !u!114 &8244651965755501240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4390,7 +4306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetFPS: 60
   _isPlaying: 0
---- !u!114 &3662473575950823517
+--- !u!114 &2372850795048596472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4399,14 +4315,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8976367000580410152}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 231e1f738b9b25d43bca9a764fc7839e, type: 3}
+  m_Script: {fileID: 11500000, guid: dd71b63201c35c84588b1793681bc3f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentStamina: 100
   maxStamina: 100
-  staminaRegenRate: 4
+  staminaRegenRate: 1
   staminaRegenDelay: 2
---- !u!114 &-1605920010257461277
+--- !u!114 &4221248949463052257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4415,9 +4331,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 8976367000580410152}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b84fbade2bcb494da0f640ef0ff4a1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d1ad532deb85314b994fa4a75fd473a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hit: {fileID: 0}
+  Lunge: {fileID: 8300000, guid: 48c07ad26ecac4b0ebd37cd337e77e42, type: 3}
+  Parry: {fileID: 8300000, guid: 2532fa8bc0c9a4920b1670957e1dfae4, type: 3}
+  Swing: {fileID: 8300000, guid: efd9efdf637f0442eb6d95e9ec4718a1, type: 3}
+  BackDash: {fileID: 8300000, guid: 88c877dd9825944fd8c9a59a864087b9, type: 3}
+  Ouch: {fileID: 8300000, guid: b4da45b8ebd7e48be8121068dd542dc4, type: 3}
+  LungeFemale: {fileID: 8300000, guid: 48c07ad26ecac4b0ebd37cd337e77e42, type: 3}
+  OuchFemale: {fileID: 8300000, guid: b4da45b8ebd7e48be8121068dd542dc4, type: 3}
+  BackDashFemale: {fileID: 8300000, guid: 969278e71188d48b696395cb0c09cb8c, type: 3}
+  LungeMale: {fileID: 8300000, guid: d090c7bb0851b4c71bd17557b22a06cc, type: 3}
+  OuchMale: {fileID: 8300000, guid: 969278e71188d48b696395cb0c09cb8c, type: 3}
+  BackDashMale: {fileID: 8300000, guid: 52c32bb84910b4fb6a39aa9741ebb38b, type: 3}
   moveAxis: {fileID: -6813939778624975522, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
   move2Axis: {fileID: 5647902912410778255, guid: 4c7813230d0a8f84187d028e2ee359d8, type: 3}
   moveStep: {fileID: 8300000, guid: 405246b50a0f14325b782108b16c1415, type: 3}

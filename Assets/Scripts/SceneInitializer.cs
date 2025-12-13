@@ -1,3 +1,10 @@
+/*
+    Scene Initializer
+    The only game object in the scene, and instantiates the prefabs that make up the game.
+    Implemented to reduce the number of merge conflicts in the scene, and ensure consistency
+    across both Fencers.
+*/
+
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,7 +13,9 @@ using UnityEngine.InputSystem;
 public class SceneInitializer : MonoBehaviour
 {
     public GameMode gameMode;
+    public AIDifficulty aiDifficulty;
 
+    // prefabs
     public GameObject gameManagerPrefab;
     public GameObject fencerPrefab; 
     public GameObject combatManagerPrefab;
@@ -15,21 +24,21 @@ public class SceneInitializer : MonoBehaviour
     public GameObject countdownUIPrefab;
     public GameObject staminaUIPrefab;
     public GameObject pauseUIPrefab;
-    // public GameObject eventSystemPrefab;
 
     private GameObject g;
 
     public FencerType fencer0Type; 
     public FencerType fencer1Type;
 
-    public AIDifficulty aiDifficulty;
-
     public float skyboxRotation = 0;
+
     void Awake()
     {
+        // fixes the game's frame rate
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
         Time.fixedDeltaTime = 1f / 60f;
+
         SpawnPrefabs();
         g.GetComponent<GameManager>().StartBout();
     }
@@ -39,6 +48,7 @@ public class SceneInitializer : MonoBehaviour
         /* FENCERS */
         GameObject f0 = Spawn(fencerPrefab); // FEMALE
         f0.GetComponent<Fencer>().Initialize(FencerId.Fencer0, fencer0Type);
+        f0.GetComponent<Fencer>().ChangeOutfitColor(0, GlobalColours.FencerBlue);
 
         GameObject f1 = Spawn(fencerPrefab); // MALE
 
@@ -59,16 +69,12 @@ public class SceneInitializer : MonoBehaviour
         }
 
         // Set up 2 different audios
-        f0.GetComponent<PlayerAudioController>().SetGenderAudios(FencerId.Fencer0);
-        f0.GetComponent<PlayerAudioController>().SetGenderAudios(FencerId.Fencer1);
-
+        f0.GetComponent<FencerAudioController>().SetGenderAudios(FencerId.Fencer0);
+        f0.GetComponent<FencerAudioController>().SetGenderAudios(FencerId.Fencer1);
 
         // Set opponent's torso as the aim target for both players
         f0.GetComponent<Fencer>().SetAimTarget(f1.GetComponent<Fencer>().aimTarget);
         f1.GetComponent<Fencer>().SetAimTarget(f0.GetComponent<Fencer>().aimTarget);
-
-        // Change fencer 1's outfit color
-        f0.GetComponent<S_A_SkinnedOutfitColorChange>().ChangeOutfitColor(0, GlobalColours.FencerBlue);
 
         /* MANAGERS */
         g = Spawn(gameManagerPrefab);
@@ -80,7 +86,6 @@ public class SceneInitializer : MonoBehaviour
         else if (gm == "Most Points in X Seconds")
             gameMode = GameMode.MostPointsInXTime;
 
-
         GameObject cm = Spawn(combatManagerPrefab);
         cm.GetComponent<CombatManager>().Initialize(f0.GetComponent<Fencer>(), f1.GetComponent<Fencer>());
 
@@ -91,7 +96,6 @@ public class SceneInitializer : MonoBehaviour
         GameObject scoreUI = Spawn(scoreUIPrefab);
         g.GetComponent<GameManager>().SetUIScore(scoreUI.GetComponent<Canvas>());
 
-
         GameObject staminaUI = Spawn(staminaUIPrefab);
         staminaUI.GetComponent<StaminaBarManager>().Initialize(f0, f1);
         g.GetComponent<GameManager>().SetStaminaUI(staminaUI.GetComponent<Canvas>());
@@ -101,7 +105,6 @@ public class SceneInitializer : MonoBehaviour
 
         GameObject pauseUI = Spawn(pauseUIPrefab);
         pauseUI.SetActive(false);
-        // Spawn(eventSystemPrefab);
 
         // Initialize game manager
         g.GetComponent<GameManager>().Initialize(gameMode, PlayerPrefs.GetInt("PointsToWin", -1), PlayerPrefs.GetInt("BoutLength", -1), pauseUI);
@@ -114,8 +117,6 @@ public class SceneInitializer : MonoBehaviour
 
         /* ENVIRONMENT */
         Spawn(environmentPrefab);
-
-        
     }
 
     private void Update()

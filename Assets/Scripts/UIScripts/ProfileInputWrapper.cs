@@ -5,10 +5,7 @@ using TMPro;
 
 public class ProfileInputWrapper : MonoBehaviour
 {
-    [Header("The TMP input to edit when you press A")]
     [SerializeField] private TMP_InputField inputField;
-
-    [Header("Overlay to show when the wrapper is focused")]
     [SerializeField] private GameObject overlay;
 
     private EventSystem es;
@@ -33,11 +30,9 @@ public class ProfileInputWrapper : MonoBehaviour
         bool wrapperSelected = (current == gameObject);
         bool inputSelected   = (inputField != null && current == inputField.gameObject);
 
-        // Overlay ON only when wrapper is selected
         if (overlay != null)
             overlay.SetActive(wrapperSelected);
 
-        // --- A on wrapper -> enter input field ---
         if (wrapperSelected)
         {
             if (Input.GetButtonDown("Submit") && inputField != null)
@@ -51,10 +46,8 @@ public class ProfileInputWrapper : MonoBehaviour
             return;
         }
 
-        // --- While editing the input field ---
         if (inputSelected)
         {
-            // B -> exit input and go back to wrapper
             if (Input.GetButtonDown("Cancel"))
             {
                 inputField.DeactivateInputField();
@@ -71,7 +64,6 @@ public class ProfileInputWrapper : MonoBehaviour
             return;
         }
 
-        // Anything else selected -> overlay off
         if (overlay != null)
             overlay.SetActive(false);
     }

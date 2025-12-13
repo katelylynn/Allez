@@ -1,13 +1,20 @@
+/*
+    Stamina Controller
+    Controls a fencer's stamina's consumption and recharge.
+*/
+
 using System.Collections;
 using UnityEngine;
 
-public class PlayerStamina : MonoBehaviour
+public class StaminaController : MonoBehaviour
 {
     [Header("Stamina System Values")]
     public int currentStamina = 100;
     public int maxStamina = 100;
+
     [Tooltip("How fast stamina bar fills")]
     public int staminaRegenRate = 1;
+
     [Tooltip("How long until stamina starts to regen in seconds")]
     public float staminaRegenDelay = 2f;
     float currentStaminaRechargeTime = 2f;
@@ -17,16 +24,13 @@ public class PlayerStamina : MonoBehaviour
     {
         StartCoroutine(StaminaRechargeDelayRoutine());
     }
+
     private void OnDisable()
     {
         isStaminaRecharging = false;
         currentStamina = maxStamina;
         StopCoroutine(RechargeStaminaRoutine());
         StopCoroutine(StaminaRechargeDelayRoutine());
-    }
-    void FixedUpdate()
-    {
-
     }
 
     public bool ConsumeStamina(int stamina)
@@ -46,13 +50,12 @@ public class PlayerStamina : MonoBehaviour
         {
             if (!isStaminaRecharging && currentStamina < maxStamina)
             {
-                //Debug.Log($"staminadelay before : {currentStaminaRechargeTime}");
                 currentStaminaRechargeTime -= Time.deltaTime;
-                //Debug.Log($"staminadelay after : {currentStaminaRechargeTime}");
 
                 if (currentStaminaRechargeTime <= 0)
                     StartCoroutine(RechargeStaminaRoutine());
             }
+
             yield return new WaitForFixedUpdate();
         }
     }
@@ -76,7 +79,6 @@ public class PlayerStamina : MonoBehaviour
     public void AddStamina(int value)
     {
         currentStamina = currentStamina + value > 100 ? 100: currentStamina + value;
-
     }
 
     public void ConsumeStaminaWhenParried(int stamina)

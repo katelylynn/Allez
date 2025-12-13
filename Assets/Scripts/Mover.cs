@@ -1,3 +1,9 @@
+/*
+    Mover
+    Controls leg movement, for stepping, lunging, and backdashing. Listens to the
+    input system and behaves accordingly.
+*/
+
 using System;
 using System.Collections;
 using Unity.VisualScripting;
@@ -6,11 +12,17 @@ using UnityEngine.InputSystem;
 
 public class Mover : MonoBehaviour
 {
+    // references
     private Rigidbody rb;
-    private Animator anim;
-    PlayerStamina stamina;
+    public StaminaController stamina;
+    public GameObject foilTipHitBox; // this can be used to disabled foiltip during startup and recovery, not used currently
 
-    [Header("Movement Settings")]
+    // animator settings
+    private Animator anim;
+    private int baseLayerIndex = 0;
+    private int foiLayerIndex = 1;
+
+    // movement settings
     private float moveAmount = 0f;
     public float acceleration = 2f;
     public float deceleration = 10f;
@@ -18,22 +30,19 @@ public class Mover : MonoBehaviour
     public bool allowForwardMovement = true;
     private string walkAnimationParam = "InputY";
 
+    // motion settings
     ScriptedMotionPlayer motionPlayer;
-    [Header("Scripted Motions")]
     public ScriptedMotionConfig lungeConfig;
     public ScriptedMotionConfig backdashConfig;
-
-    public GameObject foilTipHitBox; //this can be used to disabled foiltip during startup and recovery, not used currently
 
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        stamina = GetComponent<PlayerStamina>();
+        stamina = GetComponent<StaminaController>();
+
         if (motionPlayer == null)
-        {
             motionPlayer = GetComponent<ScriptedMotionPlayer>();
-        }
     }
 
     private void OnDisable()
@@ -47,15 +56,24 @@ public class Mover : MonoBehaviour
     {
         if (moveAmount == -1)
             allowForwardMovement = true;
+
         if (moveAmount != 0 && allowForwardMovement || moveAmount == -1)
-        {
             Move();
-        }
         else if (!rb.isKinematic)
-        {
             rb.linearVelocity = Vector3.zero;
-        }
+
+        if ( anim.GetCurrentAnimatorStateInfo( baseLayerIndex ).IsName( "Lunge Center" ) )
+            anim.SetLayerWeight( foiLayerIndex, 0.0f );
+        else
+            anim.SetLayerWeight( foiLayerIndex, 1.0f );
     }
+
+    public void OnLunge(InputValue value)
+    {
+        Lunge();
+        EventManager.TriggerActionTaken(OpponentMove.Lunge);
+    }
+
     public void Lunge()
     {
         if (motionPlayer == null)
@@ -69,18 +87,15 @@ public class Mover : MonoBehaviour
             Debug.Log("[Mover] motionPlayer is already playing, ignoring lunge.");
             return;
         }
-        if (anim.GetCurrentAnimatorStateInfo(1).IsName("Attack")) return;
-        
-        if (anim.GetBool("Parry")) return;
-        
-        if(stamina.ConsumeStamina(lungeConfig.staminaCost))
-            motionPlayer.PlayScriptedMotion(lungeConfig, transform.forward);
-    }
 
-    public void OnLunge(InputValue value)
-    {
-        Lunge();
-        EventManager.TriggerActionTaken(OpponentMove.Lunge);
+        if (anim.GetCurrentAnimatorStateInfo(1).IsName("Attack")) 
+            return;
+        
+        if (anim.GetBool("Parry")) 
+            return;
+        
+        if (stamina.ConsumeStamina(lungeConfig.staminaCost))
+            motionPlayer.PlayScriptedMotion(lungeConfig, transform.forward);
     }
 
     public void OnBackdash(InputValue value)
@@ -114,6 +129,7 @@ public class Mover : MonoBehaviour
         else
             anim.SetFloat(walkAnimationParam, moveAmount);
     }
+
     public void OnMovement(InputValue value)
     {
         SetMoveAmount(value.Get<float>());
@@ -132,8 +148,6 @@ public class Mover : MonoBehaviour
             rb.AddForce(-rb.linearVelocity * deceleration, ForceMode.Acceleration);
     }
 
-
-
     public void SetForwardMovement(bool b)
     {
         allowForwardMovement = b;
@@ -143,5 +157,4 @@ public class Mover : MonoBehaviour
     {
         rb.linearVelocity = Vector3.zero;
     }
-
 }

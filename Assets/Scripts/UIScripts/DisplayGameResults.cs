@@ -36,16 +36,8 @@ public class DisplayGameResults : MonoBehaviour
         Time.timeScale = 1f; //just incase there is a hit last second in blitz mode
         dM = PlayerDataManager.GetInstance();
 
-        //dummy testing data
-        //TestDataAIWins();
-        //TestDataAIDraw();
-        //TestDataPVPDraw();
-        //TestDataPVPP1Win();
-        //TestDataPVPP2Win();
-
         resultsText = gameObject.GetComponentsInChildren<TMP_Text>();
 
-        // New: read winner as an int. -1 = tie, 0 = P1, 1 = P2
         winner = PlayerPrefs.GetInt("RoundWinner", -1);
         rounds = PlayerPrefs.GetInt("CurrentRound");
         vsAI = PlayerPrefs.GetString("OpponentType", null) == "AI";
@@ -153,13 +145,11 @@ public class DisplayGameResults : MonoBehaviour
         else if (winner == 0)
         {
             winText.text = dM.p1 + " wins in " + rounds + " rounds!";
-            //winText.color = Color.blue;
         }
         // PLAYER TWO WINS
         else
         {
             winText.text = dM.p2 + " wins in " + rounds + " rounds!";
-            //winText.color = Color.red;
         }
     }
 

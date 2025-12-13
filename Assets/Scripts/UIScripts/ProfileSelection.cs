@@ -1,3 +1,8 @@
+/*
+    Profile Selection
+    Handles selecting profiles from the scroll view.
+*/
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -46,11 +51,9 @@ public class ProfileSelection : MonoBehaviour
 
         bool isScrollSelected = (current == gameObject);
 
-        // --- Toggle overlay state ---
         if (overlay != null)
             overlay.SetActive(isScrollSelected);
 
-        // --- A on Scroll View row -> enter list ---
         if (isScrollSelected)
         {
             if (Input.GetButtonDown("Submit") && firstItem != null)
@@ -60,10 +63,8 @@ public class ProfileSelection : MonoBehaviour
             return;
         }
 
-        // --- If child item is selected ---
         if (IsChildOfContent(current.transform))
         {
-            // B -> return to Scroll View + turn overlay on
             if (Input.GetButtonDown("Cancel"))
             {
                 if (scrollSelectable != null)
@@ -88,7 +89,6 @@ public class ProfileSelection : MonoBehaviour
             return;
         }
 
-        // --- Any other UI selection -> disable overlay ---
         if (overlay != null)
             overlay.SetActive(false);
     }

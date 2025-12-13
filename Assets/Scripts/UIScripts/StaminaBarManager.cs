@@ -29,6 +29,7 @@ public class StaminaBarManager : MonoBehaviour
 
     private float p1MarkerWidth;
     private float p2MarkerWidth;
+
     public void Initialize(GameObject p1, GameObject p2)
     {
         p1_stamina = p1.GetComponent<StaminaController>();
@@ -105,7 +106,6 @@ public class StaminaBarManager : MonoBehaviour
         p2_marker.anchorMin = new Vector2(1f - p2_fill, 0.5f);
         p2_marker.anchorMax = new Vector2(1f - p2_fill, 0.5f);
         p2_marker.anchoredPosition = new Vector2(p2_offset, 0);
-        
     }
 
     IEnumerator P1YellowBarShrinkRoutine()
@@ -186,7 +186,6 @@ public class StaminaBarManager : MonoBehaviour
     }
     public void BurstGreenBarFill()
     {
-        //Debug.Log("burst fill called");
         float p1_targetFill = (float)p1_stamina.currentStamina / p1_stamina.maxStamina;
         float p2_targetFill = (float)p2_stamina.currentStamina / p2_stamina.maxStamina;
 

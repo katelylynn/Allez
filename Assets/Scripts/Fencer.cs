@@ -271,7 +271,16 @@ public class Fencer : MonoBehaviour
     // called whenever an event is invoked that signals the end of the round
     private void OnRoundReset()
     {
-        gameObject.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
+        var smp = GetComponent<ScriptedMotionPlayer>();
+        if (smp) smp.StopCurrentMotion();
+        if (anim == null) anim = GetComponent<Animator>();
+        if (anim)
+        {
+            anim.speed = 1f;
+            anim.Rebind();      
+            anim.Update(0f);                                                            
+        }
+        // gameObject.GetComponent<ScriptedMotionPlayer>().StopCurrentMotion();
         gameObject.GetComponent<Mover>().SetForwardMovement(true);
 
         ToggleComponentsAndChildren(gameObject, false);

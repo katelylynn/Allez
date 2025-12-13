@@ -325,7 +325,7 @@ public class BoutSetupManager : MonoBehaviour
         if (fencers != null && fencers.Count > 1)
             fencers[1].SetActive(false);
 
-        p2HeaderText.text = "Player 2";
+        p2HeaderText.text = "Player Two";
 
         // Show new-profile controls when using human P2
         if (p2NewProfileInput != null)

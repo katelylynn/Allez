@@ -5,6 +5,9 @@ Made by Kate, Taylor, Kim, Nav and Inez
 **Play ALLEZ! at:
 https://katelylynn.itch.io/allez**
 
+**Game trailer:
+https://www.youtube.com/watch?v=VQ2k8simozg**
+
 &nbsp; 
 
 ## 🎮 Controls

@@ -1,6 +1,9 @@
 # ⚔️ ALLEZ!
 
-#### Made by Kate, Taylor, Kim, Nav and Inez
+Made by Kate, Taylor, Kim, Nav and Inez
+
+**Play ALLEZ! at:
+https://katelylynn.itch.io/allez**
 
 &nbsp; 
 
